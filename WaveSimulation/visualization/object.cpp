@@ -158,9 +158,9 @@ GLuint Skybox::loadTexture(const std::string& path) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	for (unsigned int i = 0; i < faces.size(); ++i) {
-		if (!pgr::loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
-			throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
-		}
+		//if (!pgr::loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
+		//	throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
+		//}
 	}
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);

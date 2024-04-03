@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pgr.h"
+//#include "pgr.h"
 #include "shader.h"
 #include "../simulation/amplitude_grid.h"
 #include "../simulation/profile_buffer.h"
@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <iostream>
 #include <glm/ext.hpp>
+#include <glm/glm.hpp>
 #include <array>
 
 #define COLOR_BIT			0b0001

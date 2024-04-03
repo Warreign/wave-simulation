@@ -1,7 +1,7 @@
 #pragma once
 
-#include "pgr.h"
 #include <vector>
+#include <glm/glm.hpp>
 
 class Grid {
 protected:

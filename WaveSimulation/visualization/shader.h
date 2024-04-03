@@ -1,6 +1,8 @@
 #pragma once
 
-#include "pgr.h"
+#include <glad/glad.h>
+#include <string>
+#include <glm/glm.hpp>
 
 /// Generic shader object
 class Shader

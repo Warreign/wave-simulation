@@ -3,7 +3,7 @@
 #ifndef _OBJECT_H
 #define _OBJECT_H
 
-#include "pgr.h"
+//#include "pgr.h"
 #include "shader.h"
 #include "camera.h"
 #include "mesh.h"

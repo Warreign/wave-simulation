@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pgr.h"
+//#include "pgr.h"
 
 template <typename Fun>
 auto integrate(int integration_nodes, double x_min, double x_max, Fun const& fun) {

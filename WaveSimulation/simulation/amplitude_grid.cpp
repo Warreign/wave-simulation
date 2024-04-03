@@ -13,7 +13,7 @@ float AmplitudeGrid::piersonMoskowitz(float k, float windSpeed)
 
 float AmplitudeGrid::spectrum(float k, float windSpeed)
 {
-    double waveNumber = 2 * M_PI / k;
+    double waveNumber = TAU / k;
     double alpha = 0.0081;
     double beta = 0.74;
     double sigma = alpha * 9.81 * pow(windSpeed, 2) / pow(waveNumber, 5);
@@ -78,7 +78,7 @@ void AmplitudeGrid::advectionStep(float dt)
                     glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
                     glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
 
-                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector, 0, 0);
+                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector.x, waveVector.y, 0.0f, 0.0f);
 
                     updatedData(ix, iz, itheta, ik) = interpolatedValue(realPosition[X], realPosition[Z], realPosition[Theta], realPosition[K]);
                 }

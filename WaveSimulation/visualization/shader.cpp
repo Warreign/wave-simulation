@@ -1,4 +1,6 @@
 #include "shader.h"
+#include <stdexcept>
+#include <glm/ext.hpp>
 
 /*
 *	Generic Shader
@@ -7,14 +9,12 @@
 GLint Shader::uniformLocation(const std::string& name)
 {
 	GLint loc = glGetUniformLocation(program, name.c_str());
-	CHECK_GL_ERROR();
 	return loc;
 }
 
 GLint Shader::attribLocation(const std::string& name)
 {
 	GLint loc = glGetAttribLocation(program, name.c_str());
-	CHECK_GL_ERROR();
 	return loc;
 }
 
@@ -26,29 +26,29 @@ Shader::Shader()
 Shader::Shader(std::string vertFileName, std::string fragFileName) : Shader()
 {
 
-	GLuint vertexShader = pgr::createShaderFromFile(GL_VERTEX_SHADER, vertFileName);
-	if (vertexShader == 0) {
-		throw std::runtime_error("Failed to compile vertex shader");
-	}
+	//GLuint vertexShader = pgr::createShaderFromFile(GL_VERTEX_SHADER, vertFileName);
+	//if (vertexShader == 0) {
+	//	throw std::runtime_error("Failed to compile vertex shader");
+	//}
 
-	GLuint fragmentShader = pgr::createShaderFromFile(GL_FRAGMENT_SHADER, fragFileName);
-	if (fragmentShader == 0) {
-		throw std::runtime_error("Failed to compile fragment shader");
-	}
+	//GLuint fragmentShader = pgr::createShaderFromFile(GL_FRAGMENT_SHADER, fragFileName);
+	//if (fragmentShader == 0) {
+	//	throw std::runtime_error("Failed to compile fragment shader");
+	//}
 
-	GLuint shaders[] = { vertexShader, fragmentShader, 0 };
-	GLuint program = pgr::createProgram(shaders);
-	if (program == 0) {
-		throw std::runtime_error("Failed to compile program");
-	}
-	this->program = program;
+	//GLuint shaders[] = { vertexShader, fragmentShader, 0 };
+	//GLuint program = pgr::createProgram(shaders);
+	//if (program == 0) {
+	//	throw std::runtime_error("Failed to compile program");
+	//}
+	//this->program = program;
 
 	setLocations();
 }
 
 Shader::~Shader()
 {
-	pgr::deleteProgramAndShaders(program);
+	//pgr::deleteProgramAndShaders(program);
 }
 
 void Shader::bind() const

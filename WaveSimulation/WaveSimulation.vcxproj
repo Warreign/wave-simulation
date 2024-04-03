@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -78,6 +78,14 @@
     <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
     <IntDir>out\$(Configuration)\</IntDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\out\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\out\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -85,13 +93,13 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(PGR_FRAMEWORK_ROOT)include;C:\Program Files;C:\Program Files\eigen3;$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PGR_FRAMEWORK_ROOT)include;C:\Program Files;C:\Program Files\eigen3;$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(PGR_FRAMEWORK_ROOT)lib;$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PGR_FRAMEWORK_ROOT)lib;$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>pgrd32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -103,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(PGR_FRAMEWORK_ROOT)include;C:\Program Files;C:\Program Files\eigen3;$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PGR_FRAMEWORK_ROOT)include;C:\Program Files;C:\Program Files\eigen3;$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -112,7 +120,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(PGR_FRAMEWORK_ROOT)lib;$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(PGR_FRAMEWORK_ROOT)lib;$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022</AdditionalLibraryDirectories>
       <AdditionalDependencies>pgr32.lib;freeglut.lib;AntTweakBar.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,11 +130,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Program Files</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBar\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022;$(SolutionDir)\vendor\AntTweakBar\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,16 +148,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\ProgramFiles</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBar\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022;$(SolutionDir)\vendor\AntTweakBar\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\vendor\glad\src\glad.c" />
+    <ClCompile Include="GLFWTest.cpp" />
     <ClCompile Include="visualization\camera.cpp" />
     <ClCompile Include="simulation\grid.cpp" />
     <ClCompile Include="visualization\mesh.cpp" />
@@ -154,7 +170,10 @@
     <ClCompile Include="visualization\shader.cpp" />
     <ClCompile Include="simulation\profile_buffer.cpp" />
     <ClCompile Include="simulation\amplitude_grid.cpp" />
-    <ClCompile Include="WaveSimulation.cpp" />
+    <ClCompile Include="WaveSimulation.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="visualization\camera.h" />

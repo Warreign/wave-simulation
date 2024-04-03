@@ -47,6 +47,11 @@ uint32_t framecount = 0;
 double framerate = Camera::refreshRate;
 double averageFrameTime = double(1000) / Camera::refreshRate;
 
+static void glfw_error_callback(int error, const char* description)
+{
+	throw std::runtime_error(description);
+}
+
 void preRender()
 {
 	Camera::active->updateMatrices();
@@ -286,6 +291,11 @@ void initApp()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
+}
+
+void initGLFWApp()
+{
+
 }
 
 void cleanup() 

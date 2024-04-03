@@ -3,16 +3,15 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include "pgr.h"
-
 #include <AntTweakBar.h>
 #include <iostream>
 #include <glm/ext.hpp>
+#include <glm/glm.hpp>
 #include <tuple>
 
 
-#define GLUT_WIDTH glutGet(GLUT_WINDOW_WIDTH)
-#define GLUT_HEIGHT glutGet(GLUT_WINDOW_HEIGHT)
+//#define GLUT_WIDTH glutGet(GLUT_WINDOW_WIDTH)
+//#define GLUT_HEIGHT glutGet(GLUT_WINDOW_HEIGHT)
 
 class Camera
 {
@@ -42,7 +41,7 @@ protected:
 	glm::mat4 projection;
 
 public:
-	static int refreshRate;
+	static const int refreshRate = 60;
 	bool freeMode;
 
 	glm::vec3 up;

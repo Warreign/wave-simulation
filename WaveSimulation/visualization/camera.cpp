@@ -30,30 +30,30 @@ void Camera::makeActive() {
 
 void Camera::freeModeMotionCallback(int x, int y)
 {
-	float deltaYaw = float(GLUT_WIDTH / 2 - x) * 0.025 * active->sensitivity;
-	float deltaPitch = float(GLUT_HEIGHT / 2 - y) * 0.025 * active->sensitivity;
-	active->rotateView(deltaYaw, deltaPitch);
-	glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
+	//float deltaYaw = float(GLUT_WIDTH / 2 - x) * 0.025 * active->sensitivity;
+	//float deltaPitch = float(GLUT_HEIGHT / 2 - y) * 0.025 * active->sensitivity;
+	//active->rotateView(deltaYaw, deltaPitch);
+	//glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
 }
 
 void Camera::toggleFreeMode()
 {
-	if (freeMode == true)
-	{
-		freeMode = false;
-		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-		active = lastActive;
-		glutPassiveMotionFunc(nullptr);
-	}
-	else
-	{ // freeMode == false
-		makeActive();
-		freeMode = true;
-		glutSetCursor(GLUT_CURSOR_NONE);
-		glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
-		lastActive = active;
-		glutPassiveMotionFunc(freeModeMotionCallback);
-	}
+	//if (freeMode == true)
+	//{
+	//	freeMode = false;
+	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+	//	active = lastActive;
+	//	glutPassiveMotionFunc(nullptr);
+	//}
+	//else
+	//{ // freeMode == false
+	//	makeActive();
+	//	freeMode = true;
+	//	glutSetCursor(GLUT_CURSOR_NONE);
+	//	glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
+	//	lastActive = active;
+	//	glutPassiveMotionFunc(freeModeMotionCallback);
+	//}
 }
 
 void Camera::rotateView(float dyaw, float dpitch)
@@ -116,31 +116,31 @@ void Camera::moveBackward()
 
 void Camera::updateMatrices()
 {
-	this->view = glm::lookAt(position, position + direction, up);
-	this->projection = glm::perspective(glm::radians(fovAngle), float(GLUT_WIDTH) / float(GLUT_HEIGHT), nearPlane, farPlane);
+	//this->view = glm::lookAt(position, position + direction, up);
+	//this->projection = glm::perspective(glm::radians(fovAngle), float(GLUT_WIDTH) / float(GLUT_HEIGHT), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::rayCast(glm::vec2 screenPosition) const
 {
-	int width = glutGet(GLUT_WINDOW_WIDTH);
-	int height = glutGet(GLUT_WINDOW_HEIGHT);
-	float fx = (screenPosition.x / width) * 2.0f - 1.0f;
-	float fy = ((height - screenPosition.y) / height) * 2.0f - 1.0f;
+	//int width = glutGet(GLUT_WINDOW_WIDTH);
+	//int height = glutGet(GLUT_WINDOW_HEIGHT);
+	//float fx = (screenPosition.x / width) * 2.0f - 1.0f;
+	//float fy = ((height - screenPosition.y) / height) * 2.0f - 1.0f;
 
 	//std::cout << "x: " << fx << " " << "y: " << fy << std::endl;
 
-	glm::mat4 V = glm::lookAt(glm::vec3(0), direction, up);
-	glm::vec4 worldPos = glm::inverse(projection * V) * glm::vec4(fx, fy, 1.0f, 1.0f);
-	return glm::normalize(glm::vec3(worldPos));
+	//glm::mat4 V = glm::lookAt(glm::vec3(0), direction, up);
+	//glm::vec4 worldPos = glm::inverse(projection * V) * glm::vec4(fx, fy, 1.0f, 1.0f);
+	//return glm::normalize(glm::vec3(worldPos));
 }
 
 glm::vec3 Camera::intersectPlane(glm::vec3 planeNormal, glm::vec3 planeOrigin, glm::vec2 screenPosition) const
 {
 	glm::vec3 dir = rayCast(screenPosition);
 
-	float distance;
-	glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance);
-	return position + dir * distance;
+	//float distance;
+	//glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance);
+	//return position + dir * distance;
 }
 
 void Camera::setProjectionParameters(float angle, float nearPlane, float farPlane)

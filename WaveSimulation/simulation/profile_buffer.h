@@ -2,8 +2,9 @@
 
 #include <array>
 #include <vector>
-#include "pgr.h"
+//#include "pgr.h"
 #include <functional>
+#include <glm/glm.hpp>
 
 #include "../math/integration.h"
 
