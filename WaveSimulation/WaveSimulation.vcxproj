@@ -170,6 +170,7 @@
     <ClCompile Include="visualization\shader.cpp" />
     <ClCompile Include="simulation\profile_buffer.cpp" />
     <ClCompile Include="simulation\amplitude_grid.cpp" />
+    <ClCompile Include="visualization\window.cpp" />
     <ClCompile Include="WaveSimulation.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -180,11 +181,13 @@
     <ClInclude Include="math\integration.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="simulation\grid.h" />
+    <ClInclude Include="visualization\GlDebug.h" />
     <ClInclude Include="visualization\mesh.h" />
     <ClInclude Include="visualization\object.h" />
     <ClInclude Include="visualization\shader.h" />
     <ClInclude Include="simulation\profile_buffer.h" />
     <ClInclude Include="simulation\amplitude_grid.h" />
+    <ClInclude Include="visualization\window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag" />

@@ -48,6 +48,12 @@
     <ClCompile Include="GLFWTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\vendor\glad\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="visualization\window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="visualization\camera.h">
@@ -75,6 +81,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="data.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="visualization\window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="visualization\GlDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
