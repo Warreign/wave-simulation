@@ -3,8 +3,9 @@
 #include <AntTweakBar.h>
 #include <glm/ext.hpp>
 
-#include "pgr.h"
+//#include "pgr.h"
 #include "data.h"
+#include "visualization/window.h"
 #include "visualization/object.h"
 #include "visualization/camera.h"
 #include "visualization/shader.h"
@@ -21,9 +22,9 @@ TwBar* settingsBar;
 bool keys[256];
 bool skeys[256];
 
+Window* window;
 Shader* commonShader;
 WaterShader* waterShader;
-
 
 AmplitudeGrid* simulationGrid;
 WaterMesh* waterMesh;
@@ -57,7 +58,7 @@ void preRender()
 	Camera::active->updateMatrices();
 
 	uint32_t lastStart = frameStart;
-	frameStart = glutGet(GLUT_ELAPSED_TIME);
+	frameStart = glfwGetTime();
 	float dt = (frameStart - lastStart) * 0.001 * timeMultiplier;
 
 	if (update)
@@ -71,7 +72,7 @@ void preRender()
 void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 	if (!drawWireframe)
 		water->draw(*Camera::active);
 	else
@@ -80,16 +81,16 @@ void render()
 		skybox->draw(*Camera::active);
 
 	TwDraw();
-	glutSwapBuffers();
+	window->onUpdate();
 }
 
 void postRender()
 {
-	while (glutGet(GLUT_ELAPSED_TIME) - frameStart < 1000 / Camera::refreshRate)
-	{
-	}
+	//while (glfwGetTime() - frameStart < 1000 / Camera::refreshRate)
+	//{
+	//}
 
-	frameEnd = glutGet(GLUT_ELAPSED_TIME);
+	frameEnd = glfwGetTime();
 	deltaTime += frameEnd - frameStart;
 	framecount++;
 
@@ -100,8 +101,6 @@ void postRender()
 		deltaTime = 0;
 		averageFrameTime = 1000.0 / (framerate == 0 ? 0.001 : framerate);
 	}
-
-	glutPostRedisplay();
 }
 
 void displayCallback()
@@ -111,7 +110,7 @@ void displayCallback()
 	postRender();
 }
 
-void reshapeCallback(int width, int height) 
+void reshapeCallback( GLFWwindow* w, int width, int height) 
 {
 	glViewport(0, 0, width, height);
 	TwWindowSize(width, height);
@@ -125,7 +124,7 @@ void initShaders()
 
 void TW_CALL FullscreenToggleCB(void* p)
 {
-	glutFullScreenToggle();
+	//glutFullScreenToggle();
 }
 
 void TW_CALL setCB(const void* v, void* c)
@@ -166,7 +165,7 @@ void initSettingsBar()
 	TwAddVarCB(settingsBar, "camera.fov", TW_TYPE_FLOAT, Camera::SetFovCB, Camera::GetFovCB, Camera::active, "label='FOV' min=10.0 max=180.0");
 	TwAddVarCB(settingsBar, "camera.sensitivity", TW_TYPE_FLOAT, Camera::SetSensitivityCB, Camera::GetSensitivityCB, Camera::active, "label='Sensitivity' min=0.1 max=3.0 step=0.1");
 	TwAddVarCB(settingsBar, "camera.farPlane", TW_TYPE_FLOAT, Camera::SetFarPlaneCB, Camera::GetFarPlaneCB, Camera::active, "label='Far Plane' min=50.0 step=10.0");
-	TwAddVarRW(settingsBar, "camera.fps", TW_TYPE_INT32, &Camera::refreshRate, "label='FPS' min=10 max=120 step=1");
+	//TwAddVarRW(settingsBar, "camera.fps", TW_TYPE_INT32, &Camera::refreshRate, "label='FPS' min=10 max=120 step=1");
 	TwAddButton(settingsBar, "camera.freemode", Camera::ToggleFreeModeCB, Camera::active, "label='Toggle Free Mode'");
 	TwAddButton(settingsBar, "fullscreen", FullscreenToggleCB, NULL, "label='Toggle Fullscreen'");
 	TwAddVarRO(settingsBar, "fps", TW_TYPE_DOUBLE, &framerate, "label='FPS'");
@@ -194,9 +193,9 @@ void initData()
 	water = new Water(waterMesh);
 }
 
-void motionCallback(int x, int y)
+void motionCallback(GLFWwindow* w, double x, double y)
 {
-	if (TwEventMouseMotionGLUT(x,y))
+	if (TwEventMousePosGLFW(x,y))
 		return;
 
 	glm::vec3 planePoint = Camera::active->intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
@@ -217,25 +216,31 @@ void keysTimerCallback(int)
 	if (keys['d']) {
 		camera->moveRight();
 	}
-	glutTimerFunc(1000U / Camera::refreshRate, keysTimerCallback, 0);
 }
 
-void specialCallback(int key, int x, int y)  
+void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 {
-	if (TwEventSpecialGLUT(key, x, y))
+	if (TwEventKeyGLFW(key, action))
 		return;
 
-	skeys[key] = true;
-	switch (key) {
-	case GLUT_KEY_F2:
-		Camera::active->toggleFreeMode();
-		break;
-	case GLUT_KEY_F1:
-		glutLeaveMainLoop();
-		break;
-	case GLUT_KEY_F11:
-		glutFullScreenToggle();
-		break;
+	switch (action) 
+	{
+		case GLFW_PRESS:
+			switch (key)
+			{
+				case GLFW_KEY_F2:
+					Camera::active->toggleFreeMode();
+					break;
+				case GLFW_KEY_F1:
+					break;
+				case GLFW_KEY_F11:
+					break;
+			}
+			break;
+		case GLFW_RELEASE:
+			break;
+		case GLFW_REPEAT:
+			break;
 	}
 }
 
@@ -259,35 +264,38 @@ void keyboardUpCallback(unsigned char key, int x, int y)
 
 void initApp()
 {
-	glutInitContextVersion(4, 4);
-	glutInitContextFlags(GLUT_CORE_PROFILE);
-	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow(TITLE);
 
-	if (!pgr::initialize(4, 4, pgr::DEBUG_HIGH)) {
-		throw std::runtime_error("pgr init error");
-	}
+	window = new Window;
 
 	TwInit(TW_OPENGL_CORE, NULL);
-	TwWindowSize(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+	TwWindowSize(window->getWidth(), window->getHeight());
 
-	glutIgnoreKeyRepeat(true);
+	//glutIgnoreKeyRepeat(true);
 
-	glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
+	glfwSetCursorPosCallback(window->getHandle(), motionCallback);
+	//glutMotionFunc(motionCallback);
 	//glutPassiveMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
-	glutMotionFunc(motionCallback);
-	glutSpecialFunc(specialCallback);
-	glutKeyboardFunc(keyboardCallback);
-	TwGLUTModifiersFunc(glutGetModifiers);
 
-	glutKeyboardUpFunc(keyboardUpCallback);
-	glutSpecialUpFunc(specialUpCallback);
+	glfwSetMouseButtonCallback(window->getHandle(), (GLFWmousebuttonfun)TwEventMouseButtonGLFW);
+	//glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
 
-	glutTimerFunc(averageFrameTime, keysTimerCallback, 0);
+	glfwSetKeyCallback(window->getHandle(), keyCallback);
+	//glutKeyboardFunc(keyboardCallback);
+	//glutKeyboardUpFunc(keyboardUpCallback);
 
-	glutDisplayFunc(displayCallback);
-	glutReshapeFunc(reshapeCallback);
+	glfwSetCharCallback(window->getHandle(), (GLFWcharfun)TwEventCharGLFW);
+	glfwSetScrollCallback(window->getHandle(), (GLFWscrollfun)TwEventMouseWheelGLFW);
+
+	//glutSpecialFunc(specialCallback);
+	//glutSpecialUpFunc(specialUpCallback);
+	//TwGLUTModifiersFunc(glutGetModifiers);
+
+	//glutTimerFunc(averageFrameTime, keysTimerCallback, 0);
+	//glutDisplayFunc(displayCallback);
+
+
+	glfwSetFramebufferSizeCallback(window->getHandle(), reshapeCallback);
+	//glutReshapeFunc(reshapeCallback);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -313,19 +321,27 @@ void cleanup()
 
 int main(int argc, char** argv)
 {
-	glutInit(&argc, argv);
 	try 
 	{
 		initApp();
 		initShaders();
 		initData();
 		initSettingsBar();
-		glutMainLoop();
+		//glutMainLoop();
+
+		while (!glfwWindowShouldClose(window->getHandle()))
+		{
+			preRender();
+			render();
+			postRender();
+		}
+
 		cleanup();
 	}
 	catch (std::exception& e) 
 	{
-		pgr::dieWithError(e.what());
+		//pgr::dieWithError(e.what());
+		std::cout << e.what() << std::endl;
 	}
 
 	return 0;

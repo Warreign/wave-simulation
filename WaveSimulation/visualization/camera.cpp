@@ -1,5 +1,12 @@
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/intersect.hpp>
+
 #include "camera.h"
 #include "object.h"
+#include "window.h"
+
+
+extern Window* window;
 
 Camera* Camera::active = nullptr;
 
@@ -9,7 +16,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float f
 	fovAngle(captureAngle), nearPlane(nearPlane), farPlane(farPlane),
 	lastActive(nullptr)
 {
-	updateMatrices();
+	//updateMatrices();
 }
 
 
@@ -116,31 +123,31 @@ void Camera::moveBackward()
 
 void Camera::updateMatrices()
 {
-	//this->view = glm::lookAt(position, position + direction, up);
-	//this->projection = glm::perspective(glm::radians(fovAngle), float(GLUT_WIDTH) / float(GLUT_HEIGHT), nearPlane, farPlane);
+	this->view = glm::lookAt(position, position + direction, up);
+	this->projection = glm::perspective(glm::radians(fovAngle), float(window->getWidth()) / float(window->getHeight()), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::rayCast(glm::vec2 screenPosition) const
 {
-	//int width = glutGet(GLUT_WINDOW_WIDTH);
-	//int height = glutGet(GLUT_WINDOW_HEIGHT);
-	//float fx = (screenPosition.x / width) * 2.0f - 1.0f;
-	//float fy = ((height - screenPosition.y) / height) * 2.0f - 1.0f;
+	int width = window->getWidth();
+	int height = window->getHeight();
+	float fx = (screenPosition.x / width) * 2.0f - 1.0f;
+	float fy = ((height - screenPosition.y) / height) * 2.0f - 1.0f;
 
-	//std::cout << "x: " << fx << " " << "y: " << fy << std::endl;
+	std::cout << "x: " << fx << " " << "y: " << fy << std::endl;
 
-	//glm::mat4 V = glm::lookAt(glm::vec3(0), direction, up);
-	//glm::vec4 worldPos = glm::inverse(projection * V) * glm::vec4(fx, fy, 1.0f, 1.0f);
-	//return glm::normalize(glm::vec3(worldPos));
+	glm::mat4 V = glm::lookAt(glm::vec3(0), direction, up);
+	glm::vec4 worldPos = glm::inverse(projection * V) * glm::vec4(fx, fy, 1.0f, 1.0f);
+	return glm::normalize(glm::vec3(worldPos));
 }
 
 glm::vec3 Camera::intersectPlane(glm::vec3 planeNormal, glm::vec3 planeOrigin, glm::vec2 screenPosition) const
 {
 	glm::vec3 dir = rayCast(screenPosition);
 
-	//float distance;
-	//glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance);
-	//return position + dir * distance;
+	float distance;
+	glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance);
+	return position + dir * distance;
 }
 
 void Camera::setProjectionParameters(float angle, float nearPlane, float farPlane)

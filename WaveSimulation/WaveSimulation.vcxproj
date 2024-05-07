@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\vendor\glad\src\glad.c" />
-    <ClCompile Include="GLFWTest.cpp" />
     <ClCompile Include="visualization\camera.cpp" />
     <ClCompile Include="simulation\grid.cpp" />
     <ClCompile Include="visualization\mesh.cpp" />
@@ -173,7 +172,7 @@
     <ClCompile Include="visualization\window.cpp" />
     <ClCompile Include="WaveSimulation.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,7 @@
 //#define GLUT_WIDTH glutGet(GLUT_WINDOW_WIDTH)
 //#define GLUT_HEIGHT glutGet(GLUT_WINDOW_HEIGHT)
 
+
 class Camera
 {
 public:
@@ -41,7 +42,7 @@ protected:
 	glm::mat4 projection;
 
 public:
-	static const int refreshRate = 60;
+	static int refreshRate;
 	bool freeMode;
 
 	glm::vec3 up;
