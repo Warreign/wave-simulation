@@ -1,10 +1,61 @@
 #include "shader.h"
+
 #include <stdexcept>
 #include <glm/ext.hpp>
+#include <iostream>
+#include <fstream>
+#include <streambuf>
 
 /*
 *	Generic Shader
 */
+
+const std::string Shader::readShaderFromFile(const std::string& path)
+{
+	std::ifstream fs(path);
+	std::string shaderSource;
+
+	fs.seekg(0, std::ios::end);
+	shaderSource.reserve(fs.tellg());
+	fs.seekg(0, std::ios::beg);
+
+	shaderSource.assign(std::istreambuf_iterator<char>(fs), std::istreambuf_iterator<char>());
+	fs.close();
+
+	return shaderSource;
+}
+
+const GLuint Shader::compileShader(GLenum type, const std::string& path)
+{
+	GLint result;
+	GLuint shader = glCreateShader(type);
+
+	std::string shaderSource;
+	shaderSource += readShaderFromFile(path);
+
+	const GLchar* source = shaderSource.c_str();
+	glShaderSource(shader, 1, &source, nullptr);
+	glCompileShader(shader);
+
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+	if (result == GL_FALSE)
+	{
+		GLint logSize;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+
+		GLchar* message = new GLchar[logSize];
+		glGetShaderInfoLog(shader, logSize, &logSize, message);
+
+		std::cerr << "ERROR: Shader " << path << " failed to compile: " << std::endl;
+		std::cerr << message << std::endl;
+
+		glDeleteShader(shader);
+		delete[] message;
+		return 0;
+	}
+
+	return shader;
+}
 
 GLint Shader::uniformLocation(const std::string& name)
 {
@@ -23,32 +74,45 @@ Shader::Shader()
 {
 }
 
-Shader::Shader(std::string vertFileName, std::string fragFileName) : Shader()
+Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
+	: m_vertPath(vertexShaderPath), m_fragPath(fragmentShaderPath), program(0)
 {
+	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath);
+	assert(vertexShader != 0);
+	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath);
+	assert(fragmentShader != 0);
 
-	//GLuint vertexShader = pgr::createShaderFromFile(GL_VERTEX_SHADER, vertFileName);
-	//if (vertexShader == 0) {
-	//	throw std::runtime_error("Failed to compile vertex shader");
-	//}
+	program = glCreateProgram();
 
-	//GLuint fragmentShader = pgr::createShaderFromFile(GL_FRAGMENT_SHADER, fragFileName);
-	//if (fragmentShader == 0) {
-	//	throw std::runtime_error("Failed to compile fragment shader");
-	//}
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
+	glLinkProgram(program);
 
-	//GLuint shaders[] = { vertexShader, fragmentShader, 0 };
-	//GLuint program = pgr::createProgram(shaders);
-	//if (program == 0) {
-	//	throw std::runtime_error("Failed to compile program");
-	//}
-	//this->program = program;
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
-	setLocations();
+	GLint result;
+	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	if (result == GL_FALSE)
+	{
+		GLint logSize;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+
+		GLchar* message = new GLchar[logSize];
+		glGetProgramInfoLog(program, logSize, &logSize, message);
+
+		std::cerr << "ERROR: Program " << vertexShaderPath << "/" << fragmentShaderPath << " failed to link: " << std::endl;
+		std::cerr << message << std::endl;
+
+		glDeleteProgram(program);
+		delete[] message;
+	}
 }
 
 Shader::~Shader()
 {
 	//pgr::deleteProgramAndShaders(program);
+	glDeleteProgram(program);
 }
 
 void Shader::bind() const

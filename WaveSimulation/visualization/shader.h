@@ -9,9 +9,15 @@ class Shader
 {
 protected:
 	GLuint program;
+	std::string m_vertPath, m_fragPath;
 
 	GLint uniformLocation(const std::string& name);
 	GLint attribLocation(const std::string& name);
+
+	static const std::string readShaderFromFile(const std::string& path);
+	static const GLuint compileShader(GLenum type, const std::string& path);
+
+	static inline const std::string GLSL_VERSION = "#version 460 core\n";
 
 public:
 	struct Attributes {
@@ -29,7 +35,7 @@ public:
 	} uniforms;
 
 	Shader();
-	Shader(std::string vertexFile, std::string fragmentFile);
+	Shader(const std::string& vertexFile, const std::string& fragmentFile);
 	~Shader();
 
 	void bind() const;
