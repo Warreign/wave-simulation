@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <AntTweakBar.h>
+#include <IL/il.h>
 #include <glm/ext.hpp>
 
 //#include "pgr.h"
@@ -41,9 +42,9 @@ float mult = 0.1f;
 float amplMultiplier = 2.0f;
 
 double timeMultiplier = 5.0;
-uint32_t frameStart = 0;
-uint32_t frameEnd = 0;
-uint32_t deltaTime = 0;
+double frameStart = 0;
+double frameEnd = 0;
+double deltaTime = 0;
 uint32_t framecount = 0;
 double framerate = Camera::refreshRate;
 double averageFrameTime = double(1000) / Camera::refreshRate;
@@ -57,9 +58,9 @@ void preRender()
 {
 	Camera::active->updateMatrices();
 
-	uint32_t lastStart = frameStart;
+	double lastStart = frameStart;
 	frameStart = glfwGetTime();
-	float dt = (frameStart - lastStart) * 0.001 * timeMultiplier;
+	float dt = (frameStart - lastStart) * timeMultiplier;
 
 	if (update)
 	{
@@ -86,7 +87,7 @@ void render()
 
 void postRender()
 {
-	//while (glfwGetTime() - frameStart < 1000 / Camera::refreshRate)
+	//while (glfwGetTime() - frameStart < 1.0 / Camera::refreshRate)
 	//{
 	//}
 
@@ -94,12 +95,12 @@ void postRender()
 	deltaTime += frameEnd - frameStart;
 	framecount++;
 
-	if (deltaTime >= 1000)
+	if (deltaTime >= 1.0)
 	{
 		framerate = (double)framecount * 0.5 + framerate * 0.5;
 		framecount = 0;
 		deltaTime = 0;
-		averageFrameTime = 1000.0 / (framerate == 0 ? 0.001 : framerate);
+		averageFrameTime = 1.0 / (framerate == 0 ? 0.001 : framerate);
 	}
 }
 
@@ -148,7 +149,7 @@ void initSettingsBar()
 	TwAddVarRW(settingsBar, "sim.direction", TW_TYPE_INT32, &simulationGrid->defaultDirection, "min=0 max=15 label='Default direction'");
 	TwAddVarCB(settingsBar, "sim.wind", TW_TYPE_FLOAT, AmplitudeGrid::SetWindSpeedCB, AmplitudeGrid::GetWindSpeedCB, simulationGrid, "label='Wind Speed' min=0.5 step=0.5");
 	TwAddVarCB(settingsBar, "sim.amplitude", TW_TYPE_FLOAT, AmplitudeGrid::SetAmplitudeCB, AmplitudeGrid::GetAmplitudeCB, simulationGrid, "label='Amplitude' min=0.0 step=0.05 precision=2");
-	TwAddVarRW(settingsBar, "sim.timemult", TW_TYPE_DOUBLE, &timeMultiplier, "label='Time Multiplier' min=0.1 max=10.0 precision=3 step=0.1");
+	TwAddVarRW(settingsBar, "sim.timemult", TW_TYPE_DOUBLE, &timeMultiplier, "label='Time Multiplier' min=0.1 max=1000.0 precision=3 step=0.1");
 	TwAddVarRW(settingsBar, "sim.amplitudemult", TW_TYPE_FLOAT, &amplMultiplier, "label='Amplitude Mult.' min=0.0 max=20.0 step=0.2");
 	TwAddVarCB(settingsBar, "sim.mult", TW_TYPE_FLOAT, setCB, getCB, &mult, "label='Multiplier' step=0.1");
 
@@ -165,7 +166,7 @@ void initSettingsBar()
 	TwAddVarCB(settingsBar, "camera.fov", TW_TYPE_FLOAT, Camera::SetFovCB, Camera::GetFovCB, Camera::active, "label='FOV' min=10.0 max=180.0");
 	TwAddVarCB(settingsBar, "camera.sensitivity", TW_TYPE_FLOAT, Camera::SetSensitivityCB, Camera::GetSensitivityCB, Camera::active, "label='Sensitivity' min=0.1 max=3.0 step=0.1");
 	TwAddVarCB(settingsBar, "camera.farPlane", TW_TYPE_FLOAT, Camera::SetFarPlaneCB, Camera::GetFarPlaneCB, Camera::active, "label='Far Plane' min=50.0 step=10.0");
-	//TwAddVarRW(settingsBar, "camera.fps", TW_TYPE_INT32, &Camera::refreshRate, "label='FPS' min=10 max=120 step=1");
+	TwAddVarRW(settingsBar, "camera.fps", TW_TYPE_INT32, &Camera::refreshRate, "label='FPS' min=10 max=120 step=1");
 	TwAddButton(settingsBar, "camera.freemode", Camera::ToggleFreeModeCB, Camera::active, "label='Toggle Free Mode'");
 	TwAddButton(settingsBar, "fullscreen", FullscreenToggleCB, NULL, "label='Toggle Fullscreen'");
 	TwAddVarRO(settingsBar, "fps", TW_TYPE_DOUBLE, &framerate, "label='FPS'");
@@ -193,35 +194,32 @@ void initData()
 	water = new Water(waterMesh);
 }
 
-void motionCallback(GLFWwindow* w, double x, double y)
+void pointDisturbance(double x, double y)
 {
-	if (TwEventMousePosGLFW(x,y))
-		return;
-
 	glm::vec3 planePoint = Camera::active->intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
 	simulationGrid->addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
 }
 
-void keysTimerCallback(int) 
+void motionCallback(GLFWwindow* w, double x, double y)
 {
-	if (keys['w']) {
-		camera->moveForward();
-	}
-	if (keys['s']) {
-		camera->moveBackward();
-	}
-	if (keys['a']) {
-		camera->moveLeft();
-	}
-	if (keys['d']) {
-		camera->moveRight();
-	}
+	TwEventMousePosGLFW3(w, x, y);
+	//return;
+	pointDisturbance(x, y);
+}
+
+void buttonCallback(GLFWwindow* w, int button, int action, int mods)
+{
+	TwEventMouseButtonGLFW3(w, button, action, mods);
+
+	double x, y;
+	glfwGetCursorPos(w, &x, &y);
+
+	pointDisturbance(x, y);
 }
 
 void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 {
-	if (TwEventKeyGLFW(key, action))
-		return;
+	TwEventKeyGLFW3(w, key, scancode, action, mods);
 
 	switch (action) 
 	{
@@ -244,54 +242,29 @@ void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 	}
 }
 
-void keyboardCallback(unsigned char key, int x, int y) 
-{
-	if (TwEventKeyboardGLUT(key, x, y))
-		return;
-
-	keys[key] = true;
-}
-
-void specialUpCallback(int key, int x, int y)
-{
-	skeys[key] = false;
-}
-
-void keyboardUpCallback(unsigned char key, int x, int y) 
-{
-	keys[key] = false;
-}
-
 void initApp()
 {
 
 	window = new Window;
 
+	ilInit();
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+
+
 	TwInit(TW_OPENGL_CORE, NULL);
 	TwWindowSize(window->getWidth(), window->getHeight());
 
-	//glutIgnoreKeyRepeat(true);
+	//glfwSetCursorPosCallback(window->getHandle(), motionCallback);
+	glfwSetCursorPosCallback(window->getHandle(), (GLFWcursorposfun)TwEventMousePosGLFW3);
 
-	glfwSetCursorPosCallback(window->getHandle(), motionCallback);
-	//glutMotionFunc(motionCallback);
-	//glutPassiveMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
-
-	glfwSetMouseButtonCallback(window->getHandle(), (GLFWmousebuttonfun)TwEventMouseButtonGLFW);
-	//glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
+	glfwSetMouseButtonCallback(window->getHandle(), buttonCallback);
 
 	glfwSetKeyCallback(window->getHandle(), keyCallback);
-	//glutKeyboardFunc(keyboardCallback);
-	//glutKeyboardUpFunc(keyboardUpCallback);
 
-	glfwSetCharCallback(window->getHandle(), (GLFWcharfun)TwEventCharGLFW);
-	glfwSetScrollCallback(window->getHandle(), (GLFWscrollfun)TwEventMouseWheelGLFW);
+	glfwSetCharCallback(window->getHandle(), (GLFWcharfun)TwEventCharGLFW3);
+	glfwSetScrollCallback(window->getHandle(), (GLFWscrollfun)TwEventMouseWheelGLFW3);
 
-	//glutSpecialFunc(specialCallback);
-	//glutSpecialUpFunc(specialUpCallback);
-	//TwGLUTModifiersFunc(glutGetModifiers);
-
-	//glutTimerFunc(averageFrameTime, keysTimerCallback, 0);
-	//glutDisplayFunc(displayCallback);
 
 
 	glfwSetFramebufferSizeCallback(window->getHandle(), reshapeCallback);
@@ -299,6 +272,9 @@ void initApp()
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
+
+	glfwSwapInterval(0);
+
 }
 
 void initGLFWApp()

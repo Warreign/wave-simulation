@@ -1,5 +1,48 @@
 #include "object.h"
 
+#include <cstdint>
+#include <IL/il.h>
+
+GLuint loadTexImage2D(const std::string& path, GLenum target)
+{
+	ILuint imgID = 0;
+	ilGenImages(1, &imgID);
+	ilBindImage(imgID);
+
+	std::wstring wpath(path.begin(), path.end());
+	const wchar_t* path_ptr = wpath.c_str();
+	if (ilLoadImage(path_ptr) == IL_FALSE)
+	{
+		throw std::runtime_error("Texture " + path + " failed to load," + std::to_string(ilGetError()) + "!\n");
+	}
+
+	int m_width, m_height;
+	uint8_t* m_data;
+
+	m_width = ilGetInteger(IL_IMAGE_WIDTH);
+	m_height = ilGetInteger(IL_IMAGE_HEIGHT);
+	m_data = new uint8_t[m_width * m_height * 4];
+	ilCopyPixels(0, 0, 0, m_width, m_height, 1, IL_RGBA, IL_UNSIGNED_BYTE, m_data);
+
+	ilBindImage(0);
+	ilDeleteImages(1, &imgID);
+
+	//glTextureStorage2D(m_textureID, 1, GL_RGBA8, m_width, m_height);
+	//glTextureSubImage2D(m_textureID, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+
+	glTexStorage2D(target, 1, GL_RGBA8, m_width, m_height);
+	glTexSubImage2D(target, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+
+	delete[] m_data;
+
+	//glTextureParameteri(m_textureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTextureParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTextureParameteri(m_textureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	//glTextureParameteri(m_textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	//return m_textureID;
+}
+
 ObjectInstance::ObjectInstance()
 	: geometry(nullptr), model(glm::mat4(1.0f)), position(glm::vec3(0.0f))
 {
@@ -158,9 +201,11 @@ GLuint Skybox::loadTexture(const std::string& path) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	for (unsigned int i = 0; i < faces.size(); ++i) {
-		//if (!pgr::loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
-		//	throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
-		//}
+		if (!loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
+			throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
+		}
+
+		
 	}
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
