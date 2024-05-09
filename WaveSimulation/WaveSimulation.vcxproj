@@ -132,6 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBarGLFW3\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +151,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBarGLFW3\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -170,10 +173,7 @@
     <ClCompile Include="simulation\profile_buffer.cpp" />
     <ClCompile Include="simulation\amplitude_grid.cpp" />
     <ClCompile Include="visualization\window.cpp" />
-    <ClCompile Include="WaveSimulation.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="WaveSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="visualization\camera.h" />

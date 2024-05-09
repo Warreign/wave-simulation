@@ -41,7 +41,7 @@ bool drawSkybox = true;
 float mult = 0.1f;
 float amplMultiplier = 2.0f;
 
-double timeMultiplier = 5.0;
+double timeMultiplier = -0.9;
 double frameStart = 0;
 double frameEnd = 0;
 double deltaTime = 0;
@@ -60,7 +60,7 @@ void preRender()
 
 	double lastStart = frameStart;
 	frameStart = glfwGetTime();
-	float dt = (frameStart - lastStart) * timeMultiplier;
+	//float dt = (frameStart - lastStart) * timeMultiplier;
 
 	double dt = simulationGrid->cflTimeStep() * pow(10, timeMultiplier);
 
@@ -121,6 +121,8 @@ void reshapeCallback( GLFWwindow* w, int width, int height)
 
 void initShaders() 
 {
+	std::cout << "INFO: Initializing shaders" << std::endl;
+
 	commonShader = new Shader("shaders/standard.vert", "shaders/standard.frag");
 	waterShader = new WaterShader();
 }
@@ -143,6 +145,8 @@ void TW_CALL getCB(void* v, void* c)
 
 void initSettingsBar()
 {
+	std::cout << "INFO: Initializing AntTweakBar" << std::endl;
+
 	settingsBar = TwNewBar("Settings");
 	TwDefine(" Settings size='240 420' color='20 20 20' fontsize=3"); 
 
@@ -151,7 +155,7 @@ void initSettingsBar()
 	TwAddVarRW(settingsBar, "sim.direction", TW_TYPE_INT32, &simulationGrid->defaultDirection, "min=0 max=15 label='Default direction'");
 	TwAddVarCB(settingsBar, "sim.wind", TW_TYPE_FLOAT, AmplitudeGrid::SetWindSpeedCB, AmplitudeGrid::GetWindSpeedCB, simulationGrid, "label='Wind Speed' min=0.5 step=0.5");
 	TwAddVarCB(settingsBar, "sim.amplitude", TW_TYPE_FLOAT, AmplitudeGrid::SetAmplitudeCB, AmplitudeGrid::GetAmplitudeCB, simulationGrid, "label='Amplitude' min=0.0 step=0.05 precision=2");
-	TwAddVarRW(settingsBar, "sim.timemult", TW_TYPE_DOUBLE, &timeMultiplier, "label='Time Multiplier' min=0.1 max=1000.0 precision=3 step=0.1");
+	TwAddVarRW(settingsBar, "sim.timemult", TW_TYPE_DOUBLE, &timeMultiplier, "label='Time Multiplier' min=-2.0 max=2.0 precision=3 step=0.1");
 	TwAddVarRW(settingsBar, "sim.amplitudemult", TW_TYPE_FLOAT, &amplMultiplier, "label='Amplitude Mult.' min=0.0 max=20.0 step=0.2");
 	TwAddVarCB(settingsBar, "sim.mult", TW_TYPE_FLOAT, setCB, getCB, &mult, "label='Multiplier' step=0.1");
 
@@ -172,11 +176,14 @@ void initSettingsBar()
 	TwAddButton(settingsBar, "camera.freemode", Camera::ToggleFreeModeCB, Camera::active, "label='Toggle Free Mode'");
 	TwAddButton(settingsBar, "fullscreen", FullscreenToggleCB, NULL, "label='Toggle Fullscreen'");
 	TwAddVarRO(settingsBar, "fps", TW_TYPE_DOUBLE, &framerate, "label='FPS'");
-	TwAddVarRO(settingsBar, "frametime", TW_TYPE_DOUBLE, &averageFrameTime, "label='ft'");
+	TwAddVarRO(settingsBar, "frametime", TW_TYPE_DOUBLE, &averageFrameTime, "label='ft'");        
+
 }
 
 void initData() 
 {
+	std::cout << "INFO: Initializing the data" << std::endl;
+
 	skybox = new Skybox();
 
 	camera = new Camera(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 100.0f, 80.0f, 30.0f);
@@ -194,6 +201,7 @@ void initData()
 
 	waterMesh = new WaterMesh(waterShader, simulationGrid, 100, 100.0f);
 	water = new Water(waterMesh);
+
 }
 
 void pointDisturbance(double x, double y)
@@ -246,6 +254,7 @@ void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 
 void initApp()
 {
+	std::cout << "INFO: Initializing the app" << std::endl;
 
 	window = new Window;
 
@@ -286,6 +295,8 @@ void initGLFWApp()
 
 void cleanup() 
 {
+	std::cout << "INFO: Finalizing the application" << std::endl;
+
 	delete commonShader;
 	delete skybox;
 	delete water;

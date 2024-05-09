@@ -1,6 +1,11 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "visualization/camera.h"
+#include "visualization/window.h"
+int Camera::refreshRate = 0;
+Window* window;
+
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -27,7 +32,8 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-
+		glfwPollEvents();
+		glfwSwapBuffers(window);
 	}
 
 	glfwDestroyWindow(window);
