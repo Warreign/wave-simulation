@@ -15,6 +15,7 @@ const std::string Shader::readShaderFromFile(const std::string& path)
 	std::ifstream fs(path);
 	std::string shaderSource;
 
+
 	fs.seekg(0, std::ios::end);
 	shaderSource.reserve(fs.tellg());
 	fs.seekg(0, std::ios::beg);
@@ -30,9 +31,7 @@ const GLuint Shader::compileShader(GLenum type, const std::string& path)
 	GLint result;
 	GLuint shader = glCreateShader(type);
 
-	std::string shaderSource;
-	shaderSource += readShaderFromFile(path);
-
+	std::string shaderSource = readShaderFromFile(path);
 	const GLchar* source = shaderSource.c_str();
 	glShaderSource(shader, 1, &source, nullptr);
 	glCompileShader(shader);
@@ -77,10 +76,13 @@ Shader::Shader()
 Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
 	: m_vertPath(vertexShaderPath), m_fragPath(fragmentShaderPath), program(0)
 {
+	std::cout << "INFO: Initializing " << vertexShaderPath << "|" << fragmentShaderPath << std::endl;
+
 	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath);
 	assert(vertexShader != 0);
 	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath);
 	assert(fragmentShader != 0);
+
 
 	program = glCreateProgram();
 
@@ -107,6 +109,8 @@ Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentS
 		glDeleteProgram(program);
 		delete[] message;
 	}
+
+	setLocations();
 }
 
 Shader::~Shader()
