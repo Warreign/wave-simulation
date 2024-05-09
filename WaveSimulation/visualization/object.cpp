@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <IL/il.h>
 
-GLuint loadTexImage2D(const std::string& path, GLenum target)
+bool loadTexImage2D(const std::string& path, GLenum target)
 {
 	ILuint imgID = 0;
 	ilGenImages(1, &imgID);
@@ -13,7 +13,9 @@ GLuint loadTexImage2D(const std::string& path, GLenum target)
 	const wchar_t* path_ptr = wpath.c_str();
 	if (ilLoadImage(path_ptr) == IL_FALSE)
 	{
-		throw std::runtime_error("Texture " + path + " failed to load," + std::to_string(ilGetError()) + "!\n");
+		ilDeleteImages(1, &imgID);
+		std::cout << ("Texture " + path + " failed to load," + std::to_string(ilGetError()) + "!\n") << std::endl;
+		return false;
 	}
 
 	int m_width, m_height;
@@ -30,17 +32,12 @@ GLuint loadTexImage2D(const std::string& path, GLenum target)
 	//glTextureStorage2D(m_textureID, 1, GL_RGBA8, m_width, m_height);
 	//glTextureSubImage2D(m_textureID, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
 
-	glTexStorage2D(target, 1, GL_RGBA8, m_width, m_height);
-	glTexSubImage2D(target, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+	//glTexStorage2D(target, 1, GL_RGBA8, m_width, m_height);
+	//glTexSubImage2D(target, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+	glTexImage2D(target, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
 
 	delete[] m_data;
-
-	//glTextureParameteri(m_textureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//glTextureParameteri(m_textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTextureParameteri(m_textureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//glTextureParameteri(m_textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	//return m_textureID;
+	return true;
 }
 
 ObjectInstance::ObjectInstance()
@@ -204,8 +201,6 @@ GLuint Skybox::loadTexture(const std::string& path) {
 		if (!loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
 			throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
 		}
-
-		
 	}
 
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
