@@ -65,8 +65,8 @@ void AmplitudeGrid::advectionStep(float dt)
     Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
 
 #ifdef NDEBUG
-#pragma omp parallel for collapse(4)
 #endif
+#pragma omp parallel for collapse(4)
     for (int ix = 0; ix < dim[X]; ix++) 
     {
         for (int iz = 0; iz < dim[Z]; iz++)
@@ -94,8 +94,8 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
 
 #ifdef NDEBUG
-#pragma omp parallel for collapse(4)
 #endif
+#pragma omp parallel for collapse(4)
     for (int ix = 0; ix < dim[X]; ix++)
     {
         for (int iz = 0; iz < dim[Z]; iz++)
@@ -182,7 +182,11 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
     // Liner interpolation over theta
     return (1 - ctheta) * vz1 + ctheta * vz2;
 }
-;
+
+double AmplitudeGrid::cflTimeStep() const
+{
+    return std::min(delta[X], delta[Z]) / groupSpeed(dim[K] - 1);
+}
 
 float AmplitudeGrid::gridPos(float value, int dim) const
 {

@@ -62,6 +62,8 @@ void preRender()
 	frameStart = glfwGetTime();
 	float dt = (frameStart - lastStart) * timeMultiplier;
 
+	double dt = simulationGrid->cflTimeStep() * pow(10, timeMultiplier);
+
 	if (update)
 	{
 		simulationGrid->timeStep(dt);
