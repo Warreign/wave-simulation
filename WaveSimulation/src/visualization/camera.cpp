@@ -3,7 +3,7 @@
 
 #include "camera.h"
 #include "object.h"
-#include "window.h"
+#include "application/window.h"
 
 
 extern Window* window;

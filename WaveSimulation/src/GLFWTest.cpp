@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 #include "visualization/camera.h"
-#include "visualization/window.h"
+#include "application/window.h"
 int Camera::refreshRate = 0;
 Window* window;
 

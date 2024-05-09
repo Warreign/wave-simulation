@@ -21,69 +21,72 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="visualization\camera.cpp">
+    <ClCompile Include="src\visualization\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="visualization\mesh.cpp">
+    <ClCompile Include="src\visualization\mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="visualization\object.cpp">
+    <ClCompile Include="src\visualization\object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="visualization\shader.cpp">
+    <ClCompile Include="src\visualization\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="simulation\amplitude_grid.cpp">
+    <ClCompile Include="src\simulation\amplitude_grid.cpp">
       <Filter>Source Files\Wave</Filter>
     </ClCompile>
-    <ClCompile Include="simulation\grid.cpp">
+    <ClCompile Include="src\simulation\grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="simulation\profile_buffer.cpp">
+    <ClCompile Include="src\simulation\profile_buffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendor\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="visualization\window.cpp">
+    <ClCompile Include="src\application\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WaveSimulation.cpp">
+    <ClCompile Include="src\WaveSimulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="visualization\camera.h">
+    <ClInclude Include="src\visualization\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="visualization\mesh.h">
+    <ClInclude Include="src\visualization\mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="visualization\object.h">
+    <ClInclude Include="src\visualization\object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="visualization\shader.h">
+    <ClInclude Include="src\visualization\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="simulation\amplitude_grid.h">
+    <ClInclude Include="src\simulation\amplitude_grid.h">
       <Filter>Header Files\Wave</Filter>
     </ClInclude>
-    <ClInclude Include="simulation\grid.h">
+    <ClInclude Include="src\simulation\grid.h">
       <Filter>Header Files\Wave</Filter>
     </ClInclude>
-    <ClInclude Include="math\integration.h">
+    <ClInclude Include="src\math\integration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="simulation\profile_buffer.h">
+    <ClInclude Include="src\simulation\profile_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="data.h">
+    <ClInclude Include="src\visualization\data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="visualization\window.h">
+    <ClInclude Include="src\application\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="visualization\GlDebug.h">
+    <ClInclude Include="src\application\GlDebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application\application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

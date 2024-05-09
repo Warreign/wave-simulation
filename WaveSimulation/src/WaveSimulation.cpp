@@ -7,8 +7,8 @@
 #include <imgui_impl_opengl3.h>
 
 //#include "pgr.h"
-#include "data.h"
-#include "visualization/window.h"
+#include "application/window.h"
+#include "visualization/data.h"
 #include "visualization/object.h"
 #include "visualization/camera.h"
 #include "visualization/shader.h"
