@@ -6,10 +6,13 @@ class Component
 {
 public:
 	Component(const std::string& debugName);
+	~Component() = default;
 
-	virtual ~Component();
+	virtual void init();
+	virtual void destroy();
 
 	virtual void onUpdate();
+	virtual void onRender();
 	virtual void onRenderGui();
 
 protected:

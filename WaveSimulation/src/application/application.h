@@ -12,11 +12,11 @@ public:
 	Application();
 	Application(const std::string& title);
 
-	~Application() = default;
+	~Application();
 
 	static Application& getInstance() { return *s_instance; }
 	
-	Window& getWindow() { return *m_window; }
+	Window* getWindow() { return m_window.get(); }
 
 private:
 
