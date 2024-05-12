@@ -198,12 +198,12 @@
     <ClInclude Include="src\application\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\skybox.frag" />
-    <None Include="shaders\skybox.vert" />
-    <None Include="shaders\standard.frag" />
-    <None Include="shaders\standard.vert" />
-    <None Include="shaders\water.frag" />
-    <None Include="shaders\water.vert" />
+    <None Include="assets\shaders\skybox.frag" />
+    <None Include="assets\shaders\skybox.vert" />
+    <None Include="assets\shaders\standard.frag" />
+    <None Include="assets\shaders\standard.vert" />
+    <None Include="assets\shaders\water.frag" />
+    <None Include="assets\shaders\water.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg" />
