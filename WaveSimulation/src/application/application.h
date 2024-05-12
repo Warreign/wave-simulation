@@ -1,10 +1,12 @@
 #pragma once
 
+#include "application/window.h"
+#include "application/components/ImGuiComponent.h"
+#include "visualization/shader.h"
+
 #include <string>
 #include <memory>
-
-#include "application/window.h"
-#include "visualization/shader.h"
+#include <vector>
 
 class Application
 {
@@ -16,12 +18,14 @@ public:
 
 	static Application& getInstance() { return *s_instance; }
 	
-	Window* getWindow() { return m_window.get(); }
+	Window& getWindow() { return *m_window; }
 
 private:
 
 	void run();
 	void stop();
+	void addComponent(Component* comp);
+	void removeComponent(Component* comp);	
 	void onUpdate();
 	void renderGui();
 	void renderScene();
@@ -29,6 +33,10 @@ private:
 	static Application* s_instance;
 
 	bool m_running;
+	
+	std::vector<Component*> comps;
+
+	ImGuiComponent& m_guiComponent;
 
 	std::unique_ptr<Shader> m_commonShader;
 	std::unique_ptr<Shader> m_waterShader;

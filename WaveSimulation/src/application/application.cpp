@@ -1,6 +1,7 @@
 #include "application.h"
 
 #include <IL/il.h>
+#include <algorithm>
 
 Application* Application::s_instance = nullptr;
 
@@ -46,4 +47,16 @@ void Application::run()
 void Application::stop()
 {
 	m_running = false;
+}
+
+void Application::addComponent(Component* comp)
+{
+	comp->init();
+	comps.emplace_back(comp);
+}
+
+void Application::removeComponent(Component* comp)
+{
+	comp->destroy();
+	std::remove(comps.begin(), comps.end(), comp);
 }
