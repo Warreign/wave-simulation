@@ -12,15 +12,21 @@ public:
 	Application();
 	Application(const std::string& title);
 
-	~Application();
+	~Application() = default;
+
+	static Application& getInstance() { return *s_instance; }
 	
-	void run();
+	Window& getWindow() { return *m_window; }
 
 private:
 
+	void run();
+	void stop();
 	void onUpdate();
 	void renderGui();
 	void renderScene();
+
+	static Application* s_instance;
 
 	bool m_running;
 

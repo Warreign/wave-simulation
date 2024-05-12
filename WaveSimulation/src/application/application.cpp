@@ -2,14 +2,18 @@
 
 #include <IL/il.h>
 
+Application* Application::s_instance = nullptr;
+
 Application::Application()
 {
 }
 
 Application::Application(const std::string& title)
-	: m_window(new Window(1280, 960, title))
 {
 	std::cout << "INFO: Initializing application" << std::endl;
+	s_instance = this;
+
+	m_window = std::make_unique<Window>(1280, 960, title);
 
 	ilInit();
 	ilEnable(IL_ORIGIN_SET);
