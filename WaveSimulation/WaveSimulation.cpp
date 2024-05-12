@@ -3,6 +3,9 @@
 #include <AntTweakBar.h>
 #include <IL/il.h>
 #include <glm/ext.hpp>
+#include <imgui.h>
+#include <imgui_impl_glfw.h>
+#include <imgui_impl_opengl3.h>
 
 //#include "pgr.h"
 #include "data.h"
@@ -41,7 +44,7 @@ bool drawSkybox = true;
 float mult = 0.1f;
 float amplMultiplier = 2.0f;
 
-double timeMultiplier = -0.9;
+float timeMultiplier = -0.9;
 double frameStart = 0;
 double frameEnd = 0;
 double deltaTime = 0;
@@ -84,7 +87,6 @@ void render()
 		skybox->draw(*Camera::active);
 
 	TwDraw();
-	window->onUpdate();
 }
 
 void postRender()
@@ -104,6 +106,8 @@ void postRender()
 		deltaTime = 0;
 		averageFrameTime = 1.0 / (framerate == 0 ? 0.001 : framerate);
 	}
+
+	window->onUpdate();
 }
 
 void displayCallback()
@@ -180,6 +184,70 @@ void initSettingsBar()
 
 }
 
+void initImGui()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui_ImplGlfw_InitForOpenGL(window->getHandle(), true);
+	ImGui_ImplOpenGL3_Init();
+
+	ImGui::StyleColorsDark();
+
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+}
+
+void shutdownImGui()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+}
+
+void renderGui()
+{
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+	//ImGui::DockSpaceOverViewport();
+	{
+		ImGui::Begin("Settings");
+		ImGui::Separator();
+		ImGui::Text("Simulation");
+		ImGui::Checkbox("Update", &update);
+		ImGui::SliderInt("Direction", &simulationGrid->defaultDirection, 0, 15);
+		ImGui::SliderFloat("Wind Speed", &simulationGrid->windSpeed, 0.5, 10);
+		ImGui::SliderFloat("Amplitude", &simulationGrid->defaultAmplitudeVal, 0.0f, 4.0f);
+		ImGui::SliderFloat("Time Multiplier", static_cast<float*>(&timeMultiplier), -2, 2);
+		ImGui::SliderFloat("Amplitude Multiplier", &amplMultiplier, 0, 20);
+		ImGui::SliderFloat("Multiplier", &mult, -10, 10);
+
+		ImGui::Separator();
+		ImGui::Text("Visualization");
+		ImGui::Checkbox("Display Skybox", &drawSkybox);
+		ImGui::Checkbox("Display Wireframe", &drawWireframe);
+		ImGui::ColorEdit3("Ambient", (float*) & water->ambient);
+		ImGui::ColorEdit3("Diffuse", (float*) &water->diffuse);
+		ImGui::ColorEdit3("Specular", (float*) &water->specular);
+		ImGui::SliderFloat("Shininess", &water->shininess, 0.0f, 100.0f);
+
+		ImGui::Separator();
+		ImGui::Text("Camera");
+		ImGui::DragFloat("Speed", &Camera::active->speed, 5.0, 0.0);
+		ImGui::SliderAngle("FOV", &Camera::active->fovAngle, 10.0f, 179.0f);
+		ImGui::DragFloat("Sensitivity", &Camera::active->sensitivity, 0.1f, 3.0f, 0.1f);
+		ImGui::DragFloat("Far Plane", &Camera::active->farPlane, 10.0f, 1.0f);
+		ImGui::SliderInt("Target FPS", &Camera::refreshRate, 10, 120);
+		if (ImGui::Button("Toggle Free Mode")) Camera::active->toggleFreeMode();
+		//if (ImGui::Button("Toggle Fullscreen")) 
+		ImGui::InputDouble("FPS", &framerate, 0.0, 0.0, "%.2f", ImGuiInputTextFlags_ReadOnly);
+		ImGui::InputDouble("Frame Time", &averageFrameTime, 0, 0, "%.6f", ImGuiInputTextFlags_ReadOnly);
+		ImGui::End();
+	}
+	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
 void initData() 
 {
 	std::cout << "INFO: Initializing the data" << std::endl;
@@ -220,6 +288,8 @@ void motionCallback(GLFWwindow* w, double x, double y)
 void buttonCallback(GLFWwindow* w, int button, int action, int mods)
 {
 	TwEventMouseButtonGLFW3(w, button, action, mods);
+	const auto& io = ImGui::GetIO();
+	if (io.WantCaptureMouse) return;
 
 	double x, y;
 	glfwGetCursorPos(w, &x, &y);
@@ -285,7 +355,6 @@ void initApp()
 	glEnable(GL_MULTISAMPLE);
 
 	glfwSwapInterval(0);
-
 }
 
 void initGLFWApp()
@@ -306,6 +375,7 @@ void cleanup()
 
 	TwDeleteBar(settingsBar);
 	TwTerminate();
+	shutdownImGui();
 }
 
 int main(int argc, char** argv)
@@ -316,12 +386,14 @@ int main(int argc, char** argv)
 		initShaders();
 		initData();
 		initSettingsBar();
+		initImGui();
 		//glutMainLoop();
 
 		while (!glfwWindowShouldClose(window->getHandle()))
 		{
 			preRender();
 			render();
+			renderGui();
 			postRender();
 		}
 

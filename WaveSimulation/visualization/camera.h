@@ -21,7 +21,7 @@ public:
 
 	Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float farPlane, float captureAngle, float movementSpeed);
 
-protected:
+public:
 	static void freeModeMotionCallback(int x, int y);
 
 	Camera* lastActive;

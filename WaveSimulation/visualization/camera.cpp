@@ -124,7 +124,7 @@ void Camera::moveBackward()
 void Camera::updateMatrices()
 {
 	this->view = glm::lookAt(position, position + direction, up);
-	this->projection = glm::perspective(glm::radians(fovAngle), float(window->getWidth()) / float(window->getHeight()), nearPlane, farPlane);
+	this->projection = glm::perspective(fovAngle, float(window->getWidth()) / float(window->getHeight()), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::rayCast(glm::vec2 screenPosition) const
