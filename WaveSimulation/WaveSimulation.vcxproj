@@ -130,15 +130,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBarGLFW3\include;$(SolutionDir)\vendor\imgui;$(SolutionDir)\vendor\imgui\backends</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\imgui;$(SolutionDir)\vendor\imgui\backends</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022;$(SolutionDir)\vendor\AntTweakBarGLFW3\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;AntTweakBar64.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\AntTweakBarGLFW3\include;$(SolutionDir)\vendor\imgui;$(SolutionDir)\vendor\imgui\backends</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\vendor\glm;$(SolutionDir)\vendor\DevIL\include;$(SolutionDir)\vendor\glad\include;$(SolutionDir)\vendor\glfw\include;$(SolutionDir)\vendor\imgui;$(SolutionDir)\vendor\imgui\backends</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <OpenMPSupport>true</OpenMPSupport>
@@ -159,8 +159,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022;$(SolutionDir)\vendor\AntTweakBarGLFW3\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;AntTweakBar64.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vendor\DevIL\lib\x64\unicode\Release;$(SolutionDir)\vendor\glfw\lib-vc2022</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;DevIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

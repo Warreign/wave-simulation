@@ -3,7 +3,6 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
-#include <AntTweakBar.h>
 #include <iostream>
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
@@ -67,16 +66,6 @@ public:
 
 	const glm::mat4& viewMatrix() const;
 	const glm::mat4& projectMatrix() const;
-
-	static void TW_CALL SetSpeedCB(const void* value, void* clientData);
-	static void TW_CALL GetSpeedCB(void* value, void* clientData);
-	static void TW_CALL SetFovCB(const void* value, void* clientData);
-	static void TW_CALL GetFovCB(void* value, void* clientData);
-	static void TW_CALL SetSensitivityCB(const void* value, void* clientData);
-	static void TW_CALL GetSensitivityCB(void* value, void* clientData);
-	static void TW_CALL SetFarPlaneCB(const void* value, void* clientData);
-	static void TW_CALL GetFarPlaneCB(void* value, void* clientData);
-	static void TW_CALL ToggleFreeModeCB(void* p);
 };
 
 #endif

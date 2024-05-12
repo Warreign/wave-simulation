@@ -3,7 +3,6 @@
 //#include "pgr.h"
 #include "grid.h"
 #include "profile_buffer.h"
-#include <AntTweakBar.h>
 
 #include <algorithm>
 
@@ -68,9 +67,5 @@ public:
     float waveNumber(float k) const;
     glm::vec2 groupVelocity(glm::vec4 pos4) const;
 
-    static void TW_CALL SetWindSpeedCB(const void* value, void* clientData);
-    static void TW_CALL GetWindSpeedCB(void* value, void* clientData);
-    static void TW_CALL SetAmplitudeCB(const void* value, void* clientData);
-    static void TW_CALL GetAmplitudeCB(void* value, void* clientData);
 };
 

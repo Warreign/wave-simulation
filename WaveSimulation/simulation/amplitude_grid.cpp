@@ -249,24 +249,3 @@ float AmplitudeGrid::defaultAmplitude(int itheta) const
         return defaultAmplitudeVal;
     return 0.0;
 }
-
-void TW_CALL AmplitudeGrid::SetWindSpeedCB(const void* value, void* clientData)
-{
-    auto grid = static_cast<AmplitudeGrid*>(clientData);
-    grid->windSpeed = *static_cast<const float*>(value);
-}
-
-void TW_CALL AmplitudeGrid::GetWindSpeedCB(void* value, void* clientData)
-{
-    *static_cast<float*>(value) = static_cast<const AmplitudeGrid*>(clientData)->windSpeed;
-}
-
-void AmplitudeGrid::SetAmplitudeCB(const void* value, void* clientData)
-{
-    static_cast<AmplitudeGrid*>(clientData)->defaultAmplitudeVal = *static_cast<const float*>(value);
-}
-
-void AmplitudeGrid::GetAmplitudeCB(void* value, void* clientData)
-{
-    *static_cast<float*>(value) = static_cast<const AmplitudeGrid*>(clientData)->defaultAmplitudeVal;
-}

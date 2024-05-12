@@ -1,6 +1,5 @@
 #include <iostream>
 #include <stdexcept>
-#include <AntTweakBar.h>
 #include <IL/il.h>
 #include <glm/ext.hpp>
 #include <imgui.h>
@@ -22,7 +21,6 @@ const unsigned int HEIGHT = 1000;
 static const char* TITLE = "Water Wave Simulation"; 
 int Camera::refreshRate = 30;
 
-TwBar* settingsBar;
 bool keys[256];
 bool skeys[256];
 
@@ -85,8 +83,6 @@ void render()
 		water->draw(*Camera::active, GL_LINE);
 	if (drawSkybox)
 		skybox->draw(*Camera::active);
-
-	TwDraw();
 }
 
 void postRender()
@@ -120,7 +116,6 @@ void displayCallback()
 void reshapeCallback( GLFWwindow* w, int width, int height) 
 {
 	glViewport(0, 0, width, height);
-	TwWindowSize(width, height);
 }
 
 void initShaders() 
@@ -129,59 +124,6 @@ void initShaders()
 
 	commonShader = new Shader("shaders/standard.vert", "shaders/standard.frag");
 	waterShader = new WaterShader();
-}
-
-void TW_CALL FullscreenToggleCB(void* p)
-{
-	//glutFullScreenToggle();
-}
-
-void TW_CALL setCB(const void* v, void* c)
-{
-	mult = *(float*)v;
-	waterShader->setFloat("mult", mult);
-}
-
-void TW_CALL getCB(void* v, void* c)
-{
-	*(float*)v = mult;
-}
-
-void initSettingsBar()
-{
-	std::cout << "INFO: Initializing AntTweakBar" << std::endl;
-
-	settingsBar = TwNewBar("Settings");
-	TwDefine(" Settings size='240 420' color='20 20 20' fontsize=3"); 
-
-	TwAddSeparator(settingsBar, "sim.separator", "label='Simulation'");
-	TwAddVarRW(settingsBar, "sim.update", TW_TYPE_BOOLCPP, &update, "label='Update'");
-	TwAddVarRW(settingsBar, "sim.direction", TW_TYPE_INT32, &simulationGrid->defaultDirection, "min=0 max=15 label='Default direction'");
-	TwAddVarCB(settingsBar, "sim.wind", TW_TYPE_FLOAT, AmplitudeGrid::SetWindSpeedCB, AmplitudeGrid::GetWindSpeedCB, simulationGrid, "label='Wind Speed' min=0.5 step=0.5");
-	TwAddVarCB(settingsBar, "sim.amplitude", TW_TYPE_FLOAT, AmplitudeGrid::SetAmplitudeCB, AmplitudeGrid::GetAmplitudeCB, simulationGrid, "label='Amplitude' min=0.0 step=0.05 precision=2");
-	TwAddVarRW(settingsBar, "sim.timemult", TW_TYPE_DOUBLE, &timeMultiplier, "label='Time Multiplier' min=-2.0 max=2.0 precision=3 step=0.1");
-	TwAddVarRW(settingsBar, "sim.amplitudemult", TW_TYPE_FLOAT, &amplMultiplier, "label='Amplitude Mult.' min=0.0 max=20.0 step=0.2");
-	TwAddVarCB(settingsBar, "sim.mult", TW_TYPE_FLOAT, setCB, getCB, &mult, "label='Multiplier' step=0.1");
-
-	TwAddSeparator(settingsBar, "visual.separator", "label='Visualization'");
-	TwAddVarRW(settingsBar, "visual.skybox", TW_TYPE_BOOLCPP, &drawSkybox, "label='Display Skybox'");
-	TwAddVarRW(settingsBar, "visual.wireframe", TW_TYPE_BOOLCPP, &drawWireframe, "label='Display Wireframe'");
-	TwAddVarRW(settingsBar, "visual.ambient", TW_TYPE_COLOR3F, &water->ambient, "label='Ambient' group='Color'");
-	TwAddVarRW(settingsBar, "visual.diffuse", TW_TYPE_COLOR3F, &water->diffuse, "label='Diffuse' group='Color'");
-	TwAddVarRW(settingsBar, "visual.specular", TW_TYPE_COLOR3F, &water->specular, "label='Specular' group='Color'");
-	TwAddVarRW(settingsBar, "visual.shininess", TW_TYPE_FLOAT, &water->shininess, "label='Shininess' min=0.0 group='Color'");
-
-	TwAddSeparator(settingsBar, "camera.separator", "label='Camera'");
-	TwAddVarCB(settingsBar, "camera.speed", TW_TYPE_FLOAT, Camera::SetSpeedCB, Camera::GetSpeedCB, Camera::active, "label='Speed' min=0.0 step=5.0");
-	TwAddVarCB(settingsBar, "camera.fov", TW_TYPE_FLOAT, Camera::SetFovCB, Camera::GetFovCB, Camera::active, "label='FOV' min=10.0 max=180.0");
-	TwAddVarCB(settingsBar, "camera.sensitivity", TW_TYPE_FLOAT, Camera::SetSensitivityCB, Camera::GetSensitivityCB, Camera::active, "label='Sensitivity' min=0.1 max=3.0 step=0.1");
-	TwAddVarCB(settingsBar, "camera.farPlane", TW_TYPE_FLOAT, Camera::SetFarPlaneCB, Camera::GetFarPlaneCB, Camera::active, "label='Far Plane' min=50.0 step=10.0");
-	TwAddVarRW(settingsBar, "camera.fps", TW_TYPE_INT32, &Camera::refreshRate, "label='FPS' min=10 max=120 step=1");
-	TwAddButton(settingsBar, "camera.freemode", Camera::ToggleFreeModeCB, Camera::active, "label='Toggle Free Mode'");
-	TwAddButton(settingsBar, "fullscreen", FullscreenToggleCB, NULL, "label='Toggle Fullscreen'");
-	TwAddVarRO(settingsBar, "fps", TW_TYPE_DOUBLE, &framerate, "label='FPS'");
-	TwAddVarRO(settingsBar, "frametime", TW_TYPE_DOUBLE, &averageFrameTime, "label='ft'");        
-
 }
 
 void initImGui()
@@ -280,14 +222,12 @@ void pointDisturbance(double x, double y)
 
 void motionCallback(GLFWwindow* w, double x, double y)
 {
-	TwEventMousePosGLFW3(w, x, y);
 	//return;
 	pointDisturbance(x, y);
 }
 
 void buttonCallback(GLFWwindow* w, int button, int action, int mods)
 {
-	TwEventMouseButtonGLFW3(w, button, action, mods);
 	const auto& io = ImGui::GetIO();
 	if (io.WantCaptureMouse) return;
 
@@ -299,7 +239,6 @@ void buttonCallback(GLFWwindow* w, int button, int action, int mods)
 
 void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 {
-	TwEventKeyGLFW3(w, key, scancode, action, mods);
 
 	switch (action) 
 	{
@@ -332,19 +271,10 @@ void initApp()
 	ilEnable(IL_ORIGIN_SET);
 	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
-
-	TwInit(TW_OPENGL_CORE, NULL);
-	TwWindowSize(window->getWidth(), window->getHeight());
-
 	//glfwSetCursorPosCallback(window->getHandle(), motionCallback);
-	glfwSetCursorPosCallback(window->getHandle(), (GLFWcursorposfun)TwEventMousePosGLFW3);
-
 	glfwSetMouseButtonCallback(window->getHandle(), buttonCallback);
-
 	glfwSetKeyCallback(window->getHandle(), keyCallback);
 
-	glfwSetCharCallback(window->getHandle(), (GLFWcharfun)TwEventCharGLFW3);
-	glfwSetScrollCallback(window->getHandle(), (GLFWscrollfun)TwEventMouseWheelGLFW3);
 
 
 
@@ -373,8 +303,6 @@ void cleanup()
 	delete simulationGrid;
 	delete camera;
 
-	TwDeleteBar(settingsBar);
-	TwTerminate();
 	shutdownImGui();
 }
 
@@ -385,7 +313,6 @@ int main(int argc, char** argv)
 		initApp();
 		initShaders();
 		initData();
-		initSettingsBar();
 		initImGui();
 		//glutMainLoop();
 
