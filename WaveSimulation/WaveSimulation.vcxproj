@@ -173,6 +173,7 @@
     <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\application\application.cpp" />
+    <ClCompile Include="src\AppTest.cpp" />
     <ClCompile Include="src\application\components\component.cpp" />
     <ClCompile Include="src\application\components\ImGuiComponent.cpp" />
     <ClCompile Include="src\application\components\visualizationComponent.cpp" />
@@ -184,7 +185,6 @@
     <ClCompile Include="src\simulation\profile_buffer.cpp" />
     <ClCompile Include="src\simulation\amplitude_grid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
-    <ClCompile Include="src\WaveSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />

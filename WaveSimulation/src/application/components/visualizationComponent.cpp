@@ -2,6 +2,11 @@
 
 #include <imgui.h>
 
+VisualizationComponent::VisualizationComponent(const std::string& debugName)
+	: Component(debugName)
+{
+}
+
 void VisualizationComponent::init()
 {
 }

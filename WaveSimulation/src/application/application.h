@@ -2,6 +2,7 @@
 
 #include "application/window.h"
 #include "application/components/ImGuiComponent.h"
+#include "application/components/visualizationComponent.h"
 #include "visualization/shader.h"
 
 #include <string>
@@ -36,6 +37,7 @@ private:
 	
 	std::vector<Component*> comps;
 
+	VisualizationComponent* m_visualComponent;
 	ImGuiComponent* m_guiComponent;
 
 	std::unique_ptr<Shader> m_commonShader;

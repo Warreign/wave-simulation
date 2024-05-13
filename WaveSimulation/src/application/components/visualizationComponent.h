@@ -5,6 +5,8 @@
 class VisualizationComponent : public Component
 {
 public:
+	VisualizationComponent(const std::string& debugName);
+
 	void init() override;
 	void destroy() override;
 

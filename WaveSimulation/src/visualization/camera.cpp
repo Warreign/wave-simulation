@@ -9,6 +9,7 @@
 extern Window* window;
 
 Camera* Camera::active = nullptr;
+int Camera::refreshRate = 30;
 
 Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float farPlane, float captureAngle, float movementSpeed)
 	: position(position), direction(direction), up(glm::vec3(0.0f, 1.0f, 1.0f)),
