@@ -15,6 +15,8 @@ public:
 	virtual void onRender();
 	virtual void onRenderGui();
 
+	const std::string& toString() const { return m_debugName; }
+
 protected:
 	std::string m_debugName;
 
