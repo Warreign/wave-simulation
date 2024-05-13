@@ -1,5 +1,7 @@
 #include "visualizationComponent.h"
 
+#include "application/application.h"
+
 #include <imgui.h>
 
 #include <iostream>
@@ -39,8 +41,11 @@ void VisualizationComponent::onUpdate()
 {
 	m_camera->updateMatrices();
 
-	m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
-	m_waterMesh->setProfileBuffer(m_simGrid.profileBuffers[0]);
+	if (Application::getInstance().getSimComp().isUpdateGird())
+	{
+		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
+		m_waterMesh->setProfileBuffer(m_simGrid.profileBuffers[0]);
+	}
 }
 
 void VisualizationComponent::onRender()

@@ -17,6 +17,7 @@ public:
 	void onRenderGui() override;
 
 	AmplitudeGrid& getGrid() { return *m_simGrid; }
+	bool isUpdateGird() { return m_isUpdateGrid; }
 
 private:
 
