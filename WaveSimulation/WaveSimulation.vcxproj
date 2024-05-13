@@ -175,6 +175,7 @@
     <ClCompile Include="src\application\application.cpp" />
     <ClCompile Include="src\application\components\component.cpp" />
     <ClCompile Include="src\application\components\ImGuiComponent.cpp" />
+    <ClCompile Include="src\application\components\visualizationComponent.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
     <ClCompile Include="src\visualization\mesh.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="src\application\application.h" />
     <ClInclude Include="src\application\components\component.h" />
     <ClInclude Include="src\application\components\ImGuiComponent.h" />
+    <ClInclude Include="src\application\components\visualizationComponent.h" />
     <ClInclude Include="src\visualization\camera.h" />
     <ClInclude Include="src\math\integration.h" />
     <ClInclude Include="src\visualization\data.h" />
