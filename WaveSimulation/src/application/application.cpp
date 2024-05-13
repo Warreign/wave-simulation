@@ -25,6 +25,7 @@ Application::Application(const std::string& title)
 	m_running = true;
 
 	SimulationComponent* simComp = new SimulationComponent("SimulationComponent");
+	m_simComponent = simComp;
 	addComponent(simComp);
 
 	VisualizationComponent* visualComp = new VisualizationComponent("VisualizationComponent", simComp->getGrid());
@@ -59,6 +60,7 @@ void Application::run()
 
 		/* Add ImGui data from each component */
 		m_guiComponent->startFrame();
+		onRenderGui();
 		for (auto c : comps)
 		{
 			c->onRenderGui();
@@ -106,5 +108,9 @@ void Application::removeComponent(Component* comp)
 }
 
 void Application::onUpdate()
+{
+}
+
+void Application::onRenderGui()
 {
 }

@@ -2,6 +2,7 @@
 
 #include "application/window.h"
 #include "application/components/ImGuiComponent.h"
+#include "application/components/simulationComponent.h"
 #include "application/components/visualizationComponent.h"
 #include "visualization/shaders/shader.h"
 
@@ -26,13 +27,14 @@ public:
 	void run();
 	void stop();
 
+	SimulationComponent& getSimComp() { return *m_simComponent; }
+
 private:
 
 	void addComponent(Component* comp);
 	void removeComponent(Component* comp);	
 	void onUpdate();
-	void renderGui();
-	void renderScene();
+	void onRenderGui();
 
 	static Application* s_instance;
 
@@ -40,6 +42,7 @@ private:
 	
 	std::vector<Component*> comps;
 
+	SimulationComponent* m_simComponent;
 	VisualizationComponent* m_visualComponent;
 	ImGuiComponent* m_guiComponent;
 
