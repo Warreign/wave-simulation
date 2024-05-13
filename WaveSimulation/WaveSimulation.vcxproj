@@ -176,6 +176,7 @@
     <ClCompile Include="src\application\components\component.cpp" />
     <ClCompile Include="src\application\components\ImGuiComponent.cpp" />
     <ClCompile Include="src\application\components\visualizationComponent.cpp" />
+    <ClCompile Include="src\AppTest.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
     <ClCompile Include="src\visualization\meshes\mesh.cpp" />

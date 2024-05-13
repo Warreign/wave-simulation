@@ -22,13 +22,13 @@ Application::Application(const std::string& title)
 
 	m_running = true;
 
-	ImGuiComponent* guiComp = new ImGuiComponent("ImGuiComponent");
-	m_guiComponent = guiComp;
-	addComponent(guiComp);
-
 	VisualizationComponent* visualComp = new VisualizationComponent("VisualizationComponent");
 	m_visualComponent = visualComp;
 	addComponent(visualComp);
+
+	ImGuiComponent* guiComp = new ImGuiComponent("ImGuiComponent");
+	m_guiComponent = guiComp;
+	addComponent(guiComp);
 }
 
 Application::~Application()

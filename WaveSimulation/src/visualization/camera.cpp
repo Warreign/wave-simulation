@@ -2,11 +2,10 @@
 
 #include "visualization/objects/object.h"
 #include "application/window.h"
+#include "application/application.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/intersect.hpp>
-
-extern Window* window;
 
 Camera* Camera::s_active = nullptr;
 int Camera::refreshRate = 30;
@@ -22,13 +21,13 @@ Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float f
 
 
 void Camera::makeActive() {
-	if (!s_active)
-	{
-		s_active = this;
-		return;
-	}
-	if (s_active->freeMode)
-		s_active->toggleFreeMode();
+	//if (!s_active)
+	//{
+	//	s_active = this;
+	//	return;
+	//}
+	//if (s_active->freeMode)
+	//	s_active->toggleFreeMode();
 	s_active = this;
 }
 
@@ -125,13 +124,18 @@ void Camera::moveBackward()
 void Camera::updateMatrices()
 {
 	this->view = glm::lookAt(position, position + direction, up);
-	this->projection = glm::perspective(fovAngle, float(window->getWidth()) / float(window->getHeight()), nearPlane, farPlane);
+
+	Application& app = Application::getInstance();
+	Window& window = app.getWindow();
+	this->projection = glm::perspective(fovAngle, float(window.getWidth()) / float(window.getHeight()), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::rayCast(glm::vec2 screenPosition) const
 {
-	int width = window->getWidth();
-	int height = window->getHeight();
+	Application& app = Application::getInstance();
+	Window& window = app.getWindow();
+	int width = window.getWidth();
+	int height = window.getHeight();
 	float fx = (screenPosition.x / width) * 2.0f - 1.0f;
 	float fy = ((height - screenPosition.y) / height) * 2.0f - 1.0f;
 
