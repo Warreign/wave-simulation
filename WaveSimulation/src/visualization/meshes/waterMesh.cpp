@@ -41,9 +41,9 @@ void WaterMesh::setAmplitudeData(void* data) const
 	setData(data, vertexSetSize * 16, 0, amplitudeVbo);
 }
 
-WaterMesh::WaterMesh(WaterShader* shader, AmplitudeGrid* amplitudeGrid, uint32_t size, float scale)
+WaterMesh::WaterMesh(WaterShader* shader, uint32_t size, float scale)
 	: Mesh(shader, 0, size* size * 2, (size + 1)* (size + 1), (size + 1)* (size + 1) * sizeof(float)),
-	shader(shader), amplitudeGrid(amplitudeGrid), size(size)
+	shader(shader), size(size)
 {
 	glGenTextures(1, &profileTexture);
 	glBindTexture(GL_TEXTURE_1D, profileTexture);
@@ -104,7 +104,7 @@ WaterMesh::~WaterMesh()
 	glDeleteBuffers(1, &amplitudeVbo);
 }
 
-void WaterMesh::updateData(float mult)
+void WaterMesh::updateData(float mult, AmplitudeGrid& amplitudeGrid)
 {
 #ifdef NDEBUG
 #pragma omp parallel for collapse(2)
@@ -120,10 +120,10 @@ void WaterMesh::updateData(float mult)
 
 				//}
 				int idx = ix * (size + 1) + iz;
-				float theta = amplitudeGrid->realPos(itheta, 2);
+				float theta = amplitudeGrid.realPos(itheta, 2);
 				glm::vec3& pos = positions[idx];
 
-				amplitudes[idx][itheta] = mult * amplitudeGrid->interpolatedValue(pos.x, pos.z, theta, amplitudeGrid->realPos(0, 3));
+				amplitudes[idx][itheta] = mult * amplitudeGrid.interpolatedValue(pos.x, pos.z, theta, amplitudeGrid.realPos(0, 3));
 			}
 		}
 	}
