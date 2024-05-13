@@ -1,5 +1,9 @@
 #include "simulationComponent.h"
 
+#include "application/application.h"
+#include "visualization/camera.h"
+
+#include <GLFW/glfw3.h>
 #include <imgui.h>
 
 #include <iostream>
@@ -22,6 +26,18 @@ void SimulationComponent::init()
 		16, // number of wave angle disc. nodes
 		1 // number of wave length disc. nodes
 	);
+
+	Application& app = Application::getInstance();
+	Window& window = app.getWindow();
+	glfwSetCursorPosCallback(window.getHandle(), [](GLFWwindow* w, double x, double y)
+		{
+			if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT))
+			{
+				AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
+				glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
+				simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
+			}
+		});
 }
 
 void SimulationComponent::destroy()
@@ -52,4 +68,10 @@ void SimulationComponent::onRenderGui()
 	ImGui::Separator();
 
 	ImGui::End();
+}
+
+void SimulationComponent::addPointDisturbance(double viewportX, double viewportY)
+{
+	glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(viewportX, viewportY));
+	m_simGrid->addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
 }
