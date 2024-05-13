@@ -1,9 +1,11 @@
 #pragma once
 
-//#include "pgr.h"
 #include "grid.h"
 #include "profile_buffer.h"
 
+#include "simulation/shaders/timeStepCompute.h"
+
+#include <memory>
 #include <algorithm>
 
 #define NTHETA 16 // Number of disc. nodes for theta
@@ -67,5 +69,7 @@ public:
     float waveNumber(float k) const;
     glm::vec2 groupVelocity(glm::vec4 pos4) const;
 
+private:
+    std::unique_ptr<TimeStepCompute> m_timeStepCompute;
 };
 

@@ -69,6 +69,36 @@ void Window::initContext()
 	std::cout << glGetString(GL_VENDOR) << std::endl;
 	std::cout << glGetString(GL_RENDERER) << std::endl;
 	std::cout << glGetString(GL_VERSION) << std::endl;
+	std::cout << std::endl;
+
+	GLint v;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &v);
+	std::cout << "Compute WG count X: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 1, &v);
+	std::cout << "Compute WG count Y: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 2, &v);
+	std::cout << "Compute WG count Z: " << v << std::endl;
+	std::cout << std::endl;
+
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 0, &v);
+	std::cout << "Compute WG size X: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &v);
+	std::cout << "Compute WG size Y: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &v);
+	std::cout << "Compute WG size Z: " << v << std::endl;
+	std::cout << std::endl;
+
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 0, &v);
+	std::cout << "Compute WG invocations X: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 1, &v);
+	std::cout << "Compute WG invocations Y: " << v << std::endl;
+	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 2, &v);
+	std::cout << "Compute WG invocations Z: " << v << std::endl;
+	std::cout << std::endl;
+
+
+
+
 
 #ifdef _DEBUG
 #endif

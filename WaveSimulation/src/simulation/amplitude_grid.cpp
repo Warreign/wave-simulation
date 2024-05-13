@@ -1,4 +1,5 @@
 #include "amplitude_grid.h"
+
 #include <iostream>
 #include <glm/ext.hpp>
 
@@ -38,6 +39,8 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     time = 123456;
 
     profileBuffers.resize(numWaveLength);
+
+    m_timeStepCompute = std::make_unique<TimeStepCompute>("shaders/timeStep.comp", dim[X], dim[Z], dim[Theta], dim[K]);
 }
 
 void AmplitudeGrid::timeStep(float dt)
