@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-VisualizationComponent::VisualizationComponent(const std::string& debugName)
-	: Component(debugName)
+VisualizationComponent::VisualizationComponent(const std::string& debugName, const AmplitudeGrid& simGrid)
+	: Component(debugName), m_simGrid(simGrid)
 {
 }
 
@@ -24,6 +24,11 @@ void VisualizationComponent::init()
 	std::cout << "\t Initializing skybox" << std::endl;
 	m_skybox = std::make_unique<Skybox>();
 
+	std::cout << "\t Initializing WaterMesh" << std::endl;
+	m_waterMesh = std::make_unique<WaterMesh>(m_waterShader, 100, 100.0f);
+
+	std::cout << "\t Initializing Water object" << std::endl;
+	m_water = std::make_unique<Water>(m_waterMesh);
 }
 
 void VisualizationComponent::destroy()
@@ -33,6 +38,9 @@ void VisualizationComponent::destroy()
 void VisualizationComponent::onUpdate()
 {
 	m_camera->updateMatrices();
+
+	m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
+	m_waterMesh->setProfileBuffer(m_simGrid.profileBuffers[0]);
 }
 
 void VisualizationComponent::onRender()
@@ -46,7 +54,7 @@ void VisualizationComponent::onRender()
 void VisualizationComponent::onRenderGui()
 {
 	ImGui::Begin("Visualization");
-	//ImGui::Text("Skybox Visible");
 	ImGui::Checkbox("Skybox Visible", &m_isSkyboxVisible);
+	ImGui::SliderFloat("Amplitude Multiplier", &m_ampMultiplier, 0.1f, 5.0f);
 	ImGui::End();
 }

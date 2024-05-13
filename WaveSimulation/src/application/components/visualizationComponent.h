@@ -11,7 +11,7 @@
 class VisualizationComponent : public Component
 {
 public:
-	VisualizationComponent(const std::string& debugName);
+	VisualizationComponent(const std::string& debugName, const AmplitudeGrid& simGrid);
 
 	void init() override;
 	void destroy() override;
@@ -23,10 +23,16 @@ public:
 private:
 
 	bool m_isSkyboxVisible = true;
+	float m_ampMultiplier = 2.0f;
+
+	const AmplitudeGrid& m_simGrid;
 
 	std::unique_ptr<Shader> m_commonShader;
 	std::unique_ptr<WaterShader> m_waterShader;
 
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<Skybox> m_skybox;
+	
+	std::unique_ptr<WaterMesh> m_waterMesh;
+	std::unique_ptr<Water> m_water;
 };
