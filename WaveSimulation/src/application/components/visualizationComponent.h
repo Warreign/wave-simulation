@@ -23,6 +23,7 @@ public:
 private:
 
 	bool m_isSkyboxVisible = true;
+	bool m_isWaterWireframe = false;
 	float m_ampMultiplier = 2.0f;
 
 	const AmplitudeGrid& m_simGrid;

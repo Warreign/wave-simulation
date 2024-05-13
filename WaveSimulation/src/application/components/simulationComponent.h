@@ -7,6 +7,7 @@
 
 class SimulationComponent : public Component
 {
+public:
 	SimulationComponent(const std::string& debugName);
 
 	void init() override;

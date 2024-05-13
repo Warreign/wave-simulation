@@ -190,7 +190,6 @@
     <ClCompile Include="src\simulation\amplitude_grid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
     <ClCompile Include="src\visualization\shaders\waterShader.cpp" />
-    <ClCompile Include="src\WaveSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />

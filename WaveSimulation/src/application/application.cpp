@@ -3,6 +3,8 @@
 #include <IL/il.h>
 #include <algorithm>
 
+#include "application/components/simulationComponent.h"
+
 Application* Application::s_instance = nullptr;
 
 Application::Application(const std::string& title)
@@ -22,7 +24,10 @@ Application::Application(const std::string& title)
 
 	m_running = true;
 
-	VisualizationComponent* visualComp = new VisualizationComponent("VisualizationComponent");
+	SimulationComponent* simComp = new SimulationComponent("SimulationComponent");
+	addComponent(simComp);
+
+	VisualizationComponent* visualComp = new VisualizationComponent("VisualizationComponent", simComp->getGrid());
 	m_visualComponent = visualComp;
 	addComponent(visualComp);
 

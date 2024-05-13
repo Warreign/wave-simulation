@@ -69,7 +69,7 @@ void preRender()
 	if (update)
 	{
 		simulationGrid->timeStep(dt);
-		waterMesh->updateData(amplMultiplier);
+		waterMesh->updateData(amplMultiplier, *simulationGrid);
 		waterMesh->setProfileBuffer(simulationGrid->profileBuffers[0]);
 	}
 }
@@ -210,7 +210,7 @@ void initData()
 		1 // number of wave length disc. nodes
 	);
 
-	waterMesh = new WaterMesh(waterShader, simulationGrid, 100, 100.0f);
+	waterMesh = new WaterMesh(waterShader, 100, 100.0f);
 	water = new Water(waterMesh);
 
 }

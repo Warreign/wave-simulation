@@ -25,10 +25,10 @@ void VisualizationComponent::init()
 	m_skybox = std::make_unique<Skybox>();
 
 	std::cout << "\t Initializing WaterMesh" << std::endl;
-	m_waterMesh = std::make_unique<WaterMesh>(m_waterShader, 100, 100.0f);
+	m_waterMesh = std::make_unique<WaterMesh>(m_waterShader.get(), 100, 100.0f);
 
 	std::cout << "\t Initializing Water object" << std::endl;
-	m_water = std::make_unique<Water>(m_waterMesh);
+	m_water = std::make_unique<Water>(m_waterMesh.get());
 }
 
 void VisualizationComponent::destroy()
@@ -45,6 +45,15 @@ void VisualizationComponent::onUpdate()
 
 void VisualizationComponent::onRender()
 {
+	if (!m_isWaterWireframe)
+	{
+		m_water->draw(Camera::get());
+	}
+	else
+	{
+		m_water->draw(Camera::get(), GL_LINE);
+	}
+
 	if (m_isSkyboxVisible)
 	{
 		m_skybox->draw(Camera::get());
@@ -55,6 +64,7 @@ void VisualizationComponent::onRenderGui()
 {
 	ImGui::Begin("Visualization");
 	ImGui::Checkbox("Skybox Visible", &m_isSkyboxVisible);
+	ImGui::Checkbox("Wireframe Water", &m_isWaterWireframe);
 	ImGui::SliderFloat("Amplitude Multiplier", &m_ampMultiplier, 0.1f, 5.0f);
 	ImGui::End();
 }

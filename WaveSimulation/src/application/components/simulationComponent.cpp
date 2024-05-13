@@ -2,6 +2,8 @@
 
 #include <imgui.h>
 
+#include <iostream>
+
 SimulationComponent::SimulationComponent(const std::string& debugName)
 	: Component(debugName)
 {
@@ -9,6 +11,8 @@ SimulationComponent::SimulationComponent(const std::string& debugName)
 
 void SimulationComponent::init()
 {
+	std::cout << "INFO: Initializing " << m_debugName << std::endl;
+
 	m_simGrid = std::make_unique<AmplitudeGrid>(
 		100.0f, //size
 		0.01f, // min wave length
