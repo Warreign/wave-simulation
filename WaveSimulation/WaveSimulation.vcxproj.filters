@@ -93,6 +93,9 @@
     <ClCompile Include="src\visualization\shaders\waterShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\application\components\simulationComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\AppTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -153,6 +156,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\visualization\shaders\waterShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\application\components\simulationComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
