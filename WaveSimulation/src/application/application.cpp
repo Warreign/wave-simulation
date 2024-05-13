@@ -5,16 +5,13 @@
 
 Application* Application::s_instance = nullptr;
 
-Application::Application()
-{
-}
-
 Application::Application(const std::string& title)
 {
 	std::cout << "INFO: Initializing application" << std::endl;
 	s_instance = this;
 
 	m_window = std::make_unique<Window>(1280, 960, title);
+	m_window->setVsync(true);
 
 	ilInit();
 	ilEnable(IL_ORIGIN_SET);
@@ -23,9 +20,11 @@ Application::Application(const std::string& title)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
-	m_window->setVsync(true);
-
 	m_running = true;
+
+	ImGuiComponent* guiComp = new ImGuiComponent("ImGuiComponent");
+	m_guiComponent = guiComp;
+	addComponent(guiComp);
 }
 
 Application::~Application()
@@ -39,6 +38,26 @@ void Application::run()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+		/* Update each component */
+		for (auto c : comps)
+		{
+			c->onUpdate();
+		}
+
+		/* Add ImGui data from each component */
+		m_guiComponent->startFrame();
+		for (auto c : comps)
+		{
+			c->onRenderGui();
+		}
+		m_guiComponent->endFrame();
+
+		/* Render each component */
+		for (auto c : comps)
+		{
+			c->onRender();
+		}
 
 		m_window->onUpdate();
 	}

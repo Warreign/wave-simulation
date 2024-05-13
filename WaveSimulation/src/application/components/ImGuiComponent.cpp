@@ -6,6 +6,11 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+ImGuiComponent::ImGuiComponent(const std::string& debugName)
+	: Component(debugName)
+{
+}
+
 void ImGuiComponent::init()
 {
 	std::cout << "INFO: Initializing GUI component" << std::endl;

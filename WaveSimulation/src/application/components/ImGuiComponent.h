@@ -5,6 +5,8 @@
 class ImGuiComponent : public Component
 {
 public:
+	ImGuiComponent(const std::string& debugName);
+
 	void init() override;
 	void destroy() override;
 

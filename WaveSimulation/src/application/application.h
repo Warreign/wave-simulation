@@ -11,7 +11,6 @@
 class Application
 {
 public:
-	Application();
 	Application(const std::string& title);
 
 	~Application();
@@ -36,7 +35,7 @@ private:
 	
 	std::vector<Component*> comps;
 
-	ImGuiComponent& m_guiComponent;
+	ImGuiComponent* m_guiComponent;
 
 	std::unique_ptr<Shader> m_commonShader;
 	std::unique_ptr<Shader> m_waterShader;
