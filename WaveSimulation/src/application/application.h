@@ -19,10 +19,11 @@ public:
 	
 	Window& getWindow() { return *m_window; }
 
-private:
-
 	void run();
 	void stop();
+
+private:
+
 	void addComponent(Component* comp);
 	void removeComponent(Component* comp);	
 	void onUpdate();

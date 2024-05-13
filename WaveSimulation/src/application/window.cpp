@@ -1,9 +1,11 @@
 #include "window.h"
 
+#include "application/application.h"
+#include "application/GlDebug.h"
+
 #include <stdexcept>
 #include <glad/glad.h>
 
-#include "GlDebug.h"
 
 static void glfw_error_callback(int error, const char* description)
 {
@@ -42,6 +44,11 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title)
 
 	glfwSetWindowUserPointer(m_window, this);
 
+	glfwSetWindowCloseCallback(m_window, [](GLFWwindow* w)
+		{
+			Application& app = Application::getInstance();
+			app.stop();
+		});
 }
 
 Window::~Window()
