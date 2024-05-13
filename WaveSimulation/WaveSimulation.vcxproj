@@ -173,18 +173,21 @@
     <ClCompile Include="..\vendor\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\application\application.cpp" />
-    <ClCompile Include="src\AppTest.cpp" />
     <ClCompile Include="src\application\components\component.cpp" />
     <ClCompile Include="src\application\components\ImGuiComponent.cpp" />
     <ClCompile Include="src\application\components\visualizationComponent.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
-    <ClCompile Include="src\visualization\mesh.cpp" />
-    <ClCompile Include="src\visualization\object.cpp" />
-    <ClCompile Include="src\visualization\shader.cpp" />
+    <ClCompile Include="src\visualization\meshes\mesh.cpp" />
+    <ClCompile Include="src\visualization\meshes\waterMesh.cpp" />
+    <ClCompile Include="src\visualization\objects\object.cpp" />
+    <ClCompile Include="src\visualization\objects\skybox.cpp" />
+    <ClCompile Include="src\visualization\objects\water.cpp" />
+    <ClCompile Include="src\visualization\shaders\shader.cpp" />
     <ClCompile Include="src\simulation\profile_buffer.cpp" />
     <ClCompile Include="src\simulation\amplitude_grid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
+    <ClCompile Include="src\visualization\shaders\waterShader.cpp" />
     <ClCompile Include="src\WaveSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,12 +200,16 @@
     <ClInclude Include="src\visualization\data.h" />
     <ClInclude Include="src\simulation\grid.h" />
     <ClInclude Include="src\application\GlDebug.h" />
-    <ClInclude Include="src\visualization\mesh.h" />
-    <ClInclude Include="src\visualization\object.h" />
-    <ClInclude Include="src\visualization\shader.h" />
+    <ClInclude Include="src\visualization\meshes\mesh.h" />
+    <ClInclude Include="src\visualization\meshes\waterMesh.h" />
+    <ClInclude Include="src\visualization\objects\object.h" />
+    <ClInclude Include="src\visualization\objects\skybox.h" />
+    <ClInclude Include="src\visualization\objects\water.h" />
+    <ClInclude Include="src\visualization\shaders\shader.h" />
     <ClInclude Include="src\simulation\profile_buffer.h" />
     <ClInclude Include="src\simulation\amplitude_grid.h" />
     <ClInclude Include="src\application\window.h" />
+    <ClInclude Include="src\visualization\shaders\waterShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\skybox.frag" />

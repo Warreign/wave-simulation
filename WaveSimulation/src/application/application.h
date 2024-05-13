@@ -3,7 +3,7 @@
 #include "application/window.h"
 #include "application/components/ImGuiComponent.h"
 #include "application/components/visualizationComponent.h"
-#include "visualization/shader.h"
+#include "visualization/shaders/shader.h"
 
 #include <string>
 #include <memory>
@@ -16,7 +16,10 @@ public:
 
 	~Application();
 
-	static Application& getInstance() { return *s_instance; }
+	static Application& getInstance() { 
+		if (!s_instance) exit(1);
+		return *s_instance; 
+	}
 	
 	Window& getWindow() { return *m_window; }
 

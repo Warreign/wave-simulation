@@ -9,17 +9,19 @@
 //#include "pgr.h"
 #include "application/window.h"
 #include "visualization/data.h"
-#include "visualization/object.h"
 #include "visualization/camera.h"
-#include "visualization/shader.h"
-#include "visualization/mesh.h"
+#include "visualization/meshes/mesh.h"
+#include "visualization/objects/object.h"
+#include "visualization/objects/water.h"
+#include "visualization/objects/skybox.h"
+#include "visualization/shaders/shader.h"
+#include "visualization/shaders/waterShader.h"
 
 #include "simulation/amplitude_grid.h"
 
 const unsigned int WIDTH = 1000;
 const unsigned int HEIGHT = 1000;
-static const char* TITLE = "Water Wave Simulation"; 
-int Camera::refreshRate = 30;
+static const char* TITLE = "Water Wave Simulation";
 
 bool keys[256];
 bool skeys[256];

@@ -1,10 +1,10 @@
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/intersect.hpp>
-
 #include "camera.h"
-#include "object.h"
+
+#include "visualization/objects/object.h"
 #include "application/window.h"
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/intersect.hpp>
 
 extern Window* window;
 
