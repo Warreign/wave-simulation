@@ -4,7 +4,6 @@
 #include "application/components/ImGuiComponent.h"
 #include "application/components/simulationComponent.h"
 #include "application/components/visualizationComponent.h"
-#include "visualization/shaders/shader.h"
 
 #include <string>
 #include <memory>

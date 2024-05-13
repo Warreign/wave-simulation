@@ -3,8 +3,6 @@
 #include <IL/il.h>
 #include <algorithm>
 
-#include "application/components/simulationComponent.h"
-
 Application* Application::s_instance = nullptr;
 
 Application::Application(const std::string& title)
