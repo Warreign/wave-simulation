@@ -31,7 +31,7 @@ protected:
 
 public:
 
-	void updateData(float multiplier, AmplitudeGrid& amplitudeGrid);
+	void updateData(float multiplier, const AmplitudeGrid& amplitudeGrid);
 	void setProfileBuffer(const ProfileBuffer& profileBuffer) const;
 	void draw(GLenum polygonMode = GL_TRIANGLES) const override;
 };

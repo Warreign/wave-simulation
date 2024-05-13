@@ -104,7 +104,7 @@ WaterMesh::~WaterMesh()
 	glDeleteBuffers(1, &amplitudeVbo);
 }
 
-void WaterMesh::updateData(float mult, AmplitudeGrid& amplitudeGrid)
+void WaterMesh::updateData(float mult, const AmplitudeGrid& amplitudeGrid)
 {
 #ifdef NDEBUG
 #pragma omp parallel for collapse(2)
