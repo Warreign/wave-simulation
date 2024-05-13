@@ -38,6 +38,8 @@ Application::~Application()
 
 void Application::run()
 {
+	std::cout << "INFO: Running applicaiton" << std::endl;
+
 	while (m_running)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -76,17 +78,23 @@ void Application::run()
 
 void Application::stop()
 {
+	std::cout << "INFO: Closing appliction" << std::endl;
+
 	m_running = false;
 }
 
 void Application::addComponent(Component* comp)
 {
+	std::cout << "INFO: Adding " << comp->toString() << " to component stack" << std::endl;
+
 	comp->init();
 	comps.emplace_back(comp);
 }
 
 void Application::removeComponent(Component* comp)
 {
+	std::cout << "INFO: Removing " << comp->toString() << " from component stack" << std::endl;
+
 	comp->destroy();
 	std::remove(comps.begin(), comps.end(), comp);
 	delete comp;
