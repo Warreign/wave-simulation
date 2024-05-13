@@ -66,6 +66,11 @@ void Application::run()
 
 		m_window->onUpdate();
 	}
+
+	for (auto c : comps)
+	{
+		removeComponent(c);
+	}
 }
 
 void Application::stop()
