@@ -8,7 +8,6 @@
 
 //#include "pgr.h"
 #include "application/window.h"
-#include "visualization/data.h"
 #include "visualization/camera.h"
 #include "visualization/meshes/mesh.h"
 #include "visualization/objects/object.h"
