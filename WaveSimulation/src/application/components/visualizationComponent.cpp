@@ -67,4 +67,13 @@ void VisualizationComponent::onRenderGui()
 	ImGui::Checkbox("Wireframe Water", &m_isWaterWireframe);
 	ImGui::SliderFloat("Amplitude Multiplier", &m_ampMultiplier, 0.1f, 5.0f);
 	ImGui::End();
+
+	ImGui::Begin("Camera Settings");
+	Camera& cam = Camera::get();
+	//ImGui::DragFloat("Speed", &cam.speed, 5.0, 0.0);
+	ImGui::SliderAngle("FOV", &cam.fovAngle, 10.0f, 179.0f);
+	//ImGui::DragFloat("Sensitivity", &cam.sensitivity, 0.1f, 3.0f, 0.1f);
+	ImGui::DragFloat("Far Plane", &cam.farPlane, 10.0f, 1.0f);
+	//if (ImGui::Button("Toggle Free Mode")) cam.toggleFreeMode();
+	ImGui::End();
 }
