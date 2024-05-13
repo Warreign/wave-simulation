@@ -44,6 +44,7 @@ void Application::run()
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		/* Update each component */
+		onUpdate();
 		for (auto c : comps)
 		{
 			c->onUpdate();
@@ -82,4 +83,8 @@ void Application::removeComponent(Component* comp)
 {
 	comp->destroy();
 	std::remove(comps.begin(), comps.end(), comp);
+}
+
+void Application::onUpdate()
+{
 }

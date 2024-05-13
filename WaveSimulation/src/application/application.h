@@ -40,9 +40,5 @@ private:
 	VisualizationComponent* m_visualComponent;
 	ImGuiComponent* m_guiComponent;
 
-	std::unique_ptr<Shader> m_commonShader;
-	std::unique_ptr<Shader> m_waterShader;
-	std::unique_ptr<Shader> m_skyboxShader;
-
 	std::unique_ptr<Window> m_window;
 };

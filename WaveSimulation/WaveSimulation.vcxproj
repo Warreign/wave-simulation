@@ -185,6 +185,7 @@
     <ClCompile Include="src\simulation\profile_buffer.cpp" />
     <ClCompile Include="src\simulation\amplitude_grid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
+    <ClCompile Include="src\WaveSimulation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />
