@@ -16,11 +16,11 @@
 class Camera
 {
 public:
-	static Camera* active;
 
 	Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float farPlane, float captureAngle, float movementSpeed);
 
 public:
+	static Camera& get() { return *s_active; }
 	static void freeModeMotionCallback(int x, int y);
 
 	Camera* lastActive;
@@ -66,6 +66,9 @@ public:
 
 	const glm::mat4& viewMatrix() const;
 	const glm::mat4& projectMatrix() const;
+
+private:
+	static Camera* s_active;
 };
 
 #endif

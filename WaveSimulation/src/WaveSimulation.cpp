@@ -58,7 +58,7 @@ static void glfw_error_callback(int error, const char* description)
 
 void preRender()
 {
-	Camera::active->updateMatrices();
+	Camera::get().updateMatrices();
 
 	double lastStart = frameStart;
 	frameStart = glfwGetTime();
@@ -79,11 +79,11 @@ void render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 	if (!drawWireframe)
-		water->draw(*Camera::active);
+		water->draw(Camera::get());
 	else
-		water->draw(*Camera::active, GL_LINE);
+		water->draw(Camera::get(), GL_LINE);
 	if (drawSkybox)
-		skybox->draw(*Camera::active);
+		skybox->draw(Camera::get());
 }
 
 void postRender()
@@ -176,12 +176,12 @@ void renderGui()
 
 		ImGui::Separator();
 		ImGui::Text("Camera");
-		ImGui::DragFloat("Speed", &Camera::active->speed, 5.0, 0.0);
-		ImGui::SliderAngle("FOV", &Camera::active->fovAngle, 10.0f, 179.0f);
-		ImGui::DragFloat("Sensitivity", &Camera::active->sensitivity, 0.1f, 3.0f, 0.1f);
-		ImGui::DragFloat("Far Plane", &Camera::active->farPlane, 10.0f, 1.0f);
+		ImGui::DragFloat("Speed", &Camera::get().speed, 5.0, 0.0);
+		ImGui::SliderAngle("FOV", &Camera::get().fovAngle, 10.0f, 179.0f);
+		ImGui::DragFloat("Sensitivity", &Camera::get().sensitivity, 0.1f, 3.0f, 0.1f);
+		ImGui::DragFloat("Far Plane", &Camera::get().farPlane, 10.0f, 1.0f);
 		ImGui::SliderInt("Target FPS", &Camera::refreshRate, 10, 120);
-		if (ImGui::Button("Toggle Free Mode")) Camera::active->toggleFreeMode();
+		if (ImGui::Button("Toggle Free Mode")) Camera::get().toggleFreeMode();
 		//if (ImGui::Button("Toggle Fullscreen")) 
 		ImGui::InputDouble("FPS", &framerate, 0.0, 0.0, "%.2f", ImGuiInputTextFlags_ReadOnly);
 		ImGui::InputDouble("Frame Time", &averageFrameTime, 0, 0, "%.6f", ImGuiInputTextFlags_ReadOnly);
@@ -217,7 +217,7 @@ void initData()
 
 void pointDisturbance(double x, double y)
 {
-	glm::vec3 planePoint = Camera::active->intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
+	glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
 	simulationGrid->addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
 }
 
@@ -247,7 +247,7 @@ void keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods)
 			switch (key)
 			{
 				case GLFW_KEY_F2:
-					Camera::active->toggleFreeMode();
+					Camera::get().toggleFreeMode();
 					break;
 				case GLFW_KEY_F1:
 					break;

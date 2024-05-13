@@ -8,7 +8,7 @@
 
 extern Window* window;
 
-Camera* Camera::active = nullptr;
+Camera* Camera::s_active = nullptr;
 int Camera::refreshRate = 30;
 
 Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float farPlane, float captureAngle, float movementSpeed)
@@ -22,14 +22,14 @@ Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float f
 
 
 void Camera::makeActive() {
-	if (!active)
+	if (!s_active)
 	{
-		active = this;
+		s_active = this;
 		return;
 	}
-	if (active->freeMode)
-		active->toggleFreeMode();
-	active = this;
+	if (s_active->freeMode)
+		s_active->toggleFreeMode();
+	s_active = this;
 }
 
 /*
