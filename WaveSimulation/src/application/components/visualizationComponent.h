@@ -12,5 +12,5 @@ public:
 
 	void onUpdate() override;
 	void onRender() override;
-	void onRenderGui() override;
+	void onRenderGui() override
 };

@@ -69,7 +69,8 @@ void Application::run()
 
 	for (auto c : comps)
 	{
-		removeComponent(c);
+		c->destroy();
+		delete c;
 	}
 }
 
@@ -88,6 +89,7 @@ void Application::removeComponent(Component* comp)
 {
 	comp->destroy();
 	std::remove(comps.begin(), comps.end(), comp);
+	delete comp;
 }
 
 void Application::onUpdate()
