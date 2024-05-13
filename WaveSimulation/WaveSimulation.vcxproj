@@ -178,6 +178,7 @@
     <ClCompile Include="src\application\components\simulationComponent.cpp" />
     <ClCompile Include="src\application\components\visualizationComponent.cpp" />
     <ClCompile Include="src\AppTest.cpp" />
+    <ClCompile Include="src\utils\shaderBase.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
     <ClCompile Include="src\visualization\meshes\mesh.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="src\simulation\profile_buffer.h" />
     <ClInclude Include="src\simulation\amplitude_grid.h" />
     <ClInclude Include="src\application\window.h" />
+    <ClInclude Include="src\utils\shaderBase.h" />
     <ClInclude Include="src\visualization\shaders\waterShader.h" />
   </ItemGroup>
   <ItemGroup>
