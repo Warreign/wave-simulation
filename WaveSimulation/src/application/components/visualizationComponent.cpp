@@ -18,7 +18,7 @@ void VisualizationComponent::init()
 	m_waterShader = std::make_unique<WaterShader>();
 
 	std::cout << "\t Initializing main camera" << std::endl;
-	m_camera = std::make_unique<Camera>(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 100.0f, 80.0f, 30.0f);
+	m_camera = std::make_unique<Camera>(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 100.0f, glm::radians(80.0f), 30.0f);
 	m_camera->makeActive();
 
 	std::cout << "\t Initializing skybox" << std::endl;
