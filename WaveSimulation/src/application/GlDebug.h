@@ -54,6 +54,7 @@ void GLAPIENTRY GL_ERROR_CALLBACK(GLenum        source,
     const GLchar* message,
     GLvoid* userParam)
 {
+    if (severity == GL_DEBUG_SEVERITY_NOTIFICATION) return;
     std::cout << "OpenGL Error:" << std::endl;
     std::cout << "=============" << std::endl;
     std::cout << " Object ID: " << id << std::endl;
