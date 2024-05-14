@@ -71,8 +71,10 @@ void TimeStepCompute::dispatch() const
 void TimeStepCompute::loadUniforms(glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt)
 {
 	bind();
+	glm::vec3 dim3(m_dim);
+	setVec3("u_dim", dim3);
 	setVec3("u_min", min);
-	setVec3("u_delta", min);
+	setVec3("u_delta", delta);
 	setFloat("u_groupSpeed", groupSpeed);
 	setFloat("u_dt", dt);
 	unbind();
