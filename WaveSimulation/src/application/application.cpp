@@ -1,5 +1,7 @@
 #include "application.h"
 
+#include <imgui.h>
+
 #include <IL/il.h>
 #include <algorithm>
 
@@ -71,6 +73,17 @@ void Application::run()
 			c->onRender();
 		}
 
+		m_frameEnd = glfwGetTime();
+		m_deltaTime += m_frameEnd - m_frameStart;
+		m_frameCount++;
+		if (m_deltaTime >= 1.0)
+		{
+			m_frameRate = (double)m_frameCount * 0.5 + m_frameRate * 0.5;
+			m_frameCount = 0;
+			m_deltaTime = 0;
+			m_averageFrameTime = 1.0 / (m_frameRate == 0 ? 0.001 : m_frameRate);
+		}
+
 		m_window->onUpdate();
 	}
 
@@ -108,8 +121,13 @@ void Application::removeComponent(Component* comp)
 
 void Application::onUpdate()
 {
+	m_frameStart = glfwGetTime();
 }
 
 void Application::onRenderGui()
 {
+	ImGui::Begin("Statistics");
+	ImGui::InputFloat("FPS", &m_frameRate, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat("Average Frame Time", &m_averageFrameTime, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::End();
 }

@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <cstdint>
 
 class Application
 {
@@ -38,6 +39,12 @@ private:
 	static Application* s_instance;
 
 	bool m_running;
+	double m_deltaTime = 0;
+	double m_frameEnd = 0;
+	double m_frameStart = 0;
+	float m_averageFrameTime = 0;
+	float m_frameRate = 60;
+	uint32_t m_frameCount = 0;
 	
 	std::vector<Component*> comps;
 
