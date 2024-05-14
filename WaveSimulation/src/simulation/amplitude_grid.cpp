@@ -200,25 +200,10 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
                                         value(ix + 1, iz, itheta + 1, ik),
                                         value(ix + 1, iz + 1, itheta + 1, ik)),
                             cx);
-    //float vx1 = (1 - cx) * value(ix, iz, itheta, ik) + cx * value(ix + 1, iz, itheta, ik);
-    //float vx2 = (1 - cx) * value(ix, iz + 1, itheta, ik) + cx * value(ix + 1, iz + 1, itheta, ik);
-    //float vx3 = (1 - cx) * value(ix, iz, itheta + 1, ik) + cx * value(ix + 1, iz, itheta + 1, ik);
-    //float vx4 = (1 - cx) * value(ix, iz + 1, itheta + 1, ik) + cx * value(ix + 1, iz + 1, itheta + 1, ik);
-
-    float vx1 = vx.x;
-    float vx2 = vx.y;
-    float vx3 = vx.z;
-    float vx4 = vx.w;
 
     glm::vec2 vz = glm::mix(glm::vec2(vx.x, vx.z), glm::vec2(vx.y, vx.w), cz);
 
-    //  Liner interpolation over z
-    //float vz1 = (1 - cz) * vx1 + cz * vx2;
-    //float vz2 = (1 - cz) * vx3 + cz * vx4;
-
-    // Liner interpolation over theta
-    //return (1 - ctheta) * vz1 + ctheta * vz2;
-    return (1 - ctheta) * vz.x + ctheta * vz.y;
+    return glm::mix(vz.x, vz.y, ctheta);
 }
 
 double AmplitudeGrid::cflTimeStep() const
