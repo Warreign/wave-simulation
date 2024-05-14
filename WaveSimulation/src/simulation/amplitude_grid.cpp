@@ -4,7 +4,7 @@
 #include <glm/ext.hpp>
 
 // Comment to run simulation on cpu
-#define COMPUTE_SHADER
+//#define COMPUTE_SHADER
 
 #define TAU 6.28318530718
 
@@ -54,8 +54,8 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
     float borderColor[] = { 0.5f, 0.0f, 0.0f, 0.0f };
     glCreateTextures(GL_TEXTURE_3D, 1, &m_inTexture);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTextureParameterfv(m_inTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_inTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -63,8 +63,8 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     glTextureStorage3D(m_inTexture, 1, GL_R32F, dim[X], dim[Z], dim[Theta]);
 
     glCreateTextures(GL_TEXTURE_3D, 1, &m_outTexture);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTextureParameterfv(m_outTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_outTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -84,6 +84,8 @@ void AmplitudeGrid::timeStep(float dt)
 
     precomputeProfileBuffers();
 }
+
+
 
 void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 {
@@ -143,9 +145,11 @@ void AmplitudeGrid::advectionStep(float dt)
     m_advectionCompute->dispatch(m_inTexture, m_outTexture, dim);
 
 
-    //GLuint temp = m_outTexture;
-    //m_outTexture = m_inTexture;
-    //m_inTexture = temp;
+    GLuint temp = m_outTexture;
+    m_outTexture = m_inTexture;
+    m_inTexture = temp;
+
+    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 
 #endif
 }
@@ -183,7 +187,7 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     data = updatedData;
 #else
     m_diffusionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
-    m_diffusionCompute->dispatch(m_outTexture, m_inTexture, dim);
+    m_diffusionCompute->dispatchDiffusion(m_outTexture, m_inTexture, dim);
 
     glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 #endif
