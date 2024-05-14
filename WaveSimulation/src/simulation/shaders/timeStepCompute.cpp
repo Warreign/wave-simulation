@@ -5,7 +5,7 @@
 TimeStepCompute::TimeStepCompute(const std::string path, int dimX, int dimZ, int dimTheta, int dimK)
 	: m_path(path), m_dim(dimX, dimZ, dimTheta, dimK)
 {
-	std::cout << "INFO: Initializing " << m_path << " compute shader" << std::endl;
+	std::cout << "\t Initializing " << m_path << " compute shader" << std::endl;
 
 	GLuint computeShader = compileShader(GL_COMPUTE_SHADER, m_path);
 	assert(computeShader != 0);

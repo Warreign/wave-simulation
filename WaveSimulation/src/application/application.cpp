@@ -76,6 +76,7 @@ void Application::run()
 
 	for (auto c : comps)
 	{
+		std::cout << "INFO: Destroying " << c->toString() << std::endl;
 		c->destroy();
 		delete c;
 	}
@@ -83,7 +84,7 @@ void Application::run()
 
 void Application::stop()
 {
-	std::cout << "INFO: Closing appliction" << std::endl;
+	std::cout << "INFO: Closing application" << std::endl;
 
 	m_running = false;
 }

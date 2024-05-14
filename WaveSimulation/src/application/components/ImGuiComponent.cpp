@@ -31,8 +31,6 @@ void ImGuiComponent::init()
 
 void ImGuiComponent::destroy()
 {
-	std::cout << "INFO: Destroying GUI component" << std::endl;
-
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
