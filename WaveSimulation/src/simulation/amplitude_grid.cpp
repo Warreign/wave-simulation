@@ -4,7 +4,7 @@
 #include <glm/ext.hpp>
 
 // Comment to run simulation on cpu
-//#define COMPUTE_SHADER
+#define COMPUTE_SHADER
 
 #define TAU 6.28318530718
 
@@ -142,14 +142,14 @@ void AmplitudeGrid::advectionStep(float dt)
     //glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
 
     m_advectionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
-    m_advectionCompute->dispatch(m_inTexture, m_outTexture, dim);
+    m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, dim);
 
 
-    GLuint temp = m_outTexture;
-    m_outTexture = m_inTexture;
-    m_inTexture = temp;
+    //GLuint temp = m_outTexture;
+    //m_outTexture = m_inTexture;
+    //m_inTexture = temp;
 
-    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+    //glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 
 #endif
 }
