@@ -70,6 +70,10 @@ void TimeStepCompute::dispatch()
 
 	glDispatchCompute(m_dim.x, m_dim.y, m_dim.z);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+
+	glBindImageTexture(1, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
+	glBindImageTexture(2, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
+
 	unbind();
 
 	GLuint temp = m_outTexture;

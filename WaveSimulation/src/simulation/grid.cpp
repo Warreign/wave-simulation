@@ -20,12 +20,14 @@ void Grid::resize(int n0, int n1, int n2, int n3)
 
 float& Grid::operator()(int i0, int i1, int i2, int i3) 
 {
-    return data[i3 + dimension(3) * (i2 + dimension(2) * (i1 + dimension(1) * i0))];
+    //return data[i3 + dimension(3) * (i2 + dimension(2) * (i1 + dimension(1) * i0))];
+    return data[i0 + dimension(0) * (i1 + dimension(1) * (i2 + dimension(2) * i3))];
 }
 
 float const& Grid::operator()(int i0, int i1, int i2, int i3) const 
 {
-    int idx = i3 + dimension(3) * (i2 + dimension(2) * (i1 + dimension(1) * i0));
+    //int idx = i3 + dimension(3) * (i2 + dimension(2) * (i1 + dimension(1) * i0));
+    int idx = i0 + dimension(0) * (i1 + dimension(1) * (i2 + dimension(2) * i3));
     return data[idx];
 }
 

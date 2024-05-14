@@ -69,6 +69,8 @@ public:
     float waveNumber(float k) const;
     glm::vec2 groupVelocity(glm::vec4 pos4) const;
 
+    TimeStepCompute& getCompute() { return *m_timeStepCompute; }
+
 private:
     std::unique_ptr<TimeStepCompute> m_timeStepCompute;
 };

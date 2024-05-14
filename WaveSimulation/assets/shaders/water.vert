@@ -8,6 +8,8 @@
 in vec3 aPosition;
 in vec4 aAmplitudes[NTHETA/4];
 
+uniform sampler3D u_Amplitude;
+
 uniform mat4 PVM;
 uniform mat4 ViewM;
 uniform mat4 ModelM;
@@ -20,6 +22,7 @@ uniform sampler1D profileBuffer;
 uniform float profilePeriod;
 
 out vec3 vPosition;
+out ivec2 vXYpos; 
 out vec4 vAmplitudes[NTHETA/4];
 
 // Get amplitude by index

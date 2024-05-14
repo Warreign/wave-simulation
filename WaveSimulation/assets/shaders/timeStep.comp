@@ -3,26 +3,38 @@
 #define PI 3.1415926538
 #define TAU 6.282003266
 
-layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+#define X 0
+#define Z 1
+#define Theta 2
 
-uniform sampler3D in_Grid;
-layout(r32f, binding = 0) uniform image3D out_Grid;
+layout (local_size_x = 32, local_size_y = 1, local_size_z = 1) in;
 
-uniform vec3 u_dim;
+layout(r32f) uniform readonly image3D in_Grid;
+layout(r32f) uniform writeonly image3D out_Grid;
+
+uniform int u_direction;
+uniform float u_defAmplitude;
+
+// Grid Dimensions
+uniform ivec3 u_dim;
+// Minimum values on the real grid
 uniform vec3 u_min;
+// Difference between discreet values of the grid
 uniform vec3 u_delta;
 
+// Group speed of current wave number
 uniform float u_groupSpeed;
+// Time step
 uniform float u_dt;
 
 float realPos(int idx, int dim)
 {
-	return u_min[idx] + (idx + 0.5) * u_delta[idx];
+	return u_min[dim] + (idx + 0.5) * u_delta[dim];
 }
 
 vec3 realPos(int ix, int iz, int itheta)
 {
-	return vec3(realPos(ix, 0), realPos(iz, 1), realPos(itheta, 2));
+	return vec3(realPos(ix, X), realPos(iz, Z), realPos(itheta, Theta));
 }
 
 float gridPos(float val, int dim)
@@ -32,18 +44,84 @@ float gridPos(float val, int dim)
 
 vec3 gridPos(vec3 realPosition)
 {
-	return vec3(gridPos(realPosition.x,0), gridPos(realPosition.y, 1), gridPos(realPosition.z, 2));
+	return vec3(gridPos(realPosition.x,X), gridPos(realPosition.y, Z), gridPos(realPosition.z, Theta));
+}
+
+float defaultAmplitude(int itheta)
+{
+    if (itheta == u_direction)
+        return u_defAmplitude;
+    return 0.0;
+}
+
+float value(int ix, int iz, int itheta)
+{
+    itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
+
+    if (ix < 0 || ix >= u_dim[X] || iz < 0 || iz >= u_dim[Z])
+        return defaultAmplitude(itheta);
+
+    vec4 val = imageLoad(in_Grid, ivec3(ix, iz, itheta));
+    return val.r;
+}
+
+float interpolatedValue(float x, float z, float theta)
+{
+    vec3 pos3 = gridPos(vec3(x, z, theta));
+
+    //  Coeficient for x
+    int ix = int(floor(pos3.x));
+    float cx = pos3.x - ix;
+
+    //  Coeficient for z
+    int iz = int(floor(pos3.y));
+    float cz = pos3.y - iz;
+
+    //  Coeficient for theta
+    int itheta = int(floor(pos3.z));
+    float ctheta = pos3.z - itheta;
+
+    //  Linear interpolation over x
+    vec4 vx = mix(vec4(value(ix, iz, itheta),
+                                        value(ix, iz + 1, itheta),
+                                        value(ix, iz, itheta + 1),
+                                        value(ix, iz + 1, itheta + 1)),
+                            vec4(value(ix + 1, iz, itheta),
+                                        value(ix + 1, iz + 1, itheta),
+                                        value(ix + 1, iz, itheta + 1),
+                                        value(ix + 1, iz + 1, itheta + 1)),
+                            cx);
+
+    //  Liner interpolation over z
+    vec2 vz = mix(vec2(vx.x, vx.z), vec2(vx.y, vx.w), cz);
+
+    // Liner interpolation over theta
+    return mix(vz.x, vz.y, ctheta);
 }
 
 void main()
 {
 	ivec3 pos = ivec3(gl_GlobalInvocationID);
-	vec3 realPosition = realPos(pos.x, pos.y, pos.z);
+	vec3 realPosition = realPos(pos[X], pos[Z], pos[Theta]);
 
 	// realPosition.z == Theta angle
-	vec2 waveVector = vec2(cos(realPosition.z), sin(realPosition.z));
+	vec2 waveVector = vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
 
-	realPosition -= u_dt * u_groupSpeed * vec3(waveVector, 0.0);
+	realPosition = realPosition - u_dt * u_groupSpeed * vec3(waveVector, 0.0);
 
-	imageStore(out_Grid, pos, texture(in_Grid, u_dim/gridPos(realPosition)));
+	vec3 gridPosition = gridPos(realPosition);
+	vec3 texPos =  gridPosition/u_dim;
+    float result = interpolatedValue(realPosition.x, realPosition.y, realPosition.z);
+
+//	vec4 result = texture(in_Grid, texPos);
+//
+//	if ((pos.x >= u_dim.x || pos.x < 0.0
+//		|| pos.y >= u_dim.y || pos.y < 0.0)
+//		&& pos.z == 10)
+//	{
+//		result = vec4(0.5, 0, 0, 0);
+//	}
+
+
+	imageStore(out_Grid, pos, vec4(result, 0, 0, 0));
 }

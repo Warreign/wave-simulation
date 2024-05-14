@@ -41,6 +41,8 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     profileBuffers.resize(numWaveLength);
 
     m_timeStepCompute = std::make_unique<TimeStepCompute>("shaders/timeStep.comp", dim[X], dim[Z], dim[Theta], dim[K]);
+
+    glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
 }
 
 void AmplitudeGrid::timeStep(float dt)
@@ -48,11 +50,14 @@ void AmplitudeGrid::timeStep(float dt)
     time += dt;
     advectionStep(dt);
     wavevectorDiffusion(dt);
+
     precomputeProfileBuffers();
 }
 
 void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 {
+    glGetTextureImage(m_timeStepCompute->getOutTexture(), 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+
     int ix = floor(gridPos(pos[X], X));
     int iz = floor(gridPos(pos[Z], Z));
     if (ix >= 0 && ix < dim[X] && iz >= 0 && iz < dim[Z])
@@ -61,35 +66,48 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
             data(ix, iz, itheta, 0) += val;
         }
     }
+
+    glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+    glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
 }
 
 void AmplitudeGrid::advectionStep(float dt)
 {
-    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
+//    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
+//
+//#ifdef NDEBUG
+//#endif
+//#pragma omp parallel for collapse(4)
+//    for (int ix = 0; ix < dim[X]; ix++) 
+//    {
+//        for (int iz = 0; iz < dim[Z]; iz++)
+//        {
+//            for (int itheta = 0; itheta < dim[Theta]; itheta++)
+//            {
+//                for (int ik = 0; ik < dim[K]; ik++) 
+//                {
+//                    glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
+//                    glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
+//
+//                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector.x, waveVector.y, 0.0f, 0.0f);
+//
+//                    updatedData(ix, iz, itheta, ik) = interpolatedValue(realPosition[X], realPosition[Z], realPosition[Theta], realPosition[K]);
+//                }
+//            }
+//        }
+//    }
 
-#ifdef NDEBUG
-#endif
-#pragma omp parallel for collapse(4)
-    for (int ix = 0; ix < dim[X]; ix++) 
-    {
-        for (int iz = 0; iz < dim[Z]; iz++)
-        {
-            for (int itheta = 0; itheta < dim[Theta]; itheta++)
-            {
-                for (int ik = 0; ik < dim[K]; ik++) 
-                {
-                    glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
-                    glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
+    //data = updatedData;
 
-                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector.x, waveVector.y, 0.0f, 0.0f);
+    //glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+    //glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
 
-                    updatedData(ix, iz, itheta, ik) = interpolatedValue(realPosition[X], realPosition[Z], realPosition[Theta], realPosition[K]);
-                }
-            }
-        }
-    }
+    m_timeStepCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
+    m_timeStepCompute->dispatch();
 
-    data = updatedData;
+    glGetTextureImage(m_timeStepCompute->getOutTexture(), 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+
+    //glGetTextureSubImage(m_timeStepCompute->getOutTexture())
 }
 
 void AmplitudeGrid::wavevectorDiffusion(float dt)
@@ -173,17 +191,34 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
     int ik = static_cast<int>(round(pos4.w));
 
     //  Linear interpolation over x
-    float vx1 = (1 - cx) * value(ix, iz, itheta, ik) + cx * value(ix + 1, iz, itheta, ik);
-    float vx2 = (1 - cx) * value(ix, iz + 1, itheta, ik) + cx * value(ix + 1, iz + 1, itheta, ik);
-    float vx3 = (1 - cx) * value(ix, iz, itheta + 1, ik) + cx * value(ix + 1, iz, itheta + 1, ik);
-    float vx4 = (1 - cx) * value(ix, iz + 1, itheta + 1, ik) + cx * value(ix + 1, iz + 1, itheta + 1, ik);
+    glm::vec4 vx = glm::mix(glm::vec4(value(ix, iz, itheta, ik),
+                                        value(ix, iz + 1, itheta, ik),
+                                        value(ix, iz, itheta + 1, ik),
+                                        value(ix, iz + 1, itheta + 1, ik)),
+                            glm::vec4(value(ix + 1, iz, itheta, ik),
+                                        value(ix + 1, iz + 1, itheta, ik),
+                                        value(ix + 1, iz, itheta + 1, ik),
+                                        value(ix + 1, iz + 1, itheta + 1, ik)),
+                            cx);
+    //float vx1 = (1 - cx) * value(ix, iz, itheta, ik) + cx * value(ix + 1, iz, itheta, ik);
+    //float vx2 = (1 - cx) * value(ix, iz + 1, itheta, ik) + cx * value(ix + 1, iz + 1, itheta, ik);
+    //float vx3 = (1 - cx) * value(ix, iz, itheta + 1, ik) + cx * value(ix + 1, iz, itheta + 1, ik);
+    //float vx4 = (1 - cx) * value(ix, iz + 1, itheta + 1, ik) + cx * value(ix + 1, iz + 1, itheta + 1, ik);
+
+    float vx1 = vx.x;
+    float vx2 = vx.y;
+    float vx3 = vx.z;
+    float vx4 = vx.w;
+
+    glm::vec2 vz = glm::mix(glm::vec2(vx.x, vx.z), glm::vec2(vx.y, vx.w), cz);
 
     //  Liner interpolation over z
-    float vz1 = (1 - cz) * vx1 + cz * vx2;
-    float vz2 = (1 - cz) * vx3 + cz * vx4;
+    //float vz1 = (1 - cz) * vx1 + cz * vx2;
+    //float vz2 = (1 - cz) * vx3 + cz * vx4;
 
     // Liner interpolation over theta
-    return (1 - ctheta) * vz1 + ctheta * vz2;
+    //return (1 - ctheta) * vz1 + ctheta * vz2;
+    return (1 - ctheta) * vz.x + ctheta * vz.y;
 }
 
 double AmplitudeGrid::cflTimeStep() const
