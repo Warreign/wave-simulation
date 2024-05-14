@@ -25,8 +25,8 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef _DEBUG
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 
 	m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
 	if (!m_window)
