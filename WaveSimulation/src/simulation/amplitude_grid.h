@@ -72,6 +72,9 @@ public:
     TimeStepCompute& getCompute() { return *m_advectionCompute; }
 
 private:
+
+    void swapTextures();
+
     std::unique_ptr<TimeStepCompute> m_advectionCompute;
     std::unique_ptr<TimeStepCompute> m_diffusionCompute;
 

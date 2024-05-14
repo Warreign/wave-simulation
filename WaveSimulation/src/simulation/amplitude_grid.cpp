@@ -93,8 +93,8 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
     glGetTextureImage(m_outTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 #endif
 
-    int ix = floor(gridPos(pos[X], X));
-    int iz = floor(gridPos(pos[Z], Z));
+    int ix = round(gridPos(pos[X], X));
+    int iz = round(gridPos(pos[Z], Z));
     if (ix >= 0 && ix < dim[X] && iz >= 0 && iz < dim[Z])
     {
         for (int itheta = 0; itheta < dim[Theta]; itheta++) {
@@ -143,11 +143,6 @@ void AmplitudeGrid::advectionStep(float dt)
 
     m_advectionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
     m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, dim);
-
-
-    //GLuint temp = m_outTexture;
-    //m_outTexture = m_inTexture;
-    //m_inTexture = temp;
 
     //glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 
@@ -315,6 +310,13 @@ glm::vec2 AmplitudeGrid::groupVelocity(glm::vec4 pos4) const
     float omega = groupSpeed(pos4[K]);
     float theta = pos4[Theta];
     return omega * glm::vec2( cos(theta), sin(theta) );
+}
+
+void AmplitudeGrid::swapTextures()
+{
+    GLuint temp = m_outTexture;
+    m_outTexture = m_inTexture;
+    m_inTexture = temp;
 }
 
 float AmplitudeGrid::defaultAmplitude(int itheta) const
