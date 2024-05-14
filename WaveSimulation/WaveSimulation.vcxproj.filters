@@ -99,7 +99,7 @@
     <ClCompile Include="src\AppTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\simulation\shaders\advectionCompute.cpp">
+    <ClCompile Include="src\simulation\shaders\timeStepCompute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\utils\shaderBase.cpp">
@@ -164,7 +164,7 @@
     <ClInclude Include="src\application\components\simulationComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\simulation\shaders\advectionCompute.h">
+    <ClInclude Include="src\simulation\shaders\timeStepCompute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\utils\shaderBase.h">

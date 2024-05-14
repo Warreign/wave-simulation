@@ -1,8 +1,8 @@
-#include "advectionCompute.h"
+#include "timeStepCompute.h"
 
 #include <iostream>
 
-AdvectionCompute::AdvectionCompute(const std::string path)
+TimeStepCompute::TimeStepCompute(const std::string path)
 	: m_path(path)
 {
 	std::cout << "\t Initializing " << m_path << " compute shader" << std::endl;
@@ -35,7 +35,7 @@ AdvectionCompute::AdvectionCompute(const std::string path)
 	}
 }
 
-void AdvectionCompute::dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 dim)
+void TimeStepCompute::dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 dim)
 {
 	bind();
 	setInteger("in_Grid", 1);
@@ -56,7 +56,7 @@ void AdvectionCompute::dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 
 	//m_inTexture = temp;
 }
 
-void AdvectionCompute::loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt)
+void TimeStepCompute::loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt)
 {
 	bind();
 	//glm::vec3 dim3(m_dim);

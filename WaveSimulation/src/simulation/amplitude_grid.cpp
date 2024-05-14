@@ -43,7 +43,7 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
     profileBuffers.resize(numWaveLength);
 
-    m_advectionCompute = std::make_unique<AdvectionCompute>("shaders/timeStep.comp", dim[X], dim[Z], dim[Theta], dim[K]);
+    m_advectionCompute = std::make_unique<TimeStepCompute>("shaders/timeStep.comp");
 
 #ifdef COMPUTE_SHADER
     std::cout << "\t Using compute shader" << std::endl;

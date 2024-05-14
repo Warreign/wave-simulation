@@ -4,10 +4,10 @@
 
 #include <string>
 
-class AdvectionCompute : public ShaderBase
+class TimeStepCompute : public ShaderBase
 {
 public:
-	AdvectionCompute(const std::string path);
+	TimeStepCompute(const std::string path);
 
 	void dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 dim);
 	void loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt);
