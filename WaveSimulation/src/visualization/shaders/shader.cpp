@@ -53,12 +53,6 @@ Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentS
 	setLocations();
 }
 
-Shader::~Shader()
-{
-	//pgr::deleteProgramAndShaders(program);
-	glDeleteProgram(program);
-}
-
 void Shader::setLocations()
 {
 	attributes.position = attribLocation("aPosition");

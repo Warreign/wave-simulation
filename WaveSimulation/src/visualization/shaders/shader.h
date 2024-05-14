@@ -31,7 +31,6 @@ public:
 
 	Shader();
 	Shader(const std::string& vertexFile, const std::string& fragmentFile);
-	~Shader();
 
 	/// Load uniform and attribute location variables
 	virtual void setLocations();

@@ -8,6 +8,8 @@
 class ShaderBase
 {
 public:
+	virtual ~ShaderBase();
+
 	void bind() const;
 	void unbind() const;
 

@@ -6,6 +6,11 @@
 #include <fstream>
 #include <streambuf>
 
+ShaderBase::~ShaderBase()
+{
+	glDeleteProgram(program);
+}
+
 void ShaderBase::bind() const
 {
 	glUseProgram(program);
