@@ -3,7 +3,7 @@
 #include "grid.h"
 #include "profile_buffer.h"
 
-#include "simulation/shaders/timeStepCompute.h"
+#include "simulation/shaders/advectionCompute.h"
 
 #include <memory>
 #include <algorithm>
@@ -69,9 +69,12 @@ public:
     float waveNumber(float k) const;
     glm::vec2 groupVelocity(glm::vec4 pos4) const;
 
-    TimeStepCompute& getCompute() { return *m_timeStepCompute; }
+    AdvectionCompute& getCompute() { return *m_advectionCompute; }
 
 private:
-    std::unique_ptr<TimeStepCompute> m_timeStepCompute;
+    std::unique_ptr<AdvectionCompute> m_advectionCompute;
+
+    GLuint m_inTexture;
+    GLuint m_outTexture;
 };
 

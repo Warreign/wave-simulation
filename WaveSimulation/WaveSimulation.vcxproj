@@ -178,7 +178,7 @@
     <ClCompile Include="src\application\components\simulationComponent.cpp" />
     <ClCompile Include="src\application\components\visualizationComponent.cpp" />
     <ClCompile Include="src\AppTest.cpp" />
-    <ClCompile Include="src\simulation\shaders\timeStepCompute.cpp" />
+    <ClCompile Include="src\simulation\shaders\advectionCompute.cpp" />
     <ClCompile Include="src\utils\shaderBase.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
@@ -199,7 +199,7 @@
     <ClInclude Include="src\application\components\ImGuiComponent.h" />
     <ClInclude Include="src\application\components\simulationComponent.h" />
     <ClInclude Include="src\application\components\visualizationComponent.h" />
-    <ClInclude Include="src\simulation\shaders\timeStepCompute.h" />
+    <ClInclude Include="src\simulation\shaders\advectionCompute.h" />
     <ClInclude Include="src\visualization\camera.h" />
     <ClInclude Include="src\math\integration.h" />
     <ClInclude Include="src\simulation\grid.h" />
