@@ -8,6 +8,7 @@ layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
 uniform sampler3D in_Grid;
 layout(r32f, binding = 0) uniform image3D out_Grid;
 
+uniform vec3 u_dim;
 uniform vec3 u_min;
 uniform vec3 u_delta;
 
@@ -24,6 +25,16 @@ vec3 realPos(int ix, int iz, int itheta)
 	return vec3(realPos(ix, 0), realPos(iz, 1), realPos(itheta, 2));
 }
 
+float gridPos(float val, int dim)
+{
+	return (val - u_min[dim]) / u_delta[dim] - 0.5;
+}
+
+vec3 gridPos(vec3 realPosition)
+{
+	return vec3(gridPos(realPosition.x,0), gridPos(realPosition.y, 1), gridPos(realPosition.z, 2));
+}
+
 void main()
 {
 	ivec3 pos = ivec3(gl_GlobalInvocationID);
@@ -34,5 +45,5 @@ void main()
 
 	realPosition -= u_dt * u_groupSpeed * vec3(waveVector, 0.0);
 
-	imageStore(out_Grid, pos, texture(in_Grid, realPosition));
+	imageStore(out_Grid, pos, texture(in_Grid, u_dim/gridPos(realPosition)));
 }
