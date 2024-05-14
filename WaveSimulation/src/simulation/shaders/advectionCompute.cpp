@@ -37,6 +37,7 @@ AdvectionCompute::AdvectionCompute(const std::string path)
 
 AdvectionCompute::~AdvectionCompute()
 {
+	glDeleteProgram(program);
 }
 
 void AdvectionCompute::dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 dim)
