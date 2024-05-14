@@ -48,7 +48,7 @@ Skybox::Skybox()
 	};
 
 	auto shader = new Shader("shaders/skybox.vert", "shaders/skybox.frag");
-	geometry = new Mesh(skyboxVertices, nullptr, 12, 8, shader, TEXTURE_BIT);
+	geometry = new Mesh(skyboxVertices, nullptr, 12, 8, shader, 0);
 
 	this->geometry = geometry;
 	this->texture = loadTexture("textures/skybox");
