@@ -27,26 +27,6 @@ uniform float u_groupSpeed;
 // Time step
 uniform float u_dt;
 
-float realPos(int idx, int dim)
-{
-	return u_min[dim] + (idx + 0.5) * u_delta[dim];
-}
-
-vec3 realPos(int ix, int iz, int itheta)
-{
-	return vec3(realPos(ix, X), realPos(iz, Z), realPos(itheta, Theta));
-}
-
-float gridPos(float val, int dim)
-{
-	return (val - u_min[dim]) / u_delta[dim] - 0.5;
-}
-
-vec3 gridPos(vec3 realPosition)
-{
-	return vec3(gridPos(realPosition.x,X), gridPos(realPosition.y, Z), gridPos(realPosition.z, Theta));
-}
-
 float defaultAmplitude(int itheta)
 {
     if (itheta == u_direction)
