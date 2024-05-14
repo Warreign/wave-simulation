@@ -142,17 +142,17 @@ void AmplitudeGrid::advectionStep(float dt)
     m_advectionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
     m_advectionCompute->dispatch(m_inTexture, m_outTexture, dim);
 
-    glGetTextureImage(m_outTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 
-    GLuint temp = m_outTexture;
-    m_outTexture = m_inTexture;
-    m_inTexture = temp;
+    //GLuint temp = m_outTexture;
+    //m_outTexture = m_inTexture;
+    //m_inTexture = temp;
 
 #endif
 }
 
 void AmplitudeGrid::wavevectorDiffusion(float dt)
 {
+#ifndef COMPUTE_SHADER
     Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
 
 #ifdef NDEBUG
@@ -181,6 +181,12 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
         }
     }
     data = updatedData;
+#else
+    m_diffusionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
+    m_diffusionCompute->dispatch(m_outTexture, m_inTexture, dim);
+
+    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+#endif
 }
 
 void AmplitudeGrid::precomputeProfileBuffers()
