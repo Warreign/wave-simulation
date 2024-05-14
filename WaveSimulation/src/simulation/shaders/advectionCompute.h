@@ -7,7 +7,7 @@
 class AdvectionCompute : public ShaderBase
 {
 public:
-	AdvectionCompute(const std::string path, int dimX, int dimZ, int dimTheta, int dimK);
+	AdvectionCompute(const std::string path);
 	~AdvectionCompute();
 
 	void dispatch(GLuint inTexture, GLuint outTexture, glm::ivec3 dim);

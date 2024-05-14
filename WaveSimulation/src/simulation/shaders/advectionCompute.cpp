@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-AdvectionCompute::AdvectionCompute(const std::string path, int dimX, int dimZ, int dimTheta, int dimK)
+AdvectionCompute::AdvectionCompute(const std::string path)
 	: m_path(path)
 {
 	std::cout << "\t Initializing " << m_path << " compute shader" << std::endl;
