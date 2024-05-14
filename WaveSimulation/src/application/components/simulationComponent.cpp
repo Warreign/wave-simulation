@@ -29,27 +29,33 @@ void SimulationComponent::init()
 
 	Application& app = Application::getInstance();
 	Window& window = app.getWindow();
-	glfwSetCursorPosCallback(window.getHandle(), [](GLFWwindow* w, double x, double y)
-		{
-			if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT))
-			{
-				AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
-				glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
-				simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
-			}
-		});
-	
-	//glfwSetMouseButtonCallback(window.getHandle(), [](GLFWwindow* w, int button, int action, int mods)
+	//glfwSetCursorPosCallback(window.getHandle(), [](GLFWwindow* w, double x, double y)
 	//	{
-	//		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	//		const auto& io = ImGui::GetIO();
+	//		if (io.WantCaptureMouse) return;
+
+	//		if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT))
 	//		{
-	//			double x, y;
-	//			glfwGetCursorPos(w, &x, &y);
 	//			AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
 	//			glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
 	//			simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
 	//		}
 	//	});
+	
+	glfwSetMouseButtonCallback(window.getHandle(), [](GLFWwindow* w, int button, int action, int mods)
+		{
+			const auto& io = ImGui::GetIO();
+			if (io.WantCaptureMouse) return;
+
+			if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+			{
+				double x, y;
+				glfwGetCursorPos(w, &x, &y);
+				AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
+				glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
+				simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
+			}
+		});
 }
 
 void SimulationComponent::destroy()
@@ -58,7 +64,7 @@ void SimulationComponent::destroy()
 
 void SimulationComponent::onUpdate()
 {
-	double dt = m_simGrid->cflTimeStep() * pow(10, -0.9);
+	double dt = m_simGrid->cflTimeStep() * pow(10, m_timeMultiplier);
 
 	if (m_isUpdateGrid)
 	{
@@ -78,7 +84,7 @@ void SimulationComponent::onRenderGui()
 	{
 		m_simGrid->getCompute().setInteger("u_direction", m_simGrid->defaultDirection);
 	}
-	if (ImGui::SliderFloat("Amplitude", &m_simGrid->defaultAmplitudeVal, 0.0f, 4.0f))
+	if (ImGui::SliderFloat("Amplitude", &m_simGrid->defaultAmplitudeVal, 0.0f, 2.0f))
 	{
 		m_simGrid->getCompute().setFloat("u_defAmplitude", m_simGrid->defaultAmplitudeVal);
 	}
