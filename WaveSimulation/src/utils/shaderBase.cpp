@@ -22,6 +22,24 @@ void ShaderBase::setInteger(const std::string uniformName, int value) const
 	glProgramUniform1i(program, location, value);
 }
 
+void ShaderBase::setIVec2(const std::string uniformName, glm::ivec2& value) const
+{
+	GLint location = glGetUniformLocation(program, uniformName.c_str());
+	glProgramUniform2iv(program, location, 1, glm::value_ptr(value));
+}
+
+void ShaderBase::setIVec3(const std::string uniformName, glm::ivec3& value) const
+{
+	GLint location = glGetUniformLocation(program, uniformName.c_str());
+	glProgramUniform3iv(program, location, 1, glm::value_ptr(value));
+}
+
+void ShaderBase::setIVec4(const std::string uniformName, glm::ivec4& value) const
+{
+	GLint location = glGetUniformLocation(program, uniformName.c_str());
+	glProgramUniform4iv(program, location, 1, glm::value_ptr(value));
+}
+
 void ShaderBase::setFloat(const std::string uniformName, float value) const
 {
 	GLint location = glGetUniformLocation(program, uniformName.c_str());
@@ -40,6 +58,12 @@ void ShaderBase::setVec3(const std::string uniformName, glm::vec3& value) const
 	glProgramUniform3fv(program, location, 1, glm::value_ptr(value));
 }
 
+void ShaderBase::setVec4(const std::string uniformName, glm::vec4& value) const
+{
+	GLint location = glGetUniformLocation(program, uniformName.c_str());
+	glProgramUniform4fv(program, location, 1, glm::value_ptr(value));
+}
+
 void ShaderBase::setMat4(const std::string uniformName, glm::mat4& value) const
 {
 	GLint location = glGetUniformLocation(program, uniformName.c_str());
@@ -49,6 +73,21 @@ void ShaderBase::setMat4(const std::string uniformName, glm::mat4& value) const
 void ShaderBase::setInteger(GLint location, int value) const
 {
 	glProgramUniform1i(program, location, value);
+}
+
+void ShaderBase::setIVec2(GLint location, glm::ivec2& value) const
+{
+	glProgramUniform2iv(program, location, 1, glm::value_ptr(value));
+}
+
+void ShaderBase::setIVec3(GLint location, glm::ivec3& value) const
+{
+	glProgramUniform3iv(program, location, 1, glm::value_ptr(value));
+}
+
+void ShaderBase::setIVec4(GLint location, glm::ivec4& value) const
+{
+	glProgramUniform4iv(program, location, 1, glm::value_ptr(value));
 }
 
 void ShaderBase::setFloat(GLint location, float value) const
@@ -64,6 +103,11 @@ void ShaderBase::setVec2(GLint location, glm::vec2& value) const
 void ShaderBase::setVec3(GLint location, glm::vec3& value) const
 {
 	glProgramUniform3fv(program, location, 1, glm::value_ptr(value));
+}
+
+void ShaderBase::setVec4(GLint location, glm::vec4& value) const
+{
+	glProgramUniform4fv(program, location, 1, glm::value_ptr(value));
 }
 
 void ShaderBase::setMat4(GLint location, glm::mat4& value) const
