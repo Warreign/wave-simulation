@@ -3,6 +3,9 @@
 #include <iostream>
 #include <glm/ext.hpp>
 
+// Comment to run simulation on cpu
+#define COMPUTE_SHADER
+
 #define TAU 6.28318530718
 
 float AmplitudeGrid::piersonMoskowitz(float k, float windSpeed)
@@ -42,7 +45,9 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
     m_timeStepCompute = std::make_unique<TimeStepCompute>("shaders/timeStep.comp", dim[X], dim[Z], dim[Theta], dim[K]);
 
+#ifdef COMPUTE_SHADER
     glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+#endif
 }
 
 void AmplitudeGrid::timeStep(float dt)
@@ -56,7 +61,9 @@ void AmplitudeGrid::timeStep(float dt)
 
 void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 {
+#ifdef COMPUTE_SHADER
     glGetTextureImage(m_timeStepCompute->getOutTexture(), 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+#endif
 
     int ix = floor(gridPos(pos[X], X));
     int iz = floor(gridPos(pos[Z], Z));
@@ -67,37 +74,41 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
         }
     }
 
+#ifdef COMPUTE_SHADER
     glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
     glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+#endif
 }
 
 void AmplitudeGrid::advectionStep(float dt)
 {
-//    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
-//
-//#ifdef NDEBUG
-//#endif
-//#pragma omp parallel for collapse(4)
-//    for (int ix = 0; ix < dim[X]; ix++) 
-//    {
-//        for (int iz = 0; iz < dim[Z]; iz++)
-//        {
-//            for (int itheta = 0; itheta < dim[Theta]; itheta++)
-//            {
-//                for (int ik = 0; ik < dim[K]; ik++) 
-//                {
-//                    glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
-//                    glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
-//
-//                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector.x, waveVector.y, 0.0f, 0.0f);
-//
-//                    updatedData(ix, iz, itheta, ik) = interpolatedValue(realPosition[X], realPosition[Z], realPosition[Theta], realPosition[K]);
-//                }
-//            }
-//        }
-//    }
+#ifndef COMPUTE_SHADER
+    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
 
-    //data = updatedData;
+#ifdef NDEBUG
+#endif
+#pragma omp parallel for collapse(4)
+    for (int ix = 0; ix < dim[X]; ix++) 
+    {
+        for (int iz = 0; iz < dim[Z]; iz++)
+        {
+            for (int itheta = 0; itheta < dim[Theta]; itheta++)
+            {
+                for (int ik = 0; ik < dim[K]; ik++) 
+                {
+                    glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
+                    glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
+
+                    realPosition -= dt * groupSpeed(ik) * glm::vec4(waveVector.x, waveVector.y, 0.0f, 0.0f);
+
+                    updatedData(ix, iz, itheta, ik) = interpolatedValue(realPosition[X], realPosition[Z], realPosition[Theta], realPosition[K]);
+                }
+            }
+        }
+    }
+
+    data = updatedData;
+#else
 
     //glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
     //glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
@@ -107,7 +118,7 @@ void AmplitudeGrid::advectionStep(float dt)
 
     glGetTextureImage(m_timeStepCompute->getOutTexture(), 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 
-    //glGetTextureSubImage(m_timeStepCompute->getOutTexture())
+#endif
 }
 
 void AmplitudeGrid::wavevectorDiffusion(float dt)
