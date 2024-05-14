@@ -10,8 +10,11 @@ public:
 	TimeStepCompute(const std::string path, int dimX, int dimZ, int dimTheta, int dimK);
 	~TimeStepCompute();
 
-	void dispatch() const;
-	void loadUniforms(glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt);
+	void dispatch();
+	void loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt);
+
+	GLuint getInTexture() { return m_inTexture; }
+	GLuint getOutTexture() { return m_outTexture; }
 
 private:
 
