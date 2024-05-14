@@ -61,7 +61,8 @@ void TimeStepCompute::dispatch() const
 	setInteger("in_Grid", 1);
 	glBindTextureUnit(1, m_inTexture);
 	setInteger("out_Grid", 2);
-	glBindTextureUnit(2, m_outTexture);
+	//glBindTextureUnit(2, m_outTexture);
+	glBindImageTexture(2, m_outTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
 
 	glDispatchCompute(m_dim.x, m_dim.y, m_dim.z);
 	unbind();
