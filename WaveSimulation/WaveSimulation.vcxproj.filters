@@ -178,7 +178,8 @@
     <None Include="assets\shaders\standard.vert" />
     <None Include="assets\shaders\water.frag" />
     <None Include="assets\shaders\water.vert" />
-    <None Include="assets\shaders\timeStep.comp" />
+    <None Include="assets\shaders\advection.comp" />
+    <None Include="assets\shaders\diffusion.comp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">

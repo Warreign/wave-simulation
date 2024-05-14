@@ -73,6 +73,7 @@ public:
 
 private:
     std::unique_ptr<TimeStepCompute> m_advectionCompute;
+    std::unique_ptr<TimeStepCompute> m_diffusionCompute;
 
     GLuint m_inTexture;
     GLuint m_outTexture;
