@@ -46,6 +46,9 @@ void VisualizationComponent::onUpdate()
 		m_waterShader->setInteger("u_Amplitude", 1);
 		glBindTextureUnit(1, m_simGrid.getAmpTexture());
 
+		m_waterShader->setInteger("u_waterSize", m_waterSize);
+		m_waterShader->setFloat("u_waterScale", m_waterScale);
+
 		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
 		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 	}
