@@ -127,7 +127,8 @@ void Camera::updateMatrices()
 
 	Application& app = Application::getInstance();
 	Window& window = app.getWindow();
-	this->projection = glm::perspective(fovAngle, float(window.getWidth()) / float(window.getHeight()), nearPlane, farPlane);
+	//this->projection = glm::perspective(fovAngle, float(window.getWidth()) / float(window.getHeight()), nearPlane, farPlane);
+	this->projection = glm::perspectiveFov(fovAngle, float(window.getWidth()), float(window.getHeight()), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::rayCast(glm::vec2 screenPosition) const
