@@ -28,6 +28,9 @@ public:
 
     void addPointDisturbance(glm::vec2 pos, float val);
 
+    void setDirection(int value);
+    void setDefaultAmp(float value);
+
     TimeStepCompute& getCompute() { return *m_advectionCompute; }
 
     int defaultDirection = 3;
