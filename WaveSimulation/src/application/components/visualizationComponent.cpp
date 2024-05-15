@@ -44,7 +44,7 @@ void VisualizationComponent::onUpdate()
 	if (Application::getInstance().getSimComp().isUpdateGird())
 	{
 		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
-		m_waterMesh->setProfileBuffer(m_simGrid.profileBuffers[0]);
+		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 	}
 }
 

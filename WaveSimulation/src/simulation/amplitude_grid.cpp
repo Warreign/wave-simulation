@@ -28,20 +28,20 @@ float AmplitudeGrid::spectrum(float k, float windSpeed)
 
 AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMax, float windSpeed, uint32_t numSpatial, uint32_t numWaveAngle, uint32_t numWaveLength)
     : windSpeed(windSpeed),
-    dim(numSpatial, numSpatial, numWaveAngle, numWaveLength),
-    min(-size/2, -size/2, 0.0f, waveLengthMin),
-    max(size/2, size/2, TAU, waveLengthMax)
+    m_dim(numSpatial, numSpatial, numWaveAngle, numWaveLength),
+    m_min(-size/2, -size/2, 0.0f, waveLengthMin),
+    m_max(size/2, size/2, TAU, waveLengthMax)
 {
-    data.resize(numSpatial, numSpatial, numWaveAngle, numWaveLength);
+    m_data.resize(numSpatial, numSpatial, numWaveAngle, numWaveLength);
 
     for (int d = 0; d < 4; d++) 
     {
-        delta[d] = (max[d] - min[d]) / dim[d];
+        m_delta[d] = (m_max[d] - m_min[d]) / m_dim[d];
     }
 
-    time = 123456;
+    m_time = 123456;
 
-    profileBuffers.resize(numWaveLength);
+    m_profileBuffers.resize(numWaveLength);
 
     m_advectionCompute = std::make_unique<TimeStepCompute>("shaders/advection.comp");
     m_diffusionCompute = std::make_unique<TimeStepCompute>("shaders/diffusion.comp");
@@ -61,7 +61,7 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_inTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureParameteri(m_inTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureStorage3D(m_inTexture, 1, GL_R32F, dim[X], dim[Z], dim[Theta]);
+    glTextureStorage3D(m_inTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
 
     glCreateTextures(GL_TEXTURE_3D, 1, &m_outTexture);
     glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -70,16 +70,16 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_outTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureParameteri(m_outTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureStorage3D(m_outTexture, 1, GL_R32F, dim[X], dim[Z], dim[Theta]);
+    glTextureStorage3D(m_outTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
 
 #ifdef COMPUTE_SHADER
-    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, m_dim[X], m_dim[Z], m_dim[Theta], GL_RED, GL_FLOAT, m_data.getDataPtr());
 #endif
 }
 
 void AmplitudeGrid::timeStep(float dt)
 {
-    time += dt;
+    m_time += dt;
     advectionStep(dt);
     wavevectorDiffusion(dt);
 
@@ -109,7 +109,7 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 //#endif
 
     glm::ivec2 ipos = glm::round(glm::vec2(gridPos(pos[X], X), gridPos(pos[Z], Z)));
-    m_disturbanceCompute->loadUniforms(ipos, dim, val);
+    m_disturbanceCompute->loadUniforms(ipos, m_dim, val);
     m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
 
     swapTextures();
@@ -145,8 +145,8 @@ void AmplitudeGrid::advectionStep(float dt)
     data = updatedData;
 #else
 
-    m_advectionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
-    m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, dim);
+    m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
+    m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, m_dim);
 
     swapTextures();
 
@@ -185,37 +185,37 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     }
     data = updatedData;
 #else
-    m_diffusionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
-    m_diffusionCompute->dispatchDiffusion(m_inTexture, m_outTexture, dim);
+    m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
+    m_diffusionCompute->dispatchDiffusion(m_inTexture, m_outTexture, m_dim);
 
     swapTextures();
 
-    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, m_dim[X] * m_dim[Z] * m_dim[Theta] * sizeof(float), m_data.getDataPtr());
 #endif
 }
 
 void AmplitudeGrid::precomputeProfileBuffers()
 {
-    for (int ik = 0; ik < dim[K]; ik++) 
+    for (int ik = 0; ik < m_dim[K]; ik++) 
     {
-        float k_lower = realPos(ik, K) - 0.5 * delta[K];
-        float k_upper = realPos(ik, K) + 0.5 * delta[K];
+        float k_lower = realPos(ik, K) - 0.5 * m_delta[K];
+        float k_upper = realPos(ik, K) + 0.5 * m_delta[K];
 
-        profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, time);
+        m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
     }
 }
 
 float AmplitudeGrid::constrainedValue(int ix, int iz, int itheta, int ik) const
 {
-    if (ik < 0 || ik >= dim[K])
+    if (ik < 0 || ik >= m_dim[K])
         return 0.0f;
 
-    itheta = (itheta + dim[Theta]) % dim[Theta];
+    itheta = (itheta + m_dim[Theta]) % m_dim[Theta];
 
-    if (ix < 0 || ix >= dim[X] || iz < 0 || iz >= dim[Z])
+    if (ix < 0 || ix >= m_dim[X] || iz < 0 || iz >= m_dim[Z])
         return defaultAmplitude(itheta);
 
-    return data(ix, iz, itheta, ik);
+    return m_data(ix, iz, itheta, ik);
 }
 
 float AmplitudeGrid::value(int ix, int iz, int itheta, int ik) const
@@ -260,12 +260,12 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
 
 double AmplitudeGrid::cflTimeStep() const
 {
-    return std::min(delta[X], delta[Z]) / groupSpeed(dim[K] - 1);
+    return std::min(m_delta[X], m_delta[Z]) / groupSpeed(m_dim[K] - 1);
 }
 
 float AmplitudeGrid::gridPos(float value, int dim) const
 {
-    return (value - min[dim]) / delta[dim] - 0.5f;
+    return (value - m_min[dim]) / m_delta[dim] - 0.5f;
 }
 
 glm::vec4 AmplitudeGrid::gridPos(float x, float z, float theta, float k) const
@@ -275,7 +275,7 @@ glm::vec4 AmplitudeGrid::gridPos(float x, float z, float theta, float k) const
 
 float AmplitudeGrid::realPos(int gridIdx, int dim) const
 {
-    return min[dim] + (gridIdx + 0.5) * delta[dim];
+    return m_min[dim] + (gridIdx + 0.5) * m_delta[dim];
 }
 
 glm::vec4 AmplitudeGrid::realPos(int ix, int iz, int itheta, int ik) const
