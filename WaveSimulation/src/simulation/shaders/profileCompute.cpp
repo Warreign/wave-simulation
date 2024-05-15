@@ -1,6 +1,7 @@
 #include "profileCompute.h"
 
 ProfileCompute::ProfileCompute(const std::string& path)
+	: m_path(path)
 {
 	std::cout << "\t Initializing " << m_path << " compute shader" << std::endl;
 
@@ -30,4 +31,23 @@ ProfileCompute::ProfileCompute(const std::string& path)
 		glDeleteProgram(program);
 		delete[] message;
 	}
+}
+
+void ProfileCompute::loadUniforms(float kmin, float kmax, float time, float period, uint32_t resolution)
+{
+	setFloat("u_kmin", kmin);
+	setFloat("u_kmax", kmax);
+	setFloat("u_time", time);
+	setFloat("u_period", period);
+	setInteger("u_resolution", resolution);
+}
+
+void ProfileCompute::dispatch(GLuint profileTexture, uint32_t resolution)
+{
+	bind();
+	setInteger("out_ProfileBuffer", 0);
+	glBindImageTexture(0, profileTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+	glDispatchCompute(resolution/64, 1, 1);
+	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+	unbind();
 }
