@@ -11,14 +11,13 @@ in vec4 aAmplitudes[NTHETA/4];
 uniform sampler3D u_Amplitude;
 uniform uint u_waterSize;
 uniform float u_waterScale;
+uniform float u_multiplier;
 
 uniform mat4 PVM;
 uniform mat4 ViewM;
 uniform mat4 ModelM;
 uniform mat4 NormalM;
 uniform mat4 ProjectM;
-
-uniform float mult;
 
 uniform sampler1D profileBuffer;
 uniform float profilePeriod;
@@ -46,7 +45,7 @@ float getAmplitude(int i)
 float getAmplitude(float theta)
 {
 	vec3 tPos = vec3(aPosition.xz/u_waterScale + 0.5, theta / TAU);
-	return texture(u_Amplitude, tPos).r;
+	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 
 // Pseudo random number generator

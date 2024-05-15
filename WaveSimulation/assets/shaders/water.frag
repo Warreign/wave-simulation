@@ -13,6 +13,7 @@ in vec4 vAmplitudes[NTHETA/4];
 uniform sampler3D u_Amplitude;
 uniform uint u_waterSize;
 uniform float u_waterScale;
+uniform float u_multiplier;
 
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
@@ -21,8 +22,6 @@ uniform mat4 NormalM;
 uniform sampler1D profileBuffer;
 uniform float profilePeriod;
 uniform float waveNumber;
-
-uniform float mult;
 
 uniform vec3 ambient;
 uniform vec3 diffuse;
@@ -46,7 +45,7 @@ float getAmplitude(int i)
 float getAmplitude(float theta)
 {
 	vec3 tPos = vec3(vPosition.xz/u_waterScale + 0.5, theta / TAU);
-	return texture(u_Amplitude, tPos).r;
+	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 
 // Pseudo random number generator
