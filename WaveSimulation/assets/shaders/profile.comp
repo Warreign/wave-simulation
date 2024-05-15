@@ -1,0 +1,60 @@
+#version 460
+
+#define TAU 6.28318530718
+#define INTEGRATION_SAMPLES 100
+
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(rgba32f) writeonly uniform image1D out_ProfileBuffer;
+
+uniform float u_windSpeed;
+uniform float u_kmin;
+uniform float u_kmax;
+uniform float u_time;
+uniform float u_period;
+uniform uint u_resolution;
+
+float spectrum(float k)
+{
+    float A = pow(1.2, 1.5 * log2(k)); // original pow(2, 1.5*zeta)
+    float B = exp(-1.8038897788076411 * pow(2, k) / pow(u_windSpeed, 4));
+    return 0.139098 * sqrt(A * B);
+}
+
+vec4 calculateDisplacement(float phase, float k)
+{
+    float s = sin(phase);
+    float c = cos(phase);
+    return vec4(-s, c, - k * c, - k * s );
+};
+
+float dispersionRelation(float k)
+{
+    return sqrt(9.81 * k);
+};
+
+vec4 compute(float k, float p, float c)
+{
+	float knum = TAU / k;
+	float phase1 = knum * p - dispersionRelation(knum) * u_time;
+	float phase2 = knum * (p + u_period) - dispersionRelation(knum) * u_time;
+
+	return k * spectrum(k) * mix(calculateDisplacement(phase1, knum), calculateDisplacement(phase2, knum), c);
+}
+
+void main()
+{
+	float p = ((gl_GlobalInvocationID.x * u_period) / u_resolution) + u_kmin;
+	float c = p / u_period;
+	
+	float dx = (u_kmin - u_kmax) / INTEGRATION_SAMPLES;
+	float x = u_kmin + 0.5 * dx;
+
+	vec4 result = dx * compute(x, p, c);
+	for (int i = 1; i < INTEGRATION_SAMPLES; ++i)
+	{
+		x += dx;
+		result += dx * compute(x, p, c);
+	}
+
+	imageStore(out_ProfileBuffer, int(gl_GlobalInvocationID.x), result);
+}
