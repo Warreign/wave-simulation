@@ -10,6 +10,10 @@ out vec4 fColor;
 in vec3 vPosition;
 in vec4 vAmplitudes[NTHETA/4];
 
+uniform sampler3D u_Amplitude;
+uniform uint u_waterSize;
+uniform float u_waterScale;
+
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 uniform mat4 NormalM;

@@ -9,6 +9,8 @@ in vec3 aPosition;
 in vec4 aAmplitudes[NTHETA/4];
 
 uniform sampler3D u_Amplitude;
+uniform uint u_waterSize;
+uniform float u_waterScale;
 
 uniform mat4 PVM;
 uniform mat4 ViewM;
