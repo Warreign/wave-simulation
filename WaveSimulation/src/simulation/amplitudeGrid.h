@@ -29,6 +29,8 @@ public:
     void setDirection(int value);
     void setDefaultAmp(float value);
 
+    GLuint getAmpTexture() const { return m_inTexture; }
+
     int defaultDirection = 3;
     float windSpeed = 8.0f;
     float defaultAmplitudeVal = 0.0f;
