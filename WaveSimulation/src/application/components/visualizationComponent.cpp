@@ -48,6 +48,7 @@ void VisualizationComponent::onUpdate()
 
 		m_waterShader->setInteger("u_waterSize", m_waterSize);
 		m_waterShader->setFloat("u_waterScale", m_waterScale);
+		m_waterShader->setFloat("u_multiplier", m_ampMultiplier);
 
 		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 	}
@@ -75,7 +76,7 @@ void VisualizationComponent::onRenderGui()
 	ImGui::Begin("Visualization");
 	ImGui::Checkbox("Skybox Visible", &m_isSkyboxVisible);
 	ImGui::Checkbox("Wireframe Water", &m_isWaterWireframe);
-	ImGui::SliderFloat("Amplitude Multiplier", &m_ampMultiplier, 0.1f, 5.0f);
+	ImGui::SliderFloat("Amplitude Multiplier", &m_ampMultiplier, 0.1f, 3.0f);
 	ImGui::End();
 
 	ImGui::Begin("Camera Settings");
