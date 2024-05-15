@@ -36,11 +36,17 @@ float getAmplitude(int i)
 }
 
 // Get interpolated amplitude
+//float getAmplitude(float theta)
+//{
+//	float ftheta = NTHETA * (mod(theta, TAU) / TAU);
+//	float c = fract(ftheta);
+//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
+//}
+
 float getAmplitude(float theta)
 {
-	float ftheta = NTHETA * (mod(theta, TAU) / TAU);
-	float c = fract(ftheta);
-	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
+	vec3 tPos = vec3(vPosition.xz/u_waterScale + 0.5, theta / TAU);
+	return texture(u_Amplitude, tPos).r;
 }
 
 // Pseudo random number generator
