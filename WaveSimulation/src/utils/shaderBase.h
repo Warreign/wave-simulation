@@ -14,6 +14,7 @@ public:
 	void unbind() const;
 
 	/// Set uniforms by name
+	void setUInteger(const std::string uniformName, uint32_t value) const;
 	void setInteger(const std::string uniformName, int value) const;
 	void setIVec2(const std::string uniformName, glm::ivec2& value) const;
 	void setIVec3(const std::string uniformName, glm::ivec3& value) const;

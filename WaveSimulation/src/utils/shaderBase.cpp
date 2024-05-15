@@ -21,6 +21,12 @@ void ShaderBase::unbind() const
 	glUseProgram(0);
 }
 
+void ShaderBase::setUInteger(const std::string uniformName, uint32_t value) const
+{
+	GLint location = glGetUniformLocation(program, uniformName.c_str());
+	glProgramUniform1ui(program, location, value);
+}
+
 void ShaderBase::setInteger(const std::string uniformName, int value) const
 {
 	GLint location = glGetUniformLocation(program, uniformName.c_str());
