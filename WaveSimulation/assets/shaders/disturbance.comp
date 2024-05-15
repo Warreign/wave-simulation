@@ -11,14 +11,14 @@ layout (local_size_x = 16) in;
 layout(r32f) readonly uniform image3D in_Grid;
 layout(r32f) writeonly uniform image3D out_Grid;
 
-uniform ivec3 u_dim;
+uniform ivec2 u_dim;
 uniform ivec2 u_position;
 uniform float u_value;
 
 void main()
 {
-    uint ix = u_dim.x;
-    uint iz = u_dim.y;
+    uint ix = u_position.x;
+    uint iz = u_position.y;
     uint itheta = gl_LocalInvocationIndex;
 	if (ix >= 0 && ix < u_dim[X] && iz >= 0 && iz < u_dim[Z])
     {

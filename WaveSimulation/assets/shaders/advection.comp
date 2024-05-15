@@ -121,9 +121,9 @@ void main()
     uint itheta = pos.z;
     itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
 	float result = texture(in_Grid, texPos).r;
-	if ((texPos.x >= 1.0 || texPos.x < 0.0
-		|| texPos.y >= 1.0  || texPos.y < 0.0)
-		&& itheta == 10)
+	if ((texPos.x >= 1.0 || texPos.x <= 0.0
+		|| texPos.y >= 1.0  || texPos.y <= 0.0)
+		&& itheta == 1)
 	{
 		result = 0.1;
 	}

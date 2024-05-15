@@ -8,7 +8,7 @@ public:
 	DisturbanceCompute(const std::string& path);
 
 	void dispatch(GLuint inTexture, GLuint outTexture);
-	void loadUniforms(glm::vec2 realPos,  glm::ivec2 dim, float ampVal);
+	void loadUniforms(glm::ivec2 realPos,  glm::ivec2 dim, float ampVal);
 
 private:
 	std::string m_path;

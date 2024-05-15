@@ -45,6 +45,7 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
     m_advectionCompute = std::make_unique<TimeStepCompute>("shaders/advection.comp");
     m_diffusionCompute = std::make_unique<TimeStepCompute>("shaders/diffusion.comp");
+    m_disturbanceCompute = std::make_unique<DisturbanceCompute>("shaders/disturbance.comp");
 
 
 #ifdef COMPUTE_SHADER
@@ -89,23 +90,29 @@ void AmplitudeGrid::timeStep(float dt)
 
 void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 {
-#ifdef COMPUTE_SHADER
-    glGetTextureImage(m_outTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
-#endif
+//#ifdef COMPUTE_SHADER
+//    glGetTextureImage(m_outTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+//#endif
+//
+//    int ix = round(gridPos(pos[X], X));
+//    int iz = round(gridPos(pos[Z], Z));
+//    if (ix >= 0 && ix < dim[X] && iz >= 0 && iz < dim[Z])
+//    {
+//        for (int itheta = 0; itheta < dim[Theta]; itheta++) {
+//            data(ix, iz, itheta, 0) += val;
+//        }
+//    }
+//
+//#ifdef COMPUTE_SHADER
+//    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+//    glTextureSubImage3D(m_outTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
+//#endif
 
-    int ix = round(gridPos(pos[X], X));
-    int iz = round(gridPos(pos[Z], Z));
-    if (ix >= 0 && ix < dim[X] && iz >= 0 && iz < dim[Z])
-    {
-        for (int itheta = 0; itheta < dim[Theta]; itheta++) {
-            data(ix, iz, itheta, 0) += val;
-        }
-    }
+    glm::ivec2 ipos = glm::round(glm::vec2(gridPos(pos[X], X), gridPos(pos[Z], Z)));
+    m_disturbanceCompute->loadUniforms(ipos, dim, val);
+    m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
 
-#ifdef COMPUTE_SHADER
-    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-    glTextureSubImage3D(m_outTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-#endif
+    swapTextures();
 }
 
 void AmplitudeGrid::advectionStep(float dt)
@@ -138,13 +145,10 @@ void AmplitudeGrid::advectionStep(float dt)
     data = updatedData;
 #else
 
-    //glTextureSubImage3D(m_timeStepCompute->getInTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-    //glTextureSubImage3D(m_timeStepCompute->getOutTexture(), 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-
     m_advectionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
     m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, dim);
 
-    //glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
+    swapTextures();
 
 #endif
 }
@@ -182,7 +186,9 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     data = updatedData;
 #else
     m_diffusionCompute->loadUniforms(dim, min, delta, groupSpeed(0), dt);
-    m_diffusionCompute->dispatchDiffusion(m_outTexture, m_inTexture, dim);
+    m_diffusionCompute->dispatchDiffusion(m_inTexture, m_outTexture, dim);
+
+    swapTextures();
 
     glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
 #endif
