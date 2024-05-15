@@ -1,4 +1,4 @@
-#include "profile_buffer.h"
+#include "profileBuffer.h"
 
 #define TAU 6.28318530718
 #define INTEGRATION_SAMPLES 100

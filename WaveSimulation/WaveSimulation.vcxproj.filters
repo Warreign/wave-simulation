@@ -24,13 +24,13 @@
     <ClCompile Include="src\visualization\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\simulation\amplitude_grid.cpp">
+    <ClCompile Include="src\simulation\amplitudeGrid.cpp">
       <Filter>Source Files\Wave</Filter>
     </ClCompile>
     <ClCompile Include="src\simulation\grid.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\simulation\profile_buffer.cpp">
+    <ClCompile Include="src\simulation\profileBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\vendor\glad\src\glad.c">
@@ -113,7 +113,7 @@
     <ClInclude Include="src\visualization\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\simulation\amplitude_grid.h">
+    <ClInclude Include="src\simulation\amplitudeGrid.h">
       <Filter>Header Files\Wave</Filter>
     </ClInclude>
     <ClInclude Include="src\simulation\grid.h">
@@ -122,7 +122,7 @@
     <ClInclude Include="src\math\integration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\simulation\profile_buffer.h">
+    <ClInclude Include="src\simulation\profileBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\application\window.h">

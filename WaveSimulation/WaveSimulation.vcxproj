@@ -189,8 +189,8 @@
     <ClCompile Include="src\visualization\objects\skybox.cpp" />
     <ClCompile Include="src\visualization\objects\water.cpp" />
     <ClCompile Include="src\visualization\shaders\shader.cpp" />
-    <ClCompile Include="src\simulation\profile_buffer.cpp" />
-    <ClCompile Include="src\simulation\amplitude_grid.cpp" />
+    <ClCompile Include="src\simulation\profileBuffer.cpp" />
+    <ClCompile Include="src\simulation\amplitudeGrid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
     <ClCompile Include="src\visualization\shaders\waterShader.cpp" />
   </ItemGroup>
@@ -212,8 +212,8 @@
     <ClInclude Include="src\visualization\objects\skybox.h" />
     <ClInclude Include="src\visualization\objects\water.h" />
     <ClInclude Include="src\visualization\shaders\shader.h" />
-    <ClInclude Include="src\simulation\profile_buffer.h" />
-    <ClInclude Include="src\simulation\amplitude_grid.h" />
+    <ClInclude Include="src\simulation\profileBuffer.h" />
+    <ClInclude Include="src\simulation\amplitudeGrid.h" />
     <ClInclude Include="src\application\window.h" />
     <ClInclude Include="src\utils\shaderBase.h" />
     <ClInclude Include="src\visualization\shaders\waterShader.h" />

@@ -1,4 +1,4 @@
-#include "amplitude_grid.h"
+#include "amplitudeGrid.h"
 
 #include <iostream>
 #include <glm/ext.hpp>
