@@ -82,7 +82,7 @@ void SimulationComponent::onRenderGui()
 
 	if (ImGui::SliderInt("Direction", &m_simGrid->defaultDirection, 0, 15))
 	{
-		m_simGrid->getCompute().setInteger("u_direction", m_simGrid->defaultDirection);
+		m_simGrid->set
 	}
 	if (ImGui::SliderFloat("Amplitude", &m_simGrid->defaultAmplitudeVal, 0.0f, 2.0f))
 	{

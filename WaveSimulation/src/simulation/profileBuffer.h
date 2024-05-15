@@ -1,12 +1,11 @@
 #pragma once
 
+#include "math/integration.h"
+
 #include <array>
 #include <vector>
-//#include "pgr.h"
 #include <functional>
 #include <glm/glm.hpp>
-
-#include "../math/integration.h"
 
 class ProfileBuffer {
 protected:

@@ -1,11 +1,9 @@
 #pragma once
 
-#include "grid.h"
-#include "profileBuffer.h"
-
+#include "simulation/grid.h"
+#include "simulation/profileBuffer.h"
 #include "simulation/shaders/timeStepCompute.h"
 #include "simulation/shaders/disturbanceCompute.h"
-
 
 #include <memory>
 #include <algorithm>

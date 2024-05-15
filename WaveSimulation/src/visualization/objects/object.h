@@ -3,8 +3,8 @@
 #include "visualization/shaders/shader.h"
 #include "visualization/camera.h"
 #include "visualization/meshes/mesh.h"
-#include "simulation/profile_buffer.h"
-#include "simulation/amplitude_grid.h"
+#include "simulation/profileBuffer.h"
+#include "simulation/amplitudeGrid.h"
 
 #include <iostream>
 #include <filesystem>

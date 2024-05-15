@@ -1,7 +1,7 @@
 #pragma once
 
 #include "application/components/component.h"
-#include "simulation/amplitude_grid.h"
+#include "simulation/amplitudeGrid.h"
 
 #include <memory>
 
