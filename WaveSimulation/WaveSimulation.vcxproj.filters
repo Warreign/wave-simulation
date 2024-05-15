@@ -193,6 +193,7 @@
     <None Include="assets\shaders\advection.comp" />
     <None Include="assets\shaders\diffusion.comp" />
     <None Include="assets\shaders\disturbance.comp" />
+    <None Include="assets\shaders\profile.comp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">

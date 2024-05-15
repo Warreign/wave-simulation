@@ -4,6 +4,7 @@
 #include "simulation/profileBuffer.h"
 #include "simulation/shaders/timeStepCompute.h"
 #include "simulation/shaders/disturbanceCompute.h"
+#include "simulation/shaders/profileCompute.h"
 
 #include <memory>
 #include <algorithm>
@@ -77,6 +78,7 @@ private:
     std::unique_ptr<TimeStepCompute> m_advectionCompute;
     std::unique_ptr<TimeStepCompute> m_diffusionCompute;
     std::unique_ptr<DisturbanceCompute> m_disturbanceCompute;
+    std::unique_ptr<ProfileCompute> m_profileCompute;
 
     GLuint m_inTexture;
     GLuint m_outTexture;
