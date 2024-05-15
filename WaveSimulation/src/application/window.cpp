@@ -49,6 +49,11 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title)
 			Application& app = Application::getInstance();
 			app.stop();
 		});
+
+	glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* w, int width, int height)
+		{
+			glViewport(0, 0, width, height);
+		});
 }
 
 Window::~Window()
