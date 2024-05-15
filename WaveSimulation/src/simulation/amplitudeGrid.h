@@ -1,7 +1,7 @@
 #pragma once
 
 #include "grid.h"
-#include "profile_buffer.h"
+#include "profileBuffer.h"
 
 #include "simulation/shaders/timeStepCompute.h"
 #include "simulation/shaders/disturbanceCompute.h"
