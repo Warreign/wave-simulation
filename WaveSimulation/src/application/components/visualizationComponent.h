@@ -26,6 +26,9 @@ private:
 	bool m_isWaterWireframe = false;
 	float m_ampMultiplier = 2.0f;
 
+	const size_t m_waterSize = 100;
+	const float m_waterScale = 100.0f;
+
 	const AmplitudeGrid& m_simGrid;
 
 	std::unique_ptr<Shader> m_commonShader;

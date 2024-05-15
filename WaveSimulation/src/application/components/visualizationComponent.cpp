@@ -27,7 +27,7 @@ void VisualizationComponent::init()
 	m_skybox = std::make_unique<Skybox>();
 
 	std::cout << "\t Initializing WaterMesh" << std::endl;
-	m_waterMesh = std::make_unique<WaterMesh>(m_waterShader.get(), 100, 100.0f);
+	m_waterMesh = std::make_unique<WaterMesh>(m_waterShader.get(), m_waterSize, m_waterScale);
 
 	std::cout << "\t Initializing Water object" << std::endl;
 	m_water = std::make_unique<Water>(m_waterMesh.get());
@@ -43,6 +43,9 @@ void VisualizationComponent::onUpdate()
 
 	if (Application::getInstance().getSimComp().isUpdateGird())
 	{
+		m_waterShader->setInteger("u_Amplitude", 1);
+		glBindTextureUnit(1, m_simGrid.getAmpTexture());
+
 		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
 		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 	}
