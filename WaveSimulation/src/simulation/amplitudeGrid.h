@@ -29,8 +29,6 @@ public:
     void setDirection(int value);
     void setDefaultAmp(float value);
 
-    TimeStepCompute& getCompute() { return *m_advectionCompute; }
-
     int defaultDirection = 3;
     float windSpeed = 8.0f;
     float defaultAmplitudeVal = 0.0f;
