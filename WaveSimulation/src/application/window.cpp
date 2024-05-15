@@ -52,7 +52,9 @@ Window::Window(uint32_t width, uint32_t height, const std::string& title)
 
 	glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* w, int width, int height)
 		{
-			glViewport(0, 0, width, height);
+			Application& app = Application::getInstance();
+			Window& window = app.getWindow();
+			window.resize(width, height);
 		});
 }
 
@@ -122,6 +124,13 @@ void Window::setVsync(bool value)
 	{
 		glfwSwapInterval(0);
 	}
+}
+
+void Window::resize(int width, int height)
+{
+	m_width = width;
+	m_height = height;
+	glViewport(0, 0, m_width, m_height);
 }
 
 void Window::onUpdate()
