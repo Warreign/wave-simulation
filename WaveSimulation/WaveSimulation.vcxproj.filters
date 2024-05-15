@@ -105,6 +105,9 @@
     <ClCompile Include="src\utils\shaderBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\simulation\shaders\disturbanceCompute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\visualization\camera.h">
@@ -170,6 +173,9 @@
     <ClInclude Include="src\utils\shaderBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\simulation\shaders\disturbanceCompute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\skybox.frag" />
@@ -180,6 +186,7 @@
     <None Include="assets\shaders\water.vert" />
     <None Include="assets\shaders\advection.comp" />
     <None Include="assets\shaders\diffusion.comp" />
+    <None Include="assets\shaders\disturbance.comp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">
