@@ -22,6 +22,8 @@ void main()
     uint itheta = gl_LocalInvocationIndex;
 	if (ix >= 0 && ix < u_dim[X] && iz >= 0 && iz < u_dim[Z])
     {
-        float current = imageLoad(in_Grid, ivec3(ix,iz,itheta), 
+        vec4 current = imageLoad(in_Grid, ivec3(ix,iz,itheta));
+        current.r += u_value;
+        imageStore(out_Grid, ivec3(ix,iz,itheta), current);
     }
 }
