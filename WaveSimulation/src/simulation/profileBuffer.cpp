@@ -3,8 +3,22 @@
 #define TAU 6.28318530718
 #define INTEGRATION_SAMPLES 100
 
+ProfileBuffer::ProfileBuffer()
+{
+    glCreateTextures(GL_TEXTURE_1D, 1, &m_texture);
+    glTextureParameteri(m_texture, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+}
+
+ProfileBuffer::~ProfileBuffer()
+{
+    glDeleteTextures(1, &m_texture);
+}
+
 void ProfileBuffer::precompute(std::function<float(float,float)> spectrum, float windSpeed, float kmin, float kmax,float time, int size)
 {
+    m_resolution = size;
     values.resize(size);
     period = kmax * 2;
 #ifdef NDEBUG
@@ -38,9 +52,21 @@ void ProfileBuffer::precompute(std::function<float(float,float)> spectrum, float
     }
 }
 
+void ProfileBuffer::precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int resolution)
+{
+    m_resolution = resolution;
+    period = kmax * 2;
+    profileCompute.loadUniforms(kmin, kmax, time, period, resolution);
+}
+
+GLuint ProfileBuffer::getTexture() const
+{
+    return m_texture;
+}
+
 uint32_t ProfileBuffer::resolution() const
 {
-    return values.size();
+    return m_resolution;
 }
 
 const void* ProfileBuffer::data() const 
