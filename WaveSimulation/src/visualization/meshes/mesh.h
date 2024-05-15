@@ -1,8 +1,6 @@
 #pragma once
 
 #include "visualization/shaders/shader.h"
-#include "simulation/amplitude_grid.h"
-#include "simulation/profile_buffer.h"
 
 #include <algorithm>
 #include <iostream>

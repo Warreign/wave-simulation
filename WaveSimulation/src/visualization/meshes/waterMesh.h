@@ -2,6 +2,7 @@
 
 #include "visualization/meshes/mesh.h"
 #include "visualization/shaders/waterShader.h"
+#include "simulation/amplitudeGrid.h"
 
 class WaterMesh : public Mesh
 {
