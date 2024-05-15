@@ -80,13 +80,13 @@ void SimulationComponent::onRenderGui()
 	ImGui::SliderFloat("Time Multiplier", &m_timeMultiplier, -2.0f, 2.0f);
 	ImGui::Separator();
 
-	if (ImGui::SliderInt("Direction", &m_simGrid->defaultDirection, 0, 15))
+	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))
 	{
-		m_simGrid->set
+		m_simGrid->setDirection(m_defaultDirection);
 	}
-	if (ImGui::SliderFloat("Amplitude", &m_simGrid->defaultAmplitudeVal, 0.0f, 2.0f))
+	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 2.0f))
 	{
-		m_simGrid->getCompute().setFloat("u_defAmplitude", m_simGrid->defaultAmplitudeVal);
+		m_simGrid->setDefaultAmp(m_defaultAmplitude);
 	}
 	
 	ImGui::SliderFloat("Wind Speed", &m_simGrid->windSpeed, 0.5, 10);
