@@ -282,9 +282,9 @@ double AmplitudeGrid::cflTimeStep(float dt, float timeMultiplier) const
     float u = groupSpeed(m_dim[K] - 1);
     float dx = std::min(m_delta[X], m_delta[Z]);
 
-    if (u * dt / dx > 1.0f)
+    if (u * dt / dx > 0.5f)
     {
-        return (dx / u);
+        return (0.5 * dx / u);
     }
     else 
     {
