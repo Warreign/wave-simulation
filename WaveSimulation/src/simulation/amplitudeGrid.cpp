@@ -273,7 +273,7 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
 
 double AmplitudeGrid::cflTimeStep(float timeMultiplier) const
 {
-    return std::min(m_delta[X], m_delta[Z]) / groupSpeed(m_dim[K] - 1);
+    return std::min(m_delta[X], m_delta[Z]) / groupSpeed(m_dim[K] - 1) * pow(10, timeMultiplier);
 }
 
 float AmplitudeGrid::gridPos(float value, int dim) const
