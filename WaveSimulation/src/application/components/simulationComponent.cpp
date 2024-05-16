@@ -97,7 +97,7 @@ void SimulationComponent::onRenderGui()
 	{
 		m_simGrid->setDefaultAmp(m_defaultAmplitude);
 	}
-	if (ImGui::SliderFloat("Wind Speed", &m_simGrid->windSpeed, 0.5, 10))
+	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.5, 10))
 	{
 		m_simGrid->setWindSpeed(m_windSpeed);
 	}
