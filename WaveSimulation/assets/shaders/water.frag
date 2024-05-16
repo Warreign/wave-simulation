@@ -82,11 +82,6 @@ vec3 calculateNormal(vec2 position)
 
 		dx += k.x * val.zwz;
 		dz += k.y * val.zwz;
-
-//		dx.xz += k.x * val.zz;
-//		dx.y += val.w;
-//		dz.xz += k.y * val.zz;
-//		dz.y += val.w;
 	}
 
 	return normalize(-cross(dx, dz));
