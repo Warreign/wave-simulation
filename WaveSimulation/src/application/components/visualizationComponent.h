@@ -20,6 +20,9 @@ public:
 	void onRender() override;
 	void onRenderGui() override;
 
+	void setDirection(int value);
+	void setAmplitude(float value);
+
 private:
 
 	bool m_isSkyboxVisible = true;

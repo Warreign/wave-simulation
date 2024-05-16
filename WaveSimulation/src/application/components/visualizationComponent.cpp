@@ -99,3 +99,13 @@ void VisualizationComponent::onRenderGui()
 	//if (ImGui::Button("Toggle Free Mode")) cam.toggleFreeMode();
 	ImGui::End();
 }
+
+void VisualizationComponent::setDirection(int value)
+{
+	m_waterShader->setInteger("u_direction", value);
+}
+
+void VisualizationComponent::setAmplitude(float value)
+{
+	m_waterShader->setFloat("u_defaultAmp", value);
+}

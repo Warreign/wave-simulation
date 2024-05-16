@@ -28,6 +28,7 @@ public:
 	void stop();
 
 	SimulationComponent& getSimComp() { return *m_simComponent; }
+	VisualizationComponent& getVisualComp() { return *m_visualComponent; }
 
 private:
 

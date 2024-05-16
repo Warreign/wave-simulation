@@ -1,9 +1,10 @@
-#version 400 core
+#version 460 core
 
 #define NTHETA 16
 #define INTEGRATION_SAMPLES 120
 #define PI 3.14159265358
-#define TAU 6.28318530718 
+#define TAU 6.28318530718
+#define EPSILON 0.4
 
 out vec4 fColor;
 
@@ -35,6 +36,7 @@ uniform vec3 diffuse;
 uniform vec3 specular;
 uniform float shininess;
 
+float defDirection = TAU / 16 * u_direction;
 vec3 ddiffuse = diffuse;
 
 // Get amplitude by index
@@ -56,7 +58,10 @@ float getAmplitude(float theta)
 	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
 	{
 		ddiffuse = vec3(0.5);
-		return 0.2;
+		if (theta >= defDirection-EPSILON && theta <= defDirection+EPSILON)
+		{
+			return u_defaultAmp;
+		}
 	}
 
 	vec3 tPos = vec3(vPosScaled, theta / TAU);

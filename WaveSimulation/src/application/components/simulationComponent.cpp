@@ -89,13 +89,17 @@ void SimulationComponent::onRenderGui()
 	ImGui::InputFloat("dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::Separator();
 
+	Application& app = Application::getInstance();
+	VisualizationComponent& visualComp = app.getVisualComp();
 	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))
 	{
 		m_simGrid->setDirection(m_defaultDirection);
+		visualComp.setDirection(m_defaultDirection);
 	}
 	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 2.0f))
 	{
 		m_simGrid->setDefaultAmp(m_defaultAmplitude);
+		visualComp.setAmplitude(m_defaultAmplitude);
 	}
 	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.5, 10))
 	{
