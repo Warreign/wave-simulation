@@ -39,7 +39,7 @@ private:
 	static Application* s_instance;
 
 	bool m_running;
-	float m_dt;
+	float m_dt = 0;
 	double m_deltaTime = 0;
 	double m_frameEnd = 0;
 	double m_frameStart = 0;

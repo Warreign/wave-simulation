@@ -51,6 +51,8 @@ void Application::run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+		m_frameStart = glfwGetTime();
+
 		/* Update each component */
 		onUpdate();
 		for (auto c : comps)
@@ -122,7 +124,6 @@ void Application::removeComponent(Component* comp)
 
 void Application::onUpdate()
 {
-	m_frameStart = glfwGetTime();
 }
 
 void Application::onRenderGui()
@@ -130,5 +131,6 @@ void Application::onRenderGui()
 	ImGui::Begin("Statistics");
 	ImGui::InputFloat("FPS", &m_frameRate, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::InputFloat("Average Frame Time", &m_averageFrameTime, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::InputFloat("Frame dt", &m_dt, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::End();
 }
