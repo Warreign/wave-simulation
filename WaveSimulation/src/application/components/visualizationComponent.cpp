@@ -58,6 +58,11 @@ void VisualizationComponent::onUpdate(float dt)
 		glBindTextureUnit(0, m_simGrid.m_profileBuffers[0].getTexture());
 #endif // !COMPUTE_SHADER
 	}
+
+	glm::vec2 min = m_simGrid.m_min;
+	glm::vec2 max = m_simGrid.m_max;
+	m_waterShader->setVec2("u_min", min);
+	m_waterShader->setVec2("u_max", max);
 }
 
 void VisualizationComponent::onRender()
