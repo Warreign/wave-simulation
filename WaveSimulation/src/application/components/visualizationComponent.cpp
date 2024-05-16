@@ -43,14 +43,15 @@ void VisualizationComponent::onUpdate()
 
 	if (Application::getInstance().getSimComp().isUpdateGird())
 	{
-		m_waterShader->setInteger("u_Amplitude", 1);
-		glBindTextureUnit(1, m_simGrid.getAmpTexture());
-
 		m_waterShader->setInteger("u_waterSize", m_waterSize);
 		m_waterShader->setFloat("u_waterScale", m_waterScale);
 		m_waterShader->setFloat("u_multiplier", m_ampMultiplier);
+		m_waterShader->setInteger("u_Amplitude", 1);
+		glBindTextureUnit(1, m_simGrid.getAmpTexture());
 
-		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
+		m_waterShader->setFloat("profilePeriod", m_simGrid.m_profileBuffers[0].period);
+		m_waterShader->setInteger("profileBuffer", 0);
+		glBindTextureUnit(0, m_simGrid.m_profileBuffers[0].getTexture());
 	}
 }
 

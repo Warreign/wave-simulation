@@ -83,7 +83,6 @@ void AmplitudeGrid::timeStep(float dt)
     m_time += dt;
     advectionStep(dt);
     wavevectorDiffusion(dt);
-
     precomputeProfileBuffers();
 }
 
@@ -214,7 +213,8 @@ void AmplitudeGrid::precomputeProfileBuffers()
         float k_lower = realPos(ik, K) - 0.5 * m_delta[K];
         float k_upper = realPos(ik, K) + 0.5 * m_delta[K];
 
-        m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
+        //m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
+        m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time);
     }
 }
 
