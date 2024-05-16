@@ -111,18 +111,21 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 
 void AmplitudeGrid::setDirection(int value)
 {
+    defaultDirection = value;
     m_advectionCompute->setInteger("u_direction", value);
     m_diffusionCompute->setInteger("u_direction", value);
 }
 
 void AmplitudeGrid::setDefaultAmp(float value)
 {
+    defaultAmplitudeVal = value;
     m_advectionCompute->setFloat("u_defAmplitude", value);
     m_diffusionCompute->setFloat("u_defAmplitude", value);
 }
 
 void AmplitudeGrid::setWindSpeed(float speed)
 {
+    windSpeed = speed;
     m_profileCompute->setFloat("u_windSpeed", speed);
 }
 
