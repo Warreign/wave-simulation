@@ -271,7 +271,7 @@ float AmplitudeGrid::interpolatedValue(float x, float z, float theta, float k) c
     return glm::mix(vz.x, vz.y, ctheta);
 }
 
-double AmplitudeGrid::cflTimeStep() const
+double AmplitudeGrid::cflTimeStep(float timeMultiplier) const
 {
     return std::min(m_delta[X], m_delta[Z]) / groupSpeed(m_dim[K] - 1);
 }

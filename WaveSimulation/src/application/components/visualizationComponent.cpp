@@ -37,7 +37,7 @@ void VisualizationComponent::destroy()
 {
 }
 
-void VisualizationComponent::onUpdate()
+void VisualizationComponent::onUpdate(float dt)
 {
 	m_camera->updateMatrices();
 

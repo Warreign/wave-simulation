@@ -13,7 +13,7 @@ void Component::destroy()
 {
 }
 
-void Component::onUpdate()
+void Component::onUpdate(float dt)
 {
 }
 

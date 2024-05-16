@@ -63,9 +63,9 @@ void SimulationComponent::destroy()
 {
 }
 
-void SimulationComponent::onUpdate()
+void SimulationComponent::onUpdate(float dt)
 {
-	double dt = m_simGrid->cflTimeStep() * pow(10, m_timeMultiplier);
+	double dt = m_simGrid->cflTimeStep(m_timeMultiplier);
 	m_dtLast = dt;
 
 	if (m_isUpdateGrid)

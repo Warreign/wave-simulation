@@ -11,7 +11,7 @@ public:
 	virtual void init();
 	virtual void destroy();
 
-	virtual void onUpdate();
+	virtual void onUpdate(float dt);
 	virtual void onRender();
 	virtual void onRenderGui();
 

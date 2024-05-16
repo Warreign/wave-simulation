@@ -20,7 +20,7 @@ public:
     float value(int ix, int iz, int itheta, int ik) const;
     float interpolatedValue(float x, float z, float theta, float k) const;
 
-    double cflTimeStep() const;
+    double cflTimeStep(float timeMultiplier) const;
     void timeStep(float dt);
     void advectionStep(float dt);
     void wavevectorDiffusion(float dt);

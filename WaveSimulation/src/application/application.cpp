@@ -55,7 +55,7 @@ void Application::run()
 		onUpdate();
 		for (auto c : comps)
 		{
-			c->onUpdate();
+			c->onUpdate(m_dt);
 		}
 
 		/* Add ImGui data from each component */
@@ -74,7 +74,8 @@ void Application::run()
 		}
 
 		m_frameEnd = glfwGetTime();
-		m_deltaTime += m_frameEnd - m_frameStart;
+		m_dt = m_frameEnd - m_frameStart;
+		m_deltaTime += m_dt;
 		m_frameCount++;
 		if (m_deltaTime >= 1.0)
 		{

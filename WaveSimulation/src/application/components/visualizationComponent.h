@@ -16,7 +16,7 @@ public:
 	void init() override;
 	void destroy() override;
 
-	void onUpdate() override;
+	void onUpdate(float dt) override;
 	void onRender() override;
 	void onRenderGui() override;
 
