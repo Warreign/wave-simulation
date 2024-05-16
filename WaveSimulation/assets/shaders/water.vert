@@ -51,7 +51,7 @@ float getAmplitude(float theta)
 // Pseudo random number generator
 float rand(int co) 
 { 
-	return 23.34 * (fract(sin(co* 1235.432) * 4745354.53)); }
+	return 23.34 * (fract(sin(co* 123.432) * 5354.53)); }
 
 // Calculate vertex displacement (not final position) using amplitudes and profile buffer
 vec3 calculateDisplacement(vec2 position)
