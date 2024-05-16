@@ -215,9 +215,12 @@ void AmplitudeGrid::precomputeProfileBuffers()
         float k_lower = realPos(ik, K) - 0.5 * m_delta[K];
         float k_upper = realPos(ik, K) + 0.5 * m_delta[K];
 
-        //m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
+#ifndef COMPUTE_SHADER
+        m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
+#else
         m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time);
     }
+#endif // !COMPUTE_SHADER
 }
 
 float AmplitudeGrid::constrainedValue(int ix, int iz, int itheta, int ik) const
@@ -287,8 +290,6 @@ double AmplitudeGrid::cflTimeStep(float dt, float timeMultiplier) const
     {
         return dt;
     }
-
-    //return std::min(m_delta[X], m_delta[Z]) / groupSpeed(m_dim[K] - 1) * pow(10, timeMultiplier);
 }
 
 float AmplitudeGrid::gridPos(float value, int dim) const

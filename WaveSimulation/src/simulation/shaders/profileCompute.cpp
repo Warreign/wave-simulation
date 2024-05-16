@@ -48,6 +48,6 @@ void ProfileCompute::dispatch(GLuint profileTexture, uint32_t resolution)
 	setInteger("out_ProfileBuffer", 3);
 	glBindImageTexture(3, profileTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 	glDispatchCompute(resolution/64, 1, 1);
-	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
+	//glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 	unbind();
 }
