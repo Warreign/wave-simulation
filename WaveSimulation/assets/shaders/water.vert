@@ -29,7 +29,7 @@ uniform mat4 ProjectM;
 uniform sampler1D profileBuffer;
 uniform float profilePeriod;
 
-float defDirection = TAU / 16 * u_direction;
+float defDirection = TAU / NTHETA * u_direction;
 
 out vec3 vPosition;
 out vec2 vPosScaled; 

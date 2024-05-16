@@ -36,7 +36,7 @@ uniform vec3 diffuse;
 uniform vec3 specular;
 uniform float shininess;
 
-float defDirection = TAU / 16 * u_direction;
+float defDirection = TAU / NTHETA * u_direction;
 vec3 ddiffuse = diffuse;
 
 // Get amplitude by index
