@@ -90,32 +90,26 @@ void AmplitudeGrid::timeStep(float dt)
 
 void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 {
-//#ifdef COMPUTE_SHADER
-//    glGetTextureImage(m_outTexture, 0, GL_RED, GL_FLOAT, dim[X] * dim[Z] * dim[Theta] * sizeof(float), data.getDataPtr());
-//#endif
-//
-//    int ix = round(gridPos(pos[X], X));
-//    int iz = round(gridPos(pos[Z], Z));
-//    if (ix >= 0 && ix < dim[X] && iz >= 0 && iz < dim[Z])
-//    {
-//        for (int itheta = 0; itheta < dim[Theta]; itheta++) {
-//            data(ix, iz, itheta, 0) += val;
-//        }
-//    }
-//
-//#ifdef COMPUTE_SHADER
-//    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-//    glTextureSubImage3D(m_outTexture, 0, 0, 0, 0, dim[X], dim[Z], dim[Theta], GL_RED, GL_FLOAT, data.getDataPtr());
-//#endif
 
+#ifndef COMPUTE_SHADER
+    int ix = round(gridPos(pos[X], X));
+    int iz = round(gridPos(pos[Z], Z));
+    if (ix >= 0 && ix < m_dim[X] && iz >= 0 && iz < m_dim[Z])
+    {
+        for (int itheta = 0; itheta < m_dim[Theta]; itheta++) {
+            m_data(ix, iz, itheta, 0) += val;
+        }
+    }
+#else
     glm::ivec2 ipos = glm::round(glm::vec2(gridPos(pos[X], X), gridPos(pos[Z], Z)));
     if (ipos.x >= 0 && ipos.x < m_dim[X] && ipos.y >= 0 && ipos.y < m_dim[Z])
     {
         m_disturbanceCompute->loadUniforms(ipos, m_dim, val);
         m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
     }
-
     swapTextures();
+#endif
+
 }
 
 void AmplitudeGrid::setDirection(int value)
