@@ -29,7 +29,7 @@ uniform sampler1D profileBuffer;
 uniform float profilePeriod;
 
 out vec3 vPosition;
-out ivec2 vXYpos; 
+out vec2 vPosScaled; 
 out vec4 vAmplitudes[NTHETA/4];
 
 // Get amplitude by index
@@ -50,12 +50,12 @@ float getAmplitude(int i)
 
 float getAmplitude(float theta)
 {
-	if ((aPosition.x < u_min.x || aPosition.z < u_min.y || aPosition.x > u_max.x || aPosition.z > u_max.y)
+	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y)
 		)
 	{
 		return 0.2;
 	}
-	vec3 tPos = vec3(aPosition.xz/scale + 0.5, theta / TAU);
+	vec3 tPos = vec3(vPosScaled, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 
@@ -91,6 +91,7 @@ vec3 calculateDisplacement(vec2 position)
 void main()
 {
 	vPosition = (ModelM * vec4(aPosition, 1.0)).xyz;
+	vPosScaled = vPosition.xz / scale + 0.5;
 
 	vec3 pos = vPosition + calculateDisplacement(aPosition.xz);
 	

@@ -8,6 +8,7 @@
 out vec4 fColor;
 
 in vec3 vPosition;
+in vec2 vPosScaled; 
 in vec4 vAmplitudes[NTHETA/4];
 
 uniform sampler3D u_Amplitude;
@@ -58,7 +59,7 @@ float getAmplitude(float theta)
 		return 0.2;
 	}
 
-	vec3 tPos = vec3(vPosition.xz/scale + 0.5, theta / TAU);
+	vec3 tPos = vec3(vPosScaled, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 
