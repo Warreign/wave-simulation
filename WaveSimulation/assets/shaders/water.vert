@@ -11,12 +11,13 @@ in vec4 aAmplitudes[NTHETA/4];
 uniform sampler3D u_Amplitude;
 uniform vec2 u_min;
 uniform vec2 u_max;
+float scale = u_max.x - u_min.x;
 
 uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
-
-float scale = u_max.x - u_min.x;
+uniform int u_direction;
+uniform float u_defaultAmp;
 
 uniform mat4 PVM;
 uniform mat4 ViewM;
@@ -52,7 +53,7 @@ float getAmplitude(float theta)
 	if ((aPosition.x < u_min.x || aPosition.z < u_min.y || aPosition.x > u_max.x || aPosition.z > u_max.y)
 		)
 	{
-		return 0.0;
+		return 0.2;
 	}
 	vec3 tPos = vec3(aPosition.xz/scale + 0.5, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;

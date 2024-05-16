@@ -13,12 +13,13 @@ in vec4 vAmplitudes[NTHETA/4];
 uniform sampler3D u_Amplitude;
 uniform vec2 u_min;
 uniform vec2 u_max;
+float scale = u_max.x - u_min.x;
 
 uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
-
-float scale = u_max.x - u_min.x;
+uniform int u_direction;
+uniform float u_defaultAmp;
 
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
@@ -54,7 +55,7 @@ float getAmplitude(float theta)
 	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
 	{
 		ddiffuse = vec3(0.5);
-		return 0.0;
+		return 0.2;
 	}
 
 	vec3 tPos = vec3(vPosition.xz/scale + 0.5, theta / TAU);
