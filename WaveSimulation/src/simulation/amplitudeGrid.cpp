@@ -127,6 +127,11 @@ void AmplitudeGrid::setDefaultAmp(float value)
     m_diffusionCompute->setFloat("u_defAmplitude", value);
 }
 
+void AmplitudeGrid::setWindSpeed(float speed)
+{
+    m_profileCompute->setFloat("u_windSpeed", speed);
+}
+
 void AmplitudeGrid::advectionStep(float dt)
 {
 #ifndef COMPUTE_SHADER

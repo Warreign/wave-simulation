@@ -28,6 +28,11 @@ void SimulationComponent::init()
 		1 // number of wave length disc. nodes
 	);
 
+	m_simGrid->setDirection(m_defaultDirection);
+	m_simGrid->setDefaultAmp(m_defaultAmplitude);
+	m_simGrid->setWindSpeed(m_windSpeed);
+
+
 	Application& app = Application::getInstance();
 	Window& window = app.getWindow();
 	glfwSetCursorPosCallback(window.getHandle(), [](GLFWwindow* w, double x, double y)
@@ -92,8 +97,11 @@ void SimulationComponent::onRenderGui()
 	{
 		m_simGrid->setDefaultAmp(m_defaultAmplitude);
 	}
+	if (ImGui::SliderFloat("Wind Speed", &m_simGrid->windSpeed, 0.5, 10))
+	{
+		m_simGrid->setWindSpeed(m_windSpeed);
+	}
 	
-	ImGui::SliderFloat("Wind Speed", &m_simGrid->windSpeed, 0.5, 10);
 	ImGui::Separator();
 
 	ImGui::End();

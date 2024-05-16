@@ -16,7 +16,7 @@ uniform uint u_resolution;
 float spectrum(float k)
 {
     float A = pow(1.2, 1.5 * log2(k)); // original pow(2, 1.5*zeta)
-    float B = exp(-1.80388 * pow(2, k) / pow(8.0, 4));
+    float B = exp(-1.80388 * pow(2, k) / pow(u_windSpeed, 4));
     return 0.139098 * sqrt(A * B);
 }
 

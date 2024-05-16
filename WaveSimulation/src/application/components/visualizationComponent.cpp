@@ -52,6 +52,8 @@ void VisualizationComponent::onUpdate(float dt)
 		m_waterShader->setFloat("profilePeriod", m_simGrid.m_profileBuffers[0].period);
 		m_waterShader->setInteger("profileBuffer", 0);
 		glBindTextureUnit(0, m_simGrid.m_profileBuffers[0].getTexture());
+
+		//m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 	}
 }
 

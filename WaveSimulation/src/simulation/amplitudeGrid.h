@@ -29,6 +29,7 @@ public:
 
     void setDirection(int value);
     void setDefaultAmp(float value);
+    void setWindSpeed(float speed);
 
     GLuint getAmpTexture() const { return m_inTexture; }
 
