@@ -123,9 +123,9 @@ void main()
 	float result = texture(in_Grid, texPos).r;
 	if ((texPos.x >= 1.0 || texPos.x <= 0.0
 		|| texPos.y >= 1.0  || texPos.y <= 0.0)
-		&& itheta == 1)
+		&& itheta == u_direction)
 	{
-		result = 0.1;
+		result = u_defAmplitude;
 	}
 
 
