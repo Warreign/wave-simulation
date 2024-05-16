@@ -109,8 +109,11 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 //#endif
 
     glm::ivec2 ipos = glm::round(glm::vec2(gridPos(pos[X], X), gridPos(pos[Z], Z)));
-    m_disturbanceCompute->loadUniforms(ipos, m_dim, val);
-    m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
+    if (ipos.x >= 0 && ipos.x < m_dim[X] && ipos.y >= 0 && ipos.y < m_dim[Z])
+    {
+        m_disturbanceCompute->loadUniforms(ipos, m_dim, val);
+        m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
+    }
 
     swapTextures();
 }
