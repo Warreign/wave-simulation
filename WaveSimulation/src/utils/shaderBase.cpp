@@ -143,12 +143,14 @@ const std::string ShaderBase::readShaderFromFile(const std::string& path)
 	return shaderSource;
 }
 
-const GLuint ShaderBase::compileShader(GLenum type, const std::string& path)
+const GLuint ShaderBase::compileShader(GLenum type, const std::string& path, const std::string& commonPath)
 {
 	GLint result;
 	GLuint shader = glCreateShader(type);
 
-	std::string shaderSource = readShaderFromFile(path);
+	std::string shaderSource = "";
+	if (!commonPath.empty()) shaderSource += readShaderFromFile(commonPath);
+	shaderSource +=	readShaderFromFile(path);
 	const GLchar* source = shaderSource.c_str();
 	glShaderSource(shader, 1, &source, nullptr);
 	glCompileShader(shader);

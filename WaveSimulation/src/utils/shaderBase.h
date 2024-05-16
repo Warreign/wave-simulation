@@ -39,7 +39,7 @@ public:
 
 protected:
 	static const std::string readShaderFromFile(const std::string& path);
-	static const GLuint compileShader(GLenum type, const std::string& path);
+	static const GLuint compileShader(GLenum type, const std::string& path, const std::string& commonPath = "");
 
 	GLint uniformLocation(const std::string& name);
 	GLint attribLocation(const std::string& name);
