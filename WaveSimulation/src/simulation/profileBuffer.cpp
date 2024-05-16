@@ -10,25 +10,24 @@ ProfileBuffer::ProfileBuffer()
     glTextureParameteri(m_texture, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(m_texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureStorage1D(m_texture, 1, GL_RGBA32F, 4096);
+    glTextureStorage1D(m_texture, 1, GL_RGBA32F, m_resolution);
 }
 
 ProfileBuffer::~ProfileBuffer()
 {
-    //glDeleteTextures(1, &m_texture);
+    glDeleteTextures(1, &m_texture);
 }
 
 void ProfileBuffer::precompute(std::function<float(float,float)> spectrum, float windSpeed, float kmin, float kmax,float time, int size)
 {
-    m_resolution = size;
-    values.resize(size);
+    values.resize(m_resolution);
     period = kmax * 2;
 #ifdef NDEBUG
 #pragma omp parallel for
 #endif
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < m_resolution; i++) {
 
-        float p = (float(i * period) / size) + kmin;
+        float p = (float(i * period) / m_resolution) + kmin;
 
         values[i] = integrate(INTEGRATION_SAMPLES, kmin, kmax, [&](float k) {
 
@@ -56,11 +55,9 @@ void ProfileBuffer::precompute(std::function<float(float,float)> spectrum, float
 
 void ProfileBuffer::precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int size)
 {
-    m_resolution = size;
-    values.resize(size);
     period = kmax * 2;
-    profileCompute.loadUniforms(kmin, kmax, time, period, size);
-    profileCompute.dispatch(m_texture, size);
+    profileCompute.loadUniforms(kmin, kmax, time, period, m_resolution);
+    profileCompute.dispatch(m_texture, m_resolution);
 }
 
 GLuint ProfileBuffer::getTexture() const
