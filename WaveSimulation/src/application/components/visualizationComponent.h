@@ -27,7 +27,7 @@ private:
 	float m_ampMultiplier = 2.0f;
 
 	const size_t m_waterSize = 100;
-	const float m_waterScale = 100.0f;
+	const float m_waterScale = 200.0f;
 
 	const AmplitudeGrid& m_simGrid;
 

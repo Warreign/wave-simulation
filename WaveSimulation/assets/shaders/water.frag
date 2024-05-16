@@ -18,6 +18,8 @@ uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
 
+float scale = u_max.x - u_min.x;
+
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 uniform mat4 NormalM;
@@ -51,10 +53,11 @@ float getAmplitude(float theta)
 {
 	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
 	{
-		return 0.1;
+		ddiffuse = vec3(0.5);
+		return 0.0;
 	}
 
-	vec3 tPos = vec3(vPosition.xz/u_waterScale + 0.5, theta / TAU);
+	vec3 tPos = vec3(vPosition.xz/scale + 0.5, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 

@@ -16,7 +16,7 @@ uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
 
-
+float scale = u_max.x - u_min.x;
 
 uniform mat4 PVM;
 uniform mat4 ViewM;
@@ -52,16 +52,17 @@ float getAmplitude(float theta)
 	if ((aPosition.x < u_min.x || aPosition.z < u_min.y || aPosition.x > u_max.x || aPosition.z > u_max.y)
 		)
 	{
-		return 0.1;
+		return 0.0;
 	}
-	vec3 tPos = vec3(aPosition.xz/u_waterScale + 0.5, theta / TAU);
+	vec3 tPos = vec3(aPosition.xz/scale + 0.5, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
 
 // Pseudo random number generator
 float rand(int co) 
 { 
-	return 23.34 * (fract(sin(co* 123.432) * 5354.53)); }
+	return 23.34 * (fract(sin(co* 123.432) * 5354.53)); 
+}
 
 // Calculate vertex displacement (not final position) using amplitudes and profile buffer
 vec3 calculateDisplacement(vec2 position)
