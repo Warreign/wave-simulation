@@ -13,7 +13,7 @@ Application::Application(const std::string& title)
 	s_instance = this;
 
 	m_window = std::make_unique<Window>(1280, 960, title);
-	m_window->setVsync(true);
+	m_window->setVsync(false);
 
 	ilInit();
 	ilEnable(IL_ORIGIN_SET);
