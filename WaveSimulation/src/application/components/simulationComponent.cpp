@@ -7,6 +7,7 @@
 #include <imgui.h>
 
 #include <iostream>
+#include <format>
 
 SimulationComponent::SimulationComponent(const std::string& debugName)
 	: Component(debugName)
@@ -65,6 +66,7 @@ void SimulationComponent::destroy()
 void SimulationComponent::onUpdate()
 {
 	double dt = m_simGrid->cflTimeStep() * pow(10, m_timeMultiplier);
+	m_dtLast = dt;
 
 	if (m_isUpdateGrid)
 	{
@@ -78,6 +80,7 @@ void SimulationComponent::onRenderGui()
 
 	ImGui::Checkbox("Update Grid", &m_isUpdateGrid);
 	ImGui::SliderFloat("Time Multiplier", &m_timeMultiplier, -2.0f, 2.0f);
+	ImGui::InputFloat("dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::Separator();
 
 	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))

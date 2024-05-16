@@ -28,6 +28,7 @@ private:
 	float m_defaultAmplitude = 0.2f;
 	int m_defaultDirection = 3;
 	float m_windSpeed = 8.0f;
+	float m_dtLast;
 
 
 	std::unique_ptr<AmplitudeGrid> m_simGrid;
