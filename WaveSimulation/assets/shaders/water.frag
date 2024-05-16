@@ -11,6 +11,9 @@ in vec3 vPosition;
 in vec4 vAmplitudes[NTHETA/4];
 
 uniform sampler3D u_Amplitude;
+uniform vec2 u_min;
+uniform vec2 u_max;
+
 uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
@@ -28,6 +31,8 @@ uniform vec3 diffuse;
 uniform vec3 specular;
 uniform float shininess;
 
+vec3 ddiffuse = diffuse;
+
 // Get amplitude by index
 float getAmplitude(int i)
 {
@@ -44,6 +49,11 @@ float getAmplitude(int i)
 
 float getAmplitude(float theta)
 {
+	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
+	{
+		return 0.1;
+	}
+
 	vec3 tPos = vec3(vPosition.xz/u_waterScale + 0.5, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
@@ -99,7 +109,7 @@ void main()
 	float spec = pow(max(dot(R, V), 0.0), shininess);
 
 	outAmbient = ambient;
-	outDiffuse = diffuse * lightColor * diff;
+	outDiffuse = ddiffuse * lightColor * diff;
 	outSpecular = specular * spec;
 
 	fColor = vec4(outAmbient + outDiffuse + outSpecular, 1.0);

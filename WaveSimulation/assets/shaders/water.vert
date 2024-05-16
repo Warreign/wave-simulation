@@ -9,9 +9,14 @@ in vec3 aPosition;
 in vec4 aAmplitudes[NTHETA/4];
 
 uniform sampler3D u_Amplitude;
+uniform vec2 u_min;
+uniform vec2 u_max;
+
 uniform uint u_waterSize;
 uniform float u_waterScale;
 uniform float u_multiplier;
+
+
 
 uniform mat4 PVM;
 uniform mat4 ViewM;
@@ -44,6 +49,11 @@ float getAmplitude(int i)
 
 float getAmplitude(float theta)
 {
+	if ((aPosition.x < u_min.x || aPosition.z < u_min.y || aPosition.x > u_max.x || aPosition.z > u_max.y)
+		)
+	{
+		return 0.1;
+	}
 	vec3 tPos = vec3(aPosition.xz/u_waterScale + 0.5, theta / TAU);
 	return texture(u_Amplitude, tPos).r * u_multiplier;
 }
@@ -70,12 +80,9 @@ vec3 calculateDisplacement(vec2 position)
 		vec4 val = getAmplitude(theta) 
 		* 
 		texture(profileBuffer, p);
-//		cos(p);
 
 		result += vec3(k.x * val.x, val.y, k.y * val.x);
-//		y += tt.y;
 	}
-//	result.y = y;
 	return result;
 }
 
