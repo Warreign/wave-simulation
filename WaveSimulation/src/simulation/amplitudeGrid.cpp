@@ -3,9 +3,6 @@
 #include <iostream>
 #include <glm/ext.hpp>
 
-// Comment to run simulation on cpu
-#define COMPUTE_SHADER
-
 #define TAU 6.28318530718
 
 float AmplitudeGrid::piersonMoskowitz(float k, float windSpeed)

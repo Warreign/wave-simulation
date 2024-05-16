@@ -9,6 +9,9 @@
 #include <memory>
 #include <algorithm>
 
+// Comment to run simulation on cpu
+#define COMPUTE_SHADER
+
 #define NTHETA 16 // Number of disc. nodes for theta
 
 class AmplitudeGrid {
