@@ -41,6 +41,11 @@ public:
     float defaultAmplitudeVal = 0.0f;
     std::vector<ProfileBuffer> m_profileBuffers;
 
+    // Min values in all dimensions
+    glm::vec4 m_min;
+    // Max values in all dimensions
+    glm::vec4 m_max;
+
     float realPos(int gridIdx, int dim) const;
 
 private:
@@ -68,10 +73,6 @@ private:
 
     // Dimensions
     glm::ivec4 m_dim;
-    // Min values in all dimensions
-    glm::vec4 m_min;
-    // Max values in all dimensions
-    glm::vec4 m_max;
     // Discretization step size in all dimensions
     glm::vec4 m_delta;
     // Time from starts

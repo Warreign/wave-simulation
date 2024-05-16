@@ -132,18 +132,18 @@ void AmplitudeGrid::setWindSpeed(float speed)
 void AmplitudeGrid::advectionStep(float dt)
 {
 #ifndef COMPUTE_SHADER
-    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
+    Grid updatedData(m_dim[X], m_dim[Z], m_dim[Theta], m_dim[K]);
 
 #ifdef NDEBUG
 #endif
 #pragma omp parallel for collapse(4)
-    for (int ix = 0; ix < dim[X]; ix++) 
+    for (int ix = 0; ix < m_dim[X]; ix++)
     {
-        for (int iz = 0; iz < dim[Z]; iz++)
+        for (int iz = 0; iz < m_dim[Z]; iz++)
         {
-            for (int itheta = 0; itheta < dim[Theta]; itheta++)
+            for (int itheta = 0; itheta < m_dim[Theta]; itheta++)
             {
-                for (int ik = 0; ik < dim[K]; ik++) 
+                for (int ik = 0; ik < m_dim[K]; ik++)
                 {
                     glm::vec4 realPosition = realPos(ix, iz, itheta, ik);
                     glm::vec2 waveVector = glm::vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
@@ -156,7 +156,7 @@ void AmplitudeGrid::advectionStep(float dt)
         }
     }
 
-    data = updatedData;
+    m_data = updatedData;
 #else
 
     m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
@@ -170,20 +170,20 @@ void AmplitudeGrid::advectionStep(float dt)
 void AmplitudeGrid::wavevectorDiffusion(float dt)
 {
 #ifndef COMPUTE_SHADER
-    Grid updatedData(dim[X], dim[Z], dim[Theta], dim[K]);
+    Grid updatedData(m_dim[X], m_dim[Z], m_dim[Theta], m_dim[K]);
 
 #ifdef NDEBUG
 #endif
 #pragma omp parallel for collapse(4)
-    for (int ix = 0; ix < dim[X]; ix++)
+    for (int ix = 0; ix < m_dim[X]; ix++)
     {
-        for (int iz = 0; iz < dim[Z]; iz++)
+        for (int iz = 0; iz < m_dim[Z]; iz++)
         {
-            for (int itheta = 0; itheta < dim[Theta]; itheta++)
+            for (int itheta = 0; itheta < m_dim[Theta]; itheta++)
             {
-                for (int ik = 0; ik < dim[K]; ik++)
+                for (int ik = 0; ik < m_dim[K]; ik++)
                 {
-                    float gamma = 2 * 0.025 * groupSpeed(ik) * dt / delta[X];
+                    float gamma = 2 * 0.025 * groupSpeed(ik) * dt / m_delta[X];
 
                     updatedData(ix, iz, itheta, ik) =
                         (1 - gamma) * value(ix, iz, itheta, ik) +
@@ -197,7 +197,7 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
             }
         }
     }
-    data = updatedData;
+    m_data = updatedData;
 #else
     m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
     m_diffusionCompute->dispatchDiffusion(m_inTexture, m_outTexture, m_dim);
@@ -219,8 +219,8 @@ void AmplitudeGrid::precomputeProfileBuffers()
         m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
 #else
         m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time);
-    }
 #endif // !COMPUTE_SHADER
+    }
 }
 
 float AmplitudeGrid::constrainedValue(int ix, int iz, int itheta, int ik) const
