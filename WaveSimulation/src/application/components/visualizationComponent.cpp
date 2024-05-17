@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-VisualizationComponent::VisualizationComponent(const std::string& debugName, const AmplitudeGrid& simGrid)
+VisualizationComponent::VisualizationComponent(const std::string& debugName, AmplitudeGrid& simGrid)
 	: Component(debugName), m_simGrid(simGrid)
 {
 }
@@ -31,6 +31,12 @@ void VisualizationComponent::init()
 
 	std::cout << "\t Initializing Water object" << std::endl;
 	m_water = std::make_unique<Water>(m_waterMesh.get());
+
+	m_simGrid.setDirection(m_defaultDirection);
+	m_waterShader->setInteger("u_direction", m_defaultDirection);
+	m_simGrid.setDefaultAmp(m_defaultAmplitude);
+	m_waterShader->setFloat("u_defaultAmp", m_defaultAmplitude);
+	m_simGrid.setWindSpeed(m_windSpeed);
 }
 
 void VisualizationComponent::destroy()
@@ -98,14 +104,22 @@ void VisualizationComponent::onRenderGui()
 	ImGui::DragFloat("Far Plane", &cam.farPlane, 10.0f, 1.0f);
 	//if (ImGui::Button("Toggle Free Mode")) cam.toggleFreeMode();
 	ImGui::End();
-}
 
-void VisualizationComponent::setDirection(int value)
-{
-	m_waterShader->setInteger("u_direction", value);
-}
-
-void VisualizationComponent::setAmplitude(float value)
-{
-	m_waterShader->setFloat("u_defaultAmp", value);
+	ImGui::Begin("Simulation #2");
+	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))
+	{
+		m_simGrid.setDirection(m_defaultDirection);
+		m_waterShader->setInteger("u_direction", m_defaultDirection);
+	}
+	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 1.0f))
+	{
+		m_simGrid.setDefaultAmp(m_defaultAmplitude);
+		m_waterShader->setFloat("u_defaultAmp", m_defaultAmplitude);
+	}
+	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.5, 10))
+	{
+		m_simGrid.setWindSpeed(m_windSpeed);
+	}
+	ImGui::Separator();
+	ImGui::End();
 }

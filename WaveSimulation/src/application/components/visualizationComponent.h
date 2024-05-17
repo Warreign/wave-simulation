@@ -11,7 +11,7 @@
 class VisualizationComponent : public Component
 {
 public:
-	VisualizationComponent(const std::string& debugName, const AmplitudeGrid& simGrid);
+	VisualizationComponent(const std::string& debugName, AmplitudeGrid& simGrid);
 
 	void init() override;
 	void destroy() override;
@@ -20,19 +20,20 @@ public:
 	void onRender() override;
 	void onRenderGui() override;
 
-	void setDirection(int value);
-	void setAmplitude(float value);
-
 private:
 
 	bool m_isSkyboxVisible = true;
 	bool m_isWaterWireframe = false;
 	float m_ampMultiplier = 2.0f;
 
+	float m_defaultAmplitude = 0.15f;
+	int m_defaultDirection = 2;
+	float m_windSpeed = 8.0f;
+
 	const size_t m_waterSize = 100;
 	const float m_waterScale = 200.0f;
 
-	const AmplitudeGrid& m_simGrid;
+	AmplitudeGrid& m_simGrid;
 
 	std::unique_ptr<Shader> m_commonShader;
 	std::unique_ptr<WaterShader> m_waterShader;

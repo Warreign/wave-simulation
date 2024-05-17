@@ -28,11 +28,6 @@ void SimulationComponent::init()
 		1 // number of wave length disc. nodes
 	);
 
-	m_simGrid->setDirection(m_defaultDirection);
-	m_simGrid->setDefaultAmp(m_defaultAmplitude);
-	m_simGrid->setWindSpeed(m_windSpeed);
-
-
 	Application& app = Application::getInstance();
 	Window& window = app.getWindow();
 	glfwSetCursorPosCallback(window.getHandle(), [](GLFWwindow* w, double x, double y)
@@ -87,25 +82,6 @@ void SimulationComponent::onRenderGui()
 	ImGui::Checkbox("Update Grid", &m_isUpdateGrid);
 	ImGui::SliderFloat("Time Multiplier", &m_timeMultiplier, -2.0f, 2.0f);
 	ImGui::InputFloat("dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::Separator();
-
-	Application& app = Application::getInstance();
-	VisualizationComponent& visualComp = app.getVisualComp();
-	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))
-	{
-		m_simGrid->setDirection(m_defaultDirection);
-		visualComp.setDirection(m_defaultDirection);
-	}
-	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 1.0f))
-	{
-		m_simGrid->setDefaultAmp(m_defaultAmplitude);
-		visualComp.setAmplitude(m_defaultAmplitude);
-	}
-	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.5, 10))
-	{
-		m_simGrid->setWindSpeed(m_windSpeed);
-	}
-	
 	ImGui::Separator();
 
 	ImGui::End();
