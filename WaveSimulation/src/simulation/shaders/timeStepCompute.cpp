@@ -44,7 +44,7 @@ void TimeStepCompute::dispatchAdvection(GLuint inTexture, GLuint outTexture, glm
 	setInteger("out_Grid", 2);
 	glBindImageTexture(2, outTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
 
-	glDispatchCompute(dim.x / 16, dim.y / 16, dim.z);
+	glDispatchCompute(dim.x / 16, dim.y / 16, dim.z / 4);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
 	//glBindImageTexture(1, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
@@ -63,7 +63,7 @@ void TimeStepCompute::dispatchDiffusion(GLuint inTexture, GLuint outTexture, glm
 	setInteger("out_Grid", 2);
 	glBindImageTexture(2, outTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
 
-	glDispatchCompute(dim.x/16, dim.y/16, dim.z);
+	glDispatchCompute(dim.x/16, dim.y/16, dim.z/4);
 	glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 
 	glBindImageTexture(1, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
