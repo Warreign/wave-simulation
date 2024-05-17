@@ -51,10 +51,10 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 #endif // COMPUTE_SHADER
 
 
-    float borderColor[] = { 0.5f, 0.0f, 0.0f, 0.0f };
+    float borderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     glCreateTextures(GL_TEXTURE_3D, 1, &m_inTexture);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTextureParameterfv(m_inTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_inTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -62,8 +62,8 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     glTextureStorage3D(m_inTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
 
     glCreateTextures(GL_TEXTURE_3D, 1, &m_outTexture);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTextureParameterfv(m_outTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
     glTextureParameteri(m_outTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
