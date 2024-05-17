@@ -96,7 +96,7 @@ void SimulationComponent::onRenderGui()
 		m_simGrid->setDirection(m_defaultDirection);
 		visualComp.setDirection(m_defaultDirection);
 	}
-	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 2.0f))
+	if (ImGui::SliderFloat("Amplitude", &m_defaultAmplitude, 0.0f, 1.0f))
 	{
 		m_simGrid->setDefaultAmp(m_defaultAmplitude);
 		visualComp.setAmplitude(m_defaultAmplitude);
