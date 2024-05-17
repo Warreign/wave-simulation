@@ -53,6 +53,13 @@ float getAmplitude(int i)
 //	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
 //}
 
+float defaultAmplitude(float theta)
+{
+	if (theta >= defDirection-EPSILON && theta <= defDirection+EPSILON)
+		return u_defaultAmp;
+	return 0.0;
+}
+
 float getAmplitude(float theta)
 {
 	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
