@@ -52,10 +52,6 @@ void TimeStepCompute::dispatchAdvection(GLuint inTexture, GLuint outTexture, glm
 	glBindImageTexture(2, 0, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
 
 	unbind();
-
-	//GLuint temp = m_outTexture;
-	//m_outTexture = m_inTexture;
-	//m_inTexture = temp;
 }
 
 void TimeStepCompute::dispatchDiffusion(GLuint inTexture, GLuint outTexture, glm::ivec3 dim)
