@@ -68,7 +68,7 @@ void main()
     int itheta = pos.z;
 
     float result;
-	if (gridPosition[X] <= 0.0 || gridPosition[X]+1 >= u_dim[X] || gridPosition[Z] <= 0.0 || gridPosition[Z] >= u_dim[Z])
+	if (gridPosition[X] <= 0.0 || gridPosition[X]+1 >= u_dim[X] || gridPosition[Z] <= 0.0 || gridPosition[Z]+1 >= u_dim[Z])
 	{
         itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
 		result = defaultAmplitude(itheta);
