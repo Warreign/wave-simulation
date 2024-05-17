@@ -101,6 +101,8 @@ void Window::initContext()
 
 	glGetIntegerv(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS, &v);
 	std::cout << "Compute shader max image units: " << v << std::endl;
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &v);
+	std::cout << "Max image units: " << v << std::endl;
 	std::cout << std::endl;
 
 #ifdef _DEBUG
