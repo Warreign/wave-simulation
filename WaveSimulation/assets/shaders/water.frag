@@ -65,10 +65,7 @@ float getAmplitude(float theta)
 	if ((vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y))
 	{
 		ddiffuse = vec3(0.5);
-		if (theta >= defDirection-EPSILON && theta <= defDirection+EPSILON)
-		{
-			return u_defaultAmp;
-		}
+		return defaultAmplitude(theta);
 	}
 
 	vec3 tPos = vec3(vPosScaled, theta / TAU);
