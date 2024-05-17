@@ -95,17 +95,13 @@ void Window::initContext()
 	std::cout << "Compute WG size Z: " << v << std::endl;
 	std::cout << std::endl;
 
-	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 0, &v);
-	std::cout << "Compute WG invocations X: " << v << std::endl;
-	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 1, &v);
-	std::cout << "Compute WG invocations Y: " << v << std::endl;
-	glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, 2, &v);
-	std::cout << "Compute WG invocations Z: " << v << std::endl;
+	glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &v);
+	std::cout << "Compute WG invocations: " << v << std::endl;
 	std::cout << std::endl;
 
-
-
-
+	glGetIntegerv(GL_MAX_COMPUTE_TEXTURE_IMAGE_UNITS, &v);
+	std::cout << "Compute shader max image units: " << v << std::endl;
+	std::cout << std::endl;
 
 #ifdef _DEBUG
 #endif
