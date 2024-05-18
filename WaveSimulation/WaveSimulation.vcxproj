@@ -184,6 +184,7 @@
     <ClCompile Include="src\utils\shaderBase.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
     <ClCompile Include="src\simulation\grid.cpp" />
+    <ClCompile Include="src\visualization\meshes\cubeMesh.cpp" />
     <ClCompile Include="src\visualization\meshes\mesh.cpp" />
     <ClCompile Include="src\visualization\meshes\waterMesh.cpp" />
     <ClCompile Include="src\visualization\objects\object.cpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="src\utils\GlDebug.h" />
     <ClInclude Include="src\visualization\meshes\mesh.h" />
     <ClInclude Include="src\visualization\meshes\waterMesh.h" />
+    <ClInclude Include="src\visualization\meshes\cubeMesh.h" />
     <ClInclude Include="src\visualization\objects\object.h" />
     <ClInclude Include="src\visualization\objects\skybox.h" />
     <ClInclude Include="src\visualization\objects\water.h" />

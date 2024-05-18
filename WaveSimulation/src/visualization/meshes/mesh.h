@@ -34,6 +34,7 @@ protected:
 	void setColorData(void* data) const;
 	void setTexData(void* data) const;
 
+	Mesh() {}
 	Mesh(Shader* shader, uint8_t flags, int numVertices, int numPrimitives, long setSize);
 
 public:
