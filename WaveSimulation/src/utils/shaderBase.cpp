@@ -14,6 +14,8 @@ ShaderBase::~ShaderBase()
 
 void ShaderBase::addIncludeFile(const std::string& fpath)
 {
+	std::cout << "\t Adding " << fpath << " as a glNamedString" << std::endl;
+
 	std::string content = readShaderFromFile(fpath);
 
 	std::regex macro_regex(".*macros.*", std::regex::extended);
