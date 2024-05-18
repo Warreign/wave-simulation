@@ -32,8 +32,8 @@ public:
 	Shader();
 	Shader(const std::string& vertexFile, const std::string& fragmentFile);
 
-	template<class... Files>
-	Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Files&... files);
+	template<class... Paths>
+	Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths&... includes);
 
 	/// Load uniform and attribute location variables
 	virtual void setLocations();
@@ -41,15 +41,15 @@ public:
 	virtual void setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const;
 };
 
-template<class... Files>
-Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Files&... files)
+template<class... Paths>
+Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths&... includes)
 	: m_vertPath(vertexShaderPath), m_fragPath(fragmentShaderPath)
 {
 	std::cout << "\t Initializing " << vertexShaderPath << "|" << fragmentShaderPath << std::endl;
 
-	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath, files...);
+	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath, includes...);
 	assert(vertexShader != 0);
-	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath, files...);
+	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath, includes...);
 	assert(fragmentShader != 0);
 
 

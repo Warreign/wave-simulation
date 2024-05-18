@@ -8,8 +8,8 @@ class WaterShader : public Shader
 {
 public:
 
-	template<class... Files>
-	WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Files&... files);
+	template<class... Paths>
+	WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths&... includes);
 	/// Set transform matrices and camera position
 	void setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const override;
 	/// Set water color material parameters
@@ -45,9 +45,9 @@ private:
 	void setLocations() override;
 };
 
-template<class ...Files>
-inline WaterShader::WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Files & ...files)
-	: Shader(vertexShaderPath, fragmentShaderPath, files...)
+template<class ...Paths>
+inline WaterShader::WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths & ...includes)
+	: Shader(vertexShaderPath, fragmentShaderPath, includes...)
 {
 	setLocations();
 }
