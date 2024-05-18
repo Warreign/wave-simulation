@@ -42,7 +42,7 @@ void DisturbanceCompute::dispatch(GLuint inTexture, GLuint outTexture)
 	glBindImageTexture(1, inTexture, 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
 	setInteger("out_Grid", 2);
 	glBindImageTexture(2, outTexture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
-	glDispatchCompute(16, 1, 1);
+	glDispatchCompute(4, 1, 1);
 	//glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 	unbind();
 }

@@ -6,7 +6,7 @@
 
 #define NTHETA 16
 
-layout (local_size_x = 16) in;
+layout (local_size_x = 4) in;
 
 layout(r32f) readonly uniform image3D in_Grid;
 layout(r32f) writeonly uniform image3D out_Grid;
