@@ -81,6 +81,23 @@ void Camera::rotateView(float dyaw, float dpitch)
 	);
 }
 
+void Camera::rotateViewAbs(float yaw, float pitch)
+{
+	this->yaw = yaw;
+	this->pitch = pitch;
+	direction = glm::vec3(
+		glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch)),
+		glm::sin(glm::radians(pitch)),
+		glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch))
+	);
+
+	up = glm::vec3(
+		-glm::sin(glm::radians(yaw)) * glm::sin(glm::radians(pitch)),
+		glm::cos(glm::radians(pitch)),
+		-glm::cos(glm::radians(yaw)) * glm::sin(glm::radians(pitch))
+	);
+}
+
 void Camera::moveLeft()
 {
 	if (freeMode)

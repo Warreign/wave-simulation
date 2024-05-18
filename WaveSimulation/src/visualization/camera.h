@@ -59,6 +59,7 @@ public:
 	void moveForward();
 	void moveBackward();
 	void rotateView(float dyaw, float dpitch);
+	void rotateViewAbs(float yaw, float pitch);
 
 	void updateMatrices();
 	glm::vec3 rayCast(glm::vec2 screenPosition) const;
