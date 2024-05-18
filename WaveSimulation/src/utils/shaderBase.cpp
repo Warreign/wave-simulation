@@ -160,6 +160,11 @@ const std::string ShaderBase::readShaderFromFile(const std::string& path)
 	std::ifstream fs(path);
 	std::string shaderSource;
 
+	if (!fs)
+	{
+		std::cerr << "\t File " << path << " does not exist!" << std::endl;
+		return "";
+	}
 
 	fs.seekg(0, std::ios::end);
 	shaderSource.reserve(fs.tellg());
