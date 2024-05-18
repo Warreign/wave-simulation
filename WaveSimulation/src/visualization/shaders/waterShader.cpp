@@ -6,12 +6,6 @@
 *	Water Shader
 */
 
-WaterShader::WaterShader()
-	: Shader("shaders/water.vert", "shaders/water.frag", "shaders/water_macros.glsl", "shaders/water_common.glsl")
-{
-	setLocations();
-}
-
 void WaterShader::setLocations()
 {
 	attributes.position = attribLocation("aPosition");
