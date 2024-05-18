@@ -40,6 +40,7 @@ private:
 	static Application* s_instance;
 
 	bool m_running;
+	int m_targetFrameRate = 60.0f;
 	float m_dt = 0;
 	double m_deltaTime = 0;
 	double m_frameEnd = 0;

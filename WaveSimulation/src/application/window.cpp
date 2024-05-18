@@ -114,14 +114,6 @@ void Window::initContext()
 void Window::setVsync(bool value)
 {
 	m_isVsync = value;
-	if (m_isVsync)
-	{
-		glfwSwapInterval(1);
-	}
-	else
-	{
-		glfwSwapInterval(0);
-	}
 }
 
 void Window::resize(int width, int height)

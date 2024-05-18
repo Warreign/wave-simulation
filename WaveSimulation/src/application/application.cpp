@@ -13,7 +13,7 @@ Application::Application(const std::string& title)
 	s_instance = this;
 
 	m_window = std::make_unique<Window>(1280, 960, title);
-	m_window->setVsync(false);
+	m_window->setVsync(true);
 
 	ilInit();
 	ilEnable(IL_ORIGIN_SET);
@@ -75,6 +75,13 @@ void Application::run()
 			c->onRender();
 		}
 
+		if (m_window->isVsync())
+		{
+			while ((glfwGetTime() - m_frameStart) < (1.0 / m_targetFrameRate))
+			{
+			}
+		}
+
 		m_frameEnd = glfwGetTime();
 		m_dt = m_frameEnd - m_frameStart;
 		m_deltaTime += m_dt;
@@ -129,8 +136,8 @@ void Application::onUpdate()
 void Application::onRenderGui()
 {
 	ImGui::Begin("Statistics");
+	ImGui::SliderInt("Refresh Rate", &m_targetFrameRate, 10, 240);
 	ImGui::InputFloat("FPS", &m_frameRate, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::InputFloat("Average Frame Time", &m_averageFrameTime, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::InputFloat("Frame dt", &m_dt, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::End();
 }
