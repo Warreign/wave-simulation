@@ -111,7 +111,7 @@ void VisualizationComponent::onRenderGui()
 	ImGui::End();
 
 	ImGui::Begin("Simulation #2");
-	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, 15))
+	if (ImGui::SliderInt("Direction", &m_defaultDirection, 0, N_THETA-1))
 	{
 		m_simGrid.setDirection(m_defaultDirection);
 		m_waterShader->setInteger("u_direction", m_defaultDirection);

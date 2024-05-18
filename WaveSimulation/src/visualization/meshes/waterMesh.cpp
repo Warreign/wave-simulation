@@ -38,7 +38,7 @@ void WaterMesh::initBuffers()
 
 void WaterMesh::setAmplitudeData(void* data) const
 {
-	setData(data, vertexSetSize * 16, 0, amplitudeVbo);
+	setData(data, vertexSetSize * N_THETA, 0, amplitudeVbo);
 }
 
 WaterMesh::WaterMesh(WaterShader* shader, uint32_t size, float scale)
