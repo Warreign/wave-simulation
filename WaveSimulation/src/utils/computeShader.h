@@ -44,6 +44,4 @@ inline ComputeShader::ComputeShader(const std::string& path, const Paths & ...in
 		glDeleteProgram(program);
 		delete[] message;
 	}
-
-	setLocations();
 }
