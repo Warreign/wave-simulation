@@ -14,7 +14,7 @@ ShaderBase::~ShaderBase()
 
 void ShaderBase::addIncludeFile(const std::string& fpath)
 {
-	std::cout << "\t Adding " << fpath << " as a glNamedString" << std::endl;
+	std::cout << "\t Adding " << fpath << " as shader include file" << std::endl;
 
 	std::string content = readShaderFromFile(fpath);
 
