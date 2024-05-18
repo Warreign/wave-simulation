@@ -16,6 +16,8 @@ class ShaderBase
 public:
 	virtual ~ShaderBase();
 
+	static void addIncludeFile(const std::string& path);
+
 	void bind() const;
 	void unbind() const;
 
