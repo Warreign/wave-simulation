@@ -14,6 +14,7 @@ private:
 
 template<class ...Paths>
 inline ComputeShader::ComputeShader(const std::string& path, const Paths & ...includes)
+	: m_path(path)
 {
 	std::cout << "\t Initializing " << m_path << " compute shader" << std::endl;
 
@@ -37,7 +38,7 @@ inline ComputeShader::ComputeShader(const std::string& path, const Paths & ...in
 		GLchar* message = new GLchar[logSize];
 		glGetProgramInfoLog(program, logSize, &logSize, message);
 
-		std::cerr << "ERROR: Program " << vertexShaderPath << "/" << fragmentShaderPath << " failed to link: " << std::endl;
+		std::cerr << "ERROR: Program " << m_path << " failed to link: " << std::endl;
 		std::cerr << message << std::endl;
 
 		glDeleteProgram(program);
