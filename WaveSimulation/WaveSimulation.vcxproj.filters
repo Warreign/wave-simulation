@@ -182,6 +182,9 @@
     <ClInclude Include="src\simulation\shaders\profileCompute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\parameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\skybox.frag" />

@@ -2,6 +2,7 @@
 
 #include "application/application.h"
 #include "visualization/camera.h"
+#include "utils/parameters.h"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -23,9 +24,9 @@ void SimulationComponent::init()
 		0.01f, // min wave length
 		10.0f, // max wave length
 		10.0f, // wind speed
-		128, // number of spatial disc. nodes
-		16, // number of wave angle disc. nodes
-		1 // number of wave length disc. nodes
+		N_SPATIAL,	// number of spatial disc. nodes
+		N_THETA,	// number of wave angle disc. nodes
+		N_K			// number of wave length disc. nodes
 	);
 
 	Application& app = Application::getInstance();

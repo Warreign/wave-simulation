@@ -12,8 +12,6 @@
 // Comment to run simulation on cpu
 #define COMPUTE_SHADER
 
-#define NTHETA 16 // Number of disc. nodes for theta
-
 class AmplitudeGrid {
 public:
     enum Dim { X = 0, Z = 1, Theta = 2, K = 3 };

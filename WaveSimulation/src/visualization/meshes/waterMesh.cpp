@@ -23,7 +23,7 @@ void WaterMesh::initBuffers()
 	glGenBuffers(1, &amplitudeVbo);
 	glBindBuffer(GL_ARRAY_BUFFER, amplitudeVbo);
 
-	for (int i = 0; i < NTHETA / 4; ++i)
+	for (int i = 0; i < N_THETA / 4; ++i)
 	{
 		glEnableVertexAttribArray(shader->attributes.amplitudes + i);
 		glVertexAttribPointer(shader->attributes.amplitudes + i, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 16, (void*)(sizeof(float) * 4 * i));
@@ -113,7 +113,7 @@ void WaterMesh::updateData(float mult, const AmplitudeGrid& amplitudeGrid)
 	{
 		for (int iz = 0; iz <= size; ++iz)
 		{
-			for (int itheta = 0; itheta < NTHETA; ++itheta)
+			for (int itheta = 0; itheta < N_THETA; ++itheta)
 			{
 				//for (int ik = 0; ik <= amplitudeData->dim[3]; ++ik)
 				//{

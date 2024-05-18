@@ -204,6 +204,7 @@
     <ClInclude Include="src\simulation\shaders\disturbanceCompute.h" />
     <ClInclude Include="src\simulation\shaders\profileCompute.h" />
     <ClInclude Include="src\simulation\shaders\timeStepCompute.h" />
+    <ClInclude Include="src\utils\parameters.h" />
     <ClInclude Include="src\visualization\camera.h" />
     <ClInclude Include="src\math\integration.h" />
     <ClInclude Include="src\simulation\grid.h" />
