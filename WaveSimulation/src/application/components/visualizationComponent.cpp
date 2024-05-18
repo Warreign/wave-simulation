@@ -20,7 +20,7 @@ void VisualizationComponent::init()
 	m_waterShader = std::make_unique<WaterShader>("shaders/water.vert", "shaders/water.frag", "shaders/water_macros.glsl", "shaders/water_common.glsl");
 
 	std::cout << "\t Initializing main camera" << std::endl;
-	m_camera = std::make_unique<Camera>(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 100.0f, glm::radians(80.0f), 30.0f);
+	m_camera = std::make_unique<Camera>(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 200.0f, glm::radians(80.0f), 30.0f);
 	m_camera->makeActive();
 
 	std::cout << "\t Initializing skybox" << std::endl;
@@ -99,6 +99,11 @@ void VisualizationComponent::onRenderGui()
 	ImGui::Begin("Camera Settings");
 	Camera& cam = Camera::get();
 	//ImGui::DragFloat("Speed", &cam.speed, 5.0, 0.0);
+	ImGui::SliderFloat("Height", &cam.position.y, 5.0f, 100.0f);
+	if (ImGui::SliderAngle("Veiw yaw angle", &m_cameraYaw))
+		cam.rotateViewAbs(glm::degrees(m_cameraYaw), glm::degrees(m_cameraPitch));
+	if (ImGui::SliderAngle("View pitch angle", &m_cameraPitch, -90.0f, 90.0f))
+		cam.rotateViewAbs(glm::degrees(m_cameraYaw), glm::degrees(m_cameraPitch));
 	ImGui::SliderAngle("FOV", &cam.fovAngle, 10.0f, 179.0f);
 	//ImGui::DragFloat("Sensitivity", &cam.sensitivity, 0.1f, 3.0f, 0.1f);
 	ImGui::DragFloat("Far Plane", &cam.farPlane, 10.0f, 1.0f);
