@@ -8,7 +8,7 @@ out vec4 fColor;
 
 in vec3 vPosition;
 in vec2 vPosScaled; 
-in vec4 vAmplitudes[NTHETA/4];
+in vec4 vAmplitudes[N_THETA/4];
 
 uniform sampler3D u_Amplitude;
 uniform vec2 u_min;
@@ -34,7 +34,7 @@ uniform vec3 diffuse;
 uniform vec3 specular;
 uniform float shininess;
 
-float defDirection = TAU / NTHETA * u_direction;
+float defDirection = TAU / N_THETA * u_direction;
 vec3 ddiffuse = diffuse;
 
 // Get amplitude by index
@@ -46,9 +46,9 @@ float getAmplitude(int i)
 // Get interpolated amplitude
 //float getAmplitude(float theta)
 //{
-//	float ftheta = NTHETA * (mod(theta, TAU) / TAU);
+//	float ftheta = N_THETA * (mod(theta, TAU) / TAU);
 //	float c = fract(ftheta);
-//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
+//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % N_THETA);
 //}
 
 // Calculate fragment normal using amplitudes and profile buffer

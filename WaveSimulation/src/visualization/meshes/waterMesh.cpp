@@ -26,10 +26,10 @@ void WaterMesh::initBuffers()
 	for (int i = 0; i < N_THETA / 4; ++i)
 	{
 		glEnableVertexAttribArray(shader->attributes.amplitudes + i);
-		glVertexAttribPointer(shader->attributes.amplitudes + i, 4, GL_FLOAT, GL_FALSE, sizeof(float) * 16, (void*)(sizeof(float) * 4 * i));
+		glVertexAttribPointer(shader->attributes.amplitudes + i, 4, GL_FLOAT, GL_FALSE, sizeof(float) * N_THETA, (void*)(sizeof(float) * 4 * i));
 	}
 
-	glBufferData(GL_ARRAY_BUFFER, vertexSetSize * 16, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexSetSize * N_THETA, nullptr, GL_DYNAMIC_DRAW);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

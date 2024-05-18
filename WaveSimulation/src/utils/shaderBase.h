@@ -60,8 +60,18 @@ protected:
 			std::regex macro_regex(".*macros.*", std::regex::extended);
 			if (std::regex_search(fpath, macro_regex))
 			{
-				//content += "\#undef N_THETA\n";
-				//content += "\#undef N_K\n";
+				std::stringstream strstrm(content);
+				std::string line;
+				std::vector<std::string> lines;
+				while (std::getline(strstrm, line, '\n'))
+					lines.push_back(line);
+				lines.pop_back();
+				lines.pop_back();
+				std::string nodef = "";
+				for (auto l : lines)
+					nodef += l + '\n';
+
+				content = nodef;
 				content += std::format("#define N_THETA {}\n", N_THETA);
 				content += std::format("#define N_K {}\n", N_K);
 			}

@@ -5,7 +5,7 @@
 #include "water_common.glsl"
 
 in vec3 aPosition;
-in vec4 aAmplitudes[NTHETA/4];
+in vec4 aAmplitudes[N_THETA/4];
 
 uniform sampler3D u_Amplitude;
 uniform vec2 u_min;
@@ -27,18 +27,18 @@ uniform mat4 ProjectM;
 uniform sampler1D profileBuffer;
 uniform float profilePeriod;
 
-float defDirection = TAU / NTHETA * u_direction;
+float defDirection = TAU / N_THETA * u_direction;
 
 out vec3 vPosition;
 out vec2 vPosScaled; 
-out vec4 vAmplitudes[NTHETA/4];
+out vec4 vAmplitudes[N_THETA/4];
 
 // Get interpolated amplitude
 //float getAmplitude(float theta)
 //{
-//	float ftheta = NTHETA * (mod(theta, TAU) / TAU);
+//	float ftheta = N_THETA * (mod(theta, TAU) / TAU);
 //	float c = fract(ftheta);
-//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
+//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % N_THETA);
 //}
 
 // Calculate vertex displacement (not final position) using amplitudes and profile buffer
@@ -73,7 +73,7 @@ void main()
 	
 	gl_Position = ProjectM * ViewM * vec4(pos, 1.0);
 
-	for (int i = 0; i < NTHETA / 4; ++i)
+	for (int i = 0; i < N_THETA / 4; ++i)
 	{
 		vAmplitudes[i] = aAmplitudes[i];
 	}
