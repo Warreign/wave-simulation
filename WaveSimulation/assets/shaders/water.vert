@@ -2,6 +2,7 @@
 
 #extension GL_ARB_shading_language_include : require
 #include "water_macros.glsl"
+#include "water_common.glsl"
 
 in vec3 aPosition;
 in vec4 aAmplitudes[NTHETA/4];
@@ -40,29 +41,6 @@ out vec4 vAmplitudes[NTHETA/4];
 //	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % NTHETA);
 //}
 
-float defaultAmplitude(float theta)
-{
-	if (theta >= defDirection-EPSILON && theta <= defDirection+EPSILON)
-		return u_defaultAmp;
-	return 0.0;
-}
-
-float getAmplitude(float theta)
-{
-	if (vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y)
-	{
-		return defaultAmplitude(theta);
-	}
-	vec3 tPos = vec3(vPosScaled, theta / TAU);
-	return texture(u_Amplitude, tPos).r * u_multiplier;
-}
-
-// Pseudo random number generator
-float rand(int co) 
-{ 
-	return 23.34 * (fract(sin(co* 123.432) * 5354.53)); 
-}
-
 // Calculate vertex displacement (not final position) using amplitudes and profile buffer
 vec3 calculateDisplacement(vec2 position)
 {
@@ -77,7 +55,7 @@ vec3 calculateDisplacement(vec2 position)
 		+ 
 		rand(b);
 		p = p / profilePeriod;
-		vec4 val = getAmplitude(theta) 
+		vec4 val = getAmplitude(theta, vPosition, defDirection, u_defaultAmp, vPosScaled, u_multiplier, u_Amplitude, u_min, u_max)
 		* 
 		texture(profileBuffer, p);
 
