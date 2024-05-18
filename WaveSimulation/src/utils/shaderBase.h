@@ -1,11 +1,15 @@
 #pragma once
 
+#include "utils/parameters.h"
+
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
 #include <string>
+#include <format>
 #include <iostream>
 #include <initializer_list>
+#include <regex>
 
 class ShaderBase
 {
@@ -52,6 +56,16 @@ protected:
 			includes = true;
 			const std::string& fpath = files;
 			std::string content = readShaderFromFile(fpath);
+
+			std::regex macro_regex(".*macros.*", std::regex::extended);
+			if (std::regex_search(fpath, macro_regex))
+			{
+				//content += "\#undef N_THETA\n";
+				//content += "\#undef N_K\n";
+				content += std::format("#define N_THETA {}\n", N_THETA);
+				content += std::format("#define N_K {}\n", N_K);
+			}
+
 			std::string glpath = "/" + fpath;
 			glNamedStringARB(GL_SHADER_INCLUDE_ARB, -1, glpath.c_str(), -1, content.c_str());
 			} (), ...);
