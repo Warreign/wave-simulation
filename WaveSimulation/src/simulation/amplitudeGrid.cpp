@@ -206,7 +206,6 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
 
     swapTextures();
 
-    glGetTextureImage(m_inTexture, 0, GL_RED, GL_FLOAT, m_dim[X] * m_dim[Z] * m_dim[Theta] * sizeof(float), m_data.getDataPtr());
 #endif
 }
 
