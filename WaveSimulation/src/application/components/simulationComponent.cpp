@@ -44,20 +44,20 @@ void SimulationComponent::init()
 			}
 		});
 	
-	//glfwSetMouseButtonCallback(window.getHandle(), [](GLFWwindow* w, int button, int action, int mods)
-	//	{
-	//		const auto& io = ImGui::GetIO();
-	//		if (io.WantCaptureMouse) return;
+	glfwSetMouseButtonCallback(window.getHandle(), [](GLFWwindow* w, int button, int action, int mods)
+		{
+			const auto& io = ImGui::GetIO();
+			if (io.WantCaptureMouse) return;
 
-	//		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-	//		{
-	//			double x, y;
-	//			glfwGetCursorPos(w, &x, &y);
-	//			AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
-	//			glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
-	//			simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
-	//		}
-	//	});
+			if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+			{
+				double x, y;
+				glfwGetCursorPos(w, &x, &y);
+				AmplitudeGrid& simGrid = Application::getInstance().getSimComp().getGrid();
+				glm::vec3 planePoint = Camera::get().intersectPlane(glm::vec3(0, 1, 0), glm::vec3(0), glm::vec2(x, y));
+				simGrid.addPointDisturbance(glm::vec2(planePoint.x, planePoint.z), 0.1);
+			}
+		});
 }
 
 void SimulationComponent::destroy()
