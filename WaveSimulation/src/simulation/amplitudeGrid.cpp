@@ -77,11 +77,14 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 #endif
 }
 
-void AmplitudeGrid::timeStep(float dt)
+void AmplitudeGrid::timeStep(float dt, bool updateAmps)
 {
     m_time += dt;
-    advectionStep(dt);
-    wavevectorDiffusion(dt);
+    if (updateAmps)
+    {
+        advectionStep(dt);
+        wavevectorDiffusion(dt);
+    }
     precomputeProfileBuffers();
 }
 

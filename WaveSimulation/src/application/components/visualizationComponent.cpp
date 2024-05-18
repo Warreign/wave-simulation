@@ -51,6 +51,7 @@ void VisualizationComponent::onUpdate(float dt)
 
 	if (Application::getInstance().getSimComp().isUpdateGird())
 	{
+	}
 #ifndef COMPUTE_SHADER
 		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
 		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
@@ -65,7 +66,6 @@ void VisualizationComponent::onUpdate(float dt)
 		m_waterShader->setInteger("profileBuffer", 0);
 		glBindTextureUnit(0, m_simGrid.m_profileBuffers[0].getTexture());
 #endif // !COMPUTE_SHADER
-	}
 
 	glm::vec2 min = m_simGrid.m_min;
 	glm::vec2 max = m_simGrid.m_max;

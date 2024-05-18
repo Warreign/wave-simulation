@@ -22,7 +22,7 @@ public:
     float interpolatedValue(float x, float z, float theta, float k) const;
 
     double cflTimeStep(float dt, float timeMultiplier) const;
-    void timeStep(float dt);
+    void timeStep(float dt, bool updateAmps);
     void advectionStep(float dt);
     void wavevectorDiffusion(float dt);
 

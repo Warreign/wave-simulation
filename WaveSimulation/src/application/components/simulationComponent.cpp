@@ -69,11 +69,7 @@ void SimulationComponent::onUpdate(float dt)
 	float dtt = dt;
 	double cfl_dt = m_simGrid->cflTimeStep(dt ,m_timeMultiplier);
 	m_dtLast = cfl_dt;
-
-	if (m_isUpdateGrid)
-	{
-		m_simGrid->timeStep(cfl_dt);
-	}
+	m_simGrid->timeStep(cfl_dt, m_isUpdateGrid);
 }
 
 void SimulationComponent::onRenderGui()
