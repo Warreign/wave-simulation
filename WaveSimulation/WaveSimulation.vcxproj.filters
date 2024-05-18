@@ -131,7 +131,7 @@
     <ClInclude Include="src\application\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\application\GlDebug.h">
+    <ClInclude Include="src\utils\GlDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\application\application.h">
@@ -194,6 +194,8 @@
     <None Include="assets\shaders\diffusion.comp" />
     <None Include="assets\shaders\disturbance.comp" />
     <None Include="assets\shaders\profile.comp" />
+    <None Include="assets\shaders\water_common.glsl" />
+    <None Include="assets\shaders\water_macros.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">

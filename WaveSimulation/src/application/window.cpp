@@ -1,7 +1,7 @@
 #include "window.h"
 
 #include "application/application.h"
-#include "application/GlDebug.h"
+#include "utils/GlDebug.h"
 
 #include <stdexcept>
 #include <glad/glad.h>

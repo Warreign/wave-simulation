@@ -207,7 +207,7 @@
     <ClInclude Include="src\visualization\camera.h" />
     <ClInclude Include="src\math\integration.h" />
     <ClInclude Include="src\simulation\grid.h" />
-    <ClInclude Include="src\application\GlDebug.h" />
+    <ClInclude Include="src\utils\GlDebug.h" />
     <ClInclude Include="src\visualization\meshes\mesh.h" />
     <ClInclude Include="src\visualization\meshes\waterMesh.h" />
     <ClInclude Include="src\visualization\objects\object.h" />
