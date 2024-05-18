@@ -1,10 +1,7 @@
 #version 460 core
 
-#define X 0
-#define Z 1
-#define Theta 2
-
-#define NTHETA 16
+#extension GL_ARB_shading_language_include : require
+#include "compute_macros.glsl"
 
 layout (local_size_x = 4) in;
 
