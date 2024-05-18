@@ -33,7 +33,7 @@ private:
 	float m_cameraYaw = glm::radians(0.0f); // Radians
 	float m_cameraPitch = glm::radians(-90.0f); // Radians
 
-	const size_t m_waterSize = 100;
+	const size_t m_waterSize = 200;
 	const float m_waterScale = 200.0f;
 
 	AmplitudeGrid& m_simGrid;
