@@ -1,15 +1,19 @@
 #pragma once
 
-#include "utils/shaderBase.h"
+#include "utils/computeShader.h"
 
-class DisturbanceCompute : public ShaderBase
+class DisturbanceCompute : public ComputeShader
 {
 public:
-	DisturbanceCompute(const std::string& path);
+	template<class... Paths>
+	DisturbanceCompute(const std::string& path, const Paths&... includes);
 
 	void dispatch(GLuint inTexture, GLuint outTexture);
 	void loadUniforms(glm::ivec2 realPos,  glm::ivec2 dim, float ampVal);
-
-private:
-	std::string m_path;
 };
+
+template<class ...Paths>
+inline DisturbanceCompute::DisturbanceCompute(const std::string& path, const Paths & ...includes)
+	: ComputeShader(path, includes...)
+{
+}

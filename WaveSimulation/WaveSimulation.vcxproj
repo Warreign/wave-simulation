@@ -204,6 +204,7 @@
     <ClInclude Include="src\simulation\shaders\disturbanceCompute.h" />
     <ClInclude Include="src\simulation\shaders\profileCompute.h" />
     <ClInclude Include="src\simulation\shaders\timeStepCompute.h" />
+    <ClInclude Include="src\utils\computeShader.h" />
     <ClInclude Include="src\utils\parameters.h" />
     <ClInclude Include="src\visualization\camera.h" />
     <ClInclude Include="src\math\integration.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="src\visualization\shaders\waterShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\compute_macros.glsl" />
     <None Include="assets\shaders\diffusion.comp" />
     <None Include="assets\shaders\advection.comp" />
     <None Include="assets\shaders\disturbance.comp" />

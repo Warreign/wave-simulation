@@ -185,6 +185,9 @@
     <ClInclude Include="src\utils\parameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils\computeShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\skybox.frag" />
@@ -199,6 +202,7 @@
     <None Include="assets\shaders\profile.comp" />
     <None Include="assets\shaders\water_common.glsl" />
     <None Include="assets\shaders\water_macros.glsl" />
+    <None Include="assets\shaders\compute_macros.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">

@@ -1,19 +1,24 @@
 #pragma once
 
-#include "utils/shaderBase.h"
+#include "utils/computeShader.h"
 
 #include <string>
 
-class TimeStepCompute : public ShaderBase
+class TimeStepCompute : public ComputeShader
 {
 public:
-	TimeStepCompute(const std::string path);
+	template<class... Paths>
+	TimeStepCompute(const std::string& path, const Paths&... includes);
+
 
 	void dispatchAdvection(GLuint inTexture, GLuint outTexture, glm::ivec3 dim);
 	void dispatchDiffusion(GLuint inTexture, GLuint outTexture, glm::ivec3 dim);
 
 	void loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt);
-
-private:
-	std::string m_path;
 };
+
+template<class ...Paths>
+inline TimeStepCompute::TimeStepCompute(const std::string& path, const Paths & ...includes)
+	: ComputeShader(path, includes...)
+{
+}

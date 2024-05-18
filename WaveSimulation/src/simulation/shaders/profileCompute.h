@@ -1,17 +1,22 @@
 #pragma once
 
-#include "utils/shaderBase.h"
+#include "utils/computeShader.h"
 
 #include <iostream>
 
-class ProfileCompute : public ShaderBase
+class ProfileCompute : public ComputeShader
 {
 public:
-	ProfileCompute(const std::string& path);
+	template<class... Paths>
+	ProfileCompute(const std::string& path, const Paths&... includes);
 
 	void loadUniforms(float kmin, float kmax, float time, float period, uint32_t resolution);
 	void dispatch(GLuint profileTexture, uint32_t resolution);
-
-private:
-	std::string m_path;
 };
+
+template<class ...Paths>
+inline ProfileCompute::ProfileCompute(const std::string& path, const Paths & ...includes)
+	: ComputeShader(path, includes...)
+{
+}
+
