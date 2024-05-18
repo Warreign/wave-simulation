@@ -1,10 +1,7 @@
 #version 460 core
 
-#define NTHETA 16
-#define INTEGRATION_SAMPLES 100
-#define PI 3.14159265358
-#define TAU 6.28318530718
-#define EPSILON 0.3
+#extension GL_ARB_shading_language_include : require
+#include "water_macros.glsl"
 
 in vec3 aPosition;
 in vec4 aAmplitudes[NTHETA/4];
@@ -34,14 +31,6 @@ float defDirection = TAU / NTHETA * u_direction;
 out vec3 vPosition;
 out vec2 vPosScaled; 
 out vec4 vAmplitudes[NTHETA/4];
-
-// Get amplitude by index
-
-
-float getAmplitude(int i)
-{
-	return aAmplitudes[i/4][i%4];
-}
 
 // Get interpolated amplitude
 //float getAmplitude(float theta)

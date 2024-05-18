@@ -224,6 +224,8 @@
     <None Include="assets\shaders\diffusion.comp" />
     <None Include="assets\shaders\advection.comp" />
     <None Include="assets\shaders\disturbance.comp" />
+    <None Include="assets\shaders\water_common.glsl" />
+    <None Include="assets\shaders\water_macros.glsl" />
     <None Include="assets\shaders\profile.comp" />
     <None Include="assets\shaders\skybox.frag" />
     <None Include="assets\shaders\skybox.vert" />

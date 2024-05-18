@@ -142,39 +142,42 @@ const std::string ShaderBase::readShaderFromFile(const std::string& path)
 
 	return shaderSource;
 }
-
-const GLuint ShaderBase::compileShader(GLenum type, const std::string& path, const std::string& commonPath)
-{
-	GLint result;
-	GLuint shader = glCreateShader(type);
-
-	std::string shaderSource = "";
-	if (!commonPath.empty()) shaderSource += readShaderFromFile(commonPath);
-	shaderSource +=	readShaderFromFile(path);
-	const GLchar* source = shaderSource.c_str();
-	glShaderSource(shader, 1, &source, nullptr);
-	glCompileShader(shader);
-
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
-	if (result == GL_FALSE)
-	{
-		GLint logSize;
-		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
-
-		GLchar* message = new GLchar[logSize];
-		glGetShaderInfoLog(shader, logSize, &logSize, message);
-
-		std::cerr << "ERROR: Shader " << path << " failed to compile: " << std::endl;
-		std::cerr << message << std::endl;
-
-		glDeleteShader(shader);
-		delete[] message;
-		return 0;
-	}
-
-	return shader;
-}
-
+//
+//template<class... Files>
+//const GLuint ShaderBase::compileShader(GLenum type, const std::string& path, Files... files)
+//{
+//	GLint result;
+//	GLuint shader = glCreateShader(type);
+//
+//	for (const std::string& fpath : files)
+//	{
+//		std::string fcontent = readShaderFromFile(fpath);
+//		glNamedStringARB(GL_SHADER_INCLUDE_ARB, fpath.length(), fpath.c_str(), fcontent.length(), fcontent.c_str());
+//	}
+//	std::string shaderSource = readShaderFromFile(path);
+//	const GLchar* source = shaderSource.c_str();
+//	glShaderSource(shader, 1, &source, nullptr);
+//	glCompileShader(shader);
+//
+//	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+//	if (result == GL_FALSE)
+//	{
+//		GLint logSize;
+//		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
+//
+//		GLchar* message = new GLchar[logSize];
+//		glGetShaderInfoLog(shader, logSize, &logSize, message);
+//
+//		std::cerr << "ERROR: Shader " << path << " failed to compile: " << std::endl;
+//		std::cerr << message << std::endl;
+//
+//		glDeleteShader(shader);
+//		delete[] message;
+//		return 0;
+//	}
+//
+//	return shader;
+//}
 
 GLint ShaderBase::uniformLocation(const std::string& name)
 {

@@ -31,7 +31,48 @@ public:
 
 	Shader();
 	Shader(const std::string& vertexFile, const std::string& fragmentFile);
-	Shader(const std::string& vertexFile, const std::string& fragmentFile, const std::string& commonPath);
+	Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const std::string& commonPath);
+
+	//template<class... Files>
+	//Shader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Files&... files)
+	//	: m_vertPath(vertexShaderPath), m_fragPath(fragmentShaderPath)
+	//{
+	//	std::cout << "\t Initializing " << vertexShaderPath << "|" << fragmentShaderPath << std::endl;
+
+	//	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath, files...);
+	//	assert(vertexShader != 0);
+	//	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath, files...);
+	//	assert(fragmentShader != 0);
+
+
+	//	program = glCreateProgram();
+
+	//	glAttachShader(program, vertexShader);
+	//	glAttachShader(program, fragmentShader);
+	//	glLinkProgram(program);
+
+	//	glDeleteShader(vertexShader);
+	//	glDeleteShader(fragmentShader);
+
+	//	GLint result;
+	//	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	//	if (result == GL_FALSE)
+	//	{
+	//		GLint logSize;
+	//		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+
+	//		GLchar* message = new GLchar[logSize];
+	//		glGetProgramInfoLog(program, logSize, &logSize, message);
+
+	//		std::cerr << "ERROR: Program " << vertexShaderPath << "/" << fragmentShaderPath << " failed to link: " << std::endl;
+	//		std::cerr << message << std::endl;
+
+	//		glDeleteProgram(program);
+	//		delete[] message;
+	//	}
+
+	//	setLocations();
+	//}
 
 	/// Load uniform and attribute location variables
 	virtual void setLocations();

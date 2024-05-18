@@ -58,9 +58,9 @@ Shader::Shader(const std::string& vertexShaderPath, const std::string& fragmentS
 {
 	std::cout << "\t Initializing " << vertexShaderPath << "|" << fragmentShaderPath << std::endl;
 
-	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath);
+	GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexShaderPath, commonPath);
 	assert(vertexShader != 0);
-	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath);
+	GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentShaderPath, commonPath);
 	assert(fragmentShader != 0);
 
 

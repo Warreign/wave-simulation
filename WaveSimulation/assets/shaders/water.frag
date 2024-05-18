@@ -1,10 +1,7 @@
 #version 460 core
 
-#define NTHETA 16
-#define INTEGRATION_SAMPLES 100
-#define PI 3.14159265358
-#define TAU 6.28318530718
-#define EPSILON 0.3
+#extension GL_ARB_shading_language_include : require
+#include "water_macros.glsl"
 
 out vec4 fColor;
 

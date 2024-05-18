@@ -7,7 +7,7 @@
 */
 
 WaterShader::WaterShader()
-	: Shader("shaders/water.vert", "shaders/water.frag")
+	: Shader("shaders/water.vert", "shaders/water.frag", std::string("shaders/water_macros.glsl"))
 {
 	setLocations();
 }
