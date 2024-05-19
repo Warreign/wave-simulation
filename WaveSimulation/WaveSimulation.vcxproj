@@ -225,6 +225,7 @@
     <ClInclude Include="src\visualization\shaders\waterShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="assets\shaders\compute_common.glsl" />
     <None Include="assets\shaders\compute_macros.glsl" />
     <None Include="assets\shaders\diffusion.comp" />
     <None Include="assets\shaders\advection.comp" />
