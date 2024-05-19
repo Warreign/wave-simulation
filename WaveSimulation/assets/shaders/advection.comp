@@ -44,11 +44,26 @@ vec3 gridPos(vec3 realPosition)
 	return vec3(gridPos(realPosition.x,X), gridPos(realPosition.y, Z), gridPos(realPosition.z, Theta));
 }
 
-float defaultAmplitude(int itheta)
+float defDirection = TAU / N_THETA * u_direction;
+float defaultAmplitude(float theta)
 {
-    if (itheta == u_direction)
-        return u_defAmplitude;
-    return 0.0;
+//    if (itheta == u_direction)
+//        return u_defAmplitude;
+//    return 0.0;
+	if (theta >= defDirection - 0.3 && theta < defDirection + 0.3)
+		return u_defAmplitude;
+	return 0.0;
+}
+
+
+vec2 cubepos = vec2(11, 15);
+float cubescale = 8.0f;
+bool insideCube(vec2 position)
+{
+	return (position.x >= cubepos.x - cubescale &&
+			position.x <= cubepos.x + cubescale && 
+			position.y >= cubepos.y - cubescale && 
+			position.y <= cubepos.y + cubescale);
 }
 
 void main()
@@ -67,7 +82,7 @@ void main()
 	if (gridPosition[X] <= 0.0 || gridPosition[X]+1 >= u_dim[X] || gridPosition[Z] <= 0.0 || gridPosition[Z]+1 >= u_dim[Z])
 	{
         itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
-		result = defaultAmplitude(itheta);
+		result = defaultAmplitude(realPosition[Theta]);
 	}
     else
     {
@@ -75,6 +90,10 @@ void main()
         result = texture(in_Grid, texPos).r;
     }
 
-
+//	if (insideCube(realPosition.xy))
+//	{
+//		result = 0.2;
+//	}
+//
 	imageStore(out_Grid, pos, vec4(result, 0, 0, 0));
 }
