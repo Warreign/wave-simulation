@@ -56,15 +56,28 @@ float defaultAmplitude(float theta)
 	return 0.0;
 }
 
-
-vec2 cubepos = vec2(11, 15);
-float cubescale = 8.0f;
-bool insideCube(vec2 position)
+vec3 reflection(vec3 realPosition)
 {
-	return (position.x >= cubepos.x - cubescale &&
-			position.x <= cubepos.x + cubescale && 
-			position.y >= cubepos.y - cubescale && 
-			position.y <= cubepos.y + cubescale);
+//	realPosition = vec3(((realPosition.xy - cubepos) * 1.01) + cubepos, realPosition[Theta]);
+	if (!insideCube(realPosition.xy))
+		return realPosition;
+
+	vec2 pos = realPosition.xy - cubepos;
+	vec2 n;
+	if (abs(pos.x) > abs(pos.y))
+		n = sign(pos.x) * vec2(1, 0);
+	else
+		n = sign(pos.y) * vec2(0, 1);
+	n *= 2;
+
+	float rtheta = realPosition[Theta];
+	vec2 kdir = vec2(cos(rtheta), sin(rtheta));
+
+	kdir = kdir - 2.0 * (kdir * n) * n;
+//	kdir = reflect(kdir, n);
+
+	float reftheta = atan(kdir.y, kdir.x);
+	return vec3(realPosition.xy, reftheta);
 }
 
 void main()
@@ -72,29 +85,26 @@ void main()
 	ivec3 pos = ivec3(gl_GlobalInvocationID);
 	vec3 realPosition = realPos(pos[X], pos[Z], pos[Theta]);
 
+	float result;
+
+//	if (insideCube(realPosition.xy))
+//		return;
+
 	vec2 waveVector = vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
 
 	realPosition = realPosition - u_dt * u_groupSpeed * vec3(waveVector, 0.0);
+	realPosition = reflection(realPosition);
 	vec3 gridPosition = gridPos(realPosition);
-    
-    int itheta = pos.z;
 
-    float result;
 	if (gridPosition[X] <= 0.0 || gridPosition[X]+1 >= u_dim[X] || gridPosition[Z] <= 0.0 || gridPosition[Z]+1 >= u_dim[Z])
 	{
-        itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
 		result = defaultAmplitude(realPosition[Theta]);
 	}
-    else
-    {
-	    vec3 texPos =  gridPosition/(u_dim) + 0.5/u_dim;
-        result = texture(in_Grid, texPos).r;
-    }
+	else
+	{
+		vec3 texPos =  gridPosition/(u_dim) + 0.5/u_dim;
+		result = texture(in_Grid, texPos).r;
+	}
 
-//	if (insideCube(realPosition.xy))
-//	{
-//		result = 0.2;
-//	}
-//
 	imageStore(out_Grid, pos, vec4(result, 0, 0, 0));
 }

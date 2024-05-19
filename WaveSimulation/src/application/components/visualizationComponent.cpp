@@ -90,10 +90,10 @@ void VisualizationComponent::onRender()
 	{
 		m_water->draw(Camera::get(), GL_LINE);
 	}
-	m_cube->draw(Camera::get());
 
 	if (m_isSkyboxVisible)
 	{
+		m_cube->draw(Camera::get());
 		m_skybox->draw(Camera::get());
 	}
 }
