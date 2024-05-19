@@ -46,4 +46,9 @@ private:
 	
 	std::unique_ptr<WaterMesh> m_waterMesh;
 	std::unique_ptr<Water> m_water;
+
+	std::unique_ptr<ObjectInstance> m_cube;
+
+
+	friend class SimulationComponent;
 };

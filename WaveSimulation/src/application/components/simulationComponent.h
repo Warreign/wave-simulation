@@ -28,4 +28,6 @@ private:
 	float m_dtLast;
 
 	std::unique_ptr<AmplitudeGrid> m_simGrid;
+
+	friend class VisualizationComponent;
 };

@@ -1,6 +1,7 @@
 #include "visualizationComponent.h"
 
 #include "application/application.h"
+#include "visualization/meshes/cubeMesh.h"
 
 #include <imgui.h>
 
@@ -33,6 +34,12 @@ void VisualizationComponent::init()
 
 	std::cout << "\t Initializing Water object" << std::endl;
 	m_water = std::make_unique<Water>(m_waterMesh.get());
+
+	std::cout << "\t Initializing cube" << std::endl;
+	CubeMesh* cube_mesh = new CubeMesh(m_commonShader.get());
+	glm::vec3 cube_position(11, 0, 15);
+	float cube_scale = 8;
+	m_cube = std::make_unique<ObjectInstance>(cube_mesh, glm::translate(glm::mat4(1), cube_position) * glm::scale(glm::mat4(1), glm::vec3(cube_scale)));
 
 	m_simGrid.setDirection(m_defaultDirection);
 	m_waterShader->setInteger("u_direction", m_defaultDirection);
@@ -83,6 +90,7 @@ void VisualizationComponent::onRender()
 	{
 		m_water->draw(Camera::get(), GL_LINE);
 	}
+	m_cube->draw(Camera::get());
 
 	if (m_isSkyboxVisible)
 	{

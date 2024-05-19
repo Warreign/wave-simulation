@@ -5,6 +5,7 @@
 
 class CubeMesh : public Mesh
 {
+public:
 	CubeMesh(Shader* shader);
 
 
