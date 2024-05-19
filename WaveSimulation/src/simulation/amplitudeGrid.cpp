@@ -41,6 +41,7 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     m_profileBuffers.resize(numWaveLength);
 
     ShaderBase::addIncludeFile("shaders/compute_macros.glsl");
+    ShaderBase::addIncludeFile("shaders/compute_common.glsl");
 
     m_advectionCompute = std::make_unique<TimeStepCompute>("shaders/advection.comp");
     m_diffusionCompute = std::make_unique<TimeStepCompute>("shaders/diffusion.comp");
