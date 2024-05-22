@@ -12,11 +12,11 @@ uniform int u_direction;
 uniform float u_defAmplitude;
 
 // Grid Dimensions
-uniform ivec3 u_dim;
+uniform ivec4 u_dim;
 // Minimum values on the real grid
-uniform vec3 u_min;
+uniform vec4 u_min;
 // Difference between discreet values of the grid
-uniform vec3 u_delta;
+uniform vec4 u_delta;
 
 // Group speed of current wave number
 uniform float u_groupSpeed;

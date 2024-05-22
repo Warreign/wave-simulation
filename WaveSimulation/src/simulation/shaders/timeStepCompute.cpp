@@ -40,13 +40,13 @@ void TimeStepCompute::dispatchDiffusion(GLuint inTexture, GLuint outTexture, glm
 	unbind();
 }
 
-void TimeStepCompute::loadUniforms(glm::ivec3 dim, glm::vec3 min, glm::vec3 delta, float groupSpeed, float dt)
+void TimeStepCompute::loadUniforms(glm::ivec4 dim, glm::vec4 min, glm::vec4 delta, float groupSpeed, float dt)
 {
 	bind();
 	//glm::vec3 dim3(m_dim);
-	setIVec3("u_dim", dim);
-	setVec3("u_min", min);
-	setVec3("u_delta", delta);
+	setIVec4("u_dim", dim);
+	setVec4("u_min", min);
+	setVec4("u_delta", delta);
 	setFloat("u_groupSpeed", groupSpeed);
 	setFloat("u_dt", dt);
 	unbind();
