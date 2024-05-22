@@ -7,6 +7,7 @@
 layout (local_size_x = 16, local_size_y = 16, local_size_z = 4) in;
 
 layout(r32f) uniform readonly image3D in_Grid;
+layout(r32f) uniform readonly image3D in_Amps[N_K];
 layout(r32f) uniform writeonly image3D out_Grid;
 
 
@@ -14,7 +15,24 @@ layout(r32f) uniform writeonly image3D out_Grid;
 uniform float u_groupSpeed;
 // Time step
 uniform float u_dt;
+uniform int u_ik;
 
+
+float value(int ix, int iz, int itheta, int ik)
+{
+    itheta = (itheta + u_dim[Theta]) % u_dim[Theta];
+
+    if (ik < 0 || ik >= N_K)
+    {
+        return 0.0;
+    }
+
+    if (ix < 0 || ix >= u_dim[X] || iz < 0 || iz >= u_dim[Z])
+        return defaultAmplitude(itheta);
+
+    vec4 val = imageLoad(in_Amps[ik], ivec3(ix, iz, itheta));
+    return val.r;
+}
 
 float value(int ix, int iz, int itheta)
 {
@@ -23,7 +41,7 @@ float value(int ix, int iz, int itheta)
     if (ix < 0 || ix >= u_dim[X] || iz < 0 || iz >= u_dim[Z])
         return defaultAmplitude(itheta);
 
-    vec4 val = imageLoad(in_Grid, ivec3(ix, iz, itheta));
+    vec4 val = imageLoad(in_Amps[u_ik], ivec3(ix, iz, itheta));
     return val.r;
 }
 
@@ -37,6 +55,8 @@ void main()
 
     float result = (1.0 - gamma) * value(pos[X], pos[Z], pos[Theta]) + gamma * 0.5 * (value(pos[X], pos[Z], pos[Theta]+1) + value(pos[X], pos[Z], pos[Theta]-1)) ;
 
+    float result2 =  (1.0 - delta) * value(pos[X], pos[Z], pos[Theta], u_ik) + 0.5 * delta * (value(pos[X], pos[Z], pos[Theta], u_ik + 1) + value(pos[X], pos[Z], pos[Theta], u_ik -1));
+
 //    result = value(pos[X], pos[Z], pos[Theta]);
-	imageStore(out_Grid, pos, vec4(result, 0, 0, 0));
+	imageStore(out_Grid, pos, vec4(0.5 * result + 0.5 * result2, 0, 0, 0));
 }
