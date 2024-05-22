@@ -62,19 +62,20 @@ vec3 reflection(vec3 realPosition)
 	if (!insideCube(realPosition.xy))
 		return realPosition;
 
-	vec2 pos = realPosition.xy - cubepos;
+	vec2 pos = realPosition.xy;
+	vec2 posc = realPosition.xy - cubepos;
 	vec2 n;
-	if (abs(pos.x) > abs(pos.y))
-		n = sign(pos.x) * vec2(1, 0);
+	if (abs(posc.x) > abs(posc.y))
+		n = sign(posc.x) * vec2(1, 0);
 	else
-		n = sign(pos.y) * vec2(0, 1);
+		n = sign(posc.y) * vec2(0, 1);
 	n *= 2;
 
 	float rtheta = realPosition[Theta];
 	vec2 kdir = vec2(cos(rtheta), sin(rtheta));
 
+	pos = pos - 2.0 * (-1) * n;
 	kdir = kdir - 2.0 * (kdir * n) * n;
-//	kdir = reflect(kdir, n);
 
 	float reftheta = atan(kdir.y, kdir.x);
 	return vec3(realPosition.xy, reftheta);
