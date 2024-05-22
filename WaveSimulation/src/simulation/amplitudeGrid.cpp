@@ -58,7 +58,6 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
     float borderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-#ifdef MULT_K
     m_ampTextures.resize(N_K);
     m_outTextures.resize(N_K);
     glCreateTextures(GL_TEXTURE_3D, N_K, m_ampTextures.data());
@@ -90,32 +89,6 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     glTextureParameteri(m_profileTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTextureStorage2D(m_profileTexture, 1, GL_RGBA32F, 4096, N_K);
 
-
-#else
-
-    glCreateTextures(GL_TEXTURE_3D, 1, &m_inTexture);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTextureParameterfv(m_inTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(m_inTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureStorage3D(m_inTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
-
-#endif
-
-    glCreateTextures(GL_TEXTURE_3D, 1, &m_outTexture);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    glTextureParameterfv(m_outTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureParameteri(m_outTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTextureStorage3D(m_outTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
-
-//#ifdef COMPUTE_SHADER
-//    glTextureSubImage3D(m_inTexture, 0, 0, 0, 0, m_dim[X], m_dim[Z], m_dim[Theta], GL_RED, GL_FLOAT, m_data.getDataPtr());
-//#endif
 }
 
 void AmplitudeGrid::timeStep(float dt, bool updateAmps)
@@ -149,16 +122,11 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
     {
         m_disturbanceCompute->loadUniforms(ipos, m_dim, val);
 
-#ifdef MULT_K
         for (int i = 0; i < N_K; ++i)
         {
             m_disturbanceCompute->dispatch(m_ampTextures[i], m_outTextures[i]);
             swapTexVectors(i);
         }
-#else
-        m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
-        swapTextures();
-#endif
     }
 #endif
 
@@ -214,18 +182,12 @@ void AmplitudeGrid::advectionStep(float dt)
     m_data = updatedData;
 #else
 
-#ifdef MULT_K
     for (int i = 0; i < N_K; ++i)
     {
         m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
         m_advectionCompute->dispatchAdvection(m_ampTextures[i], m_outTextures[i], m_dim);
         swapTexVectors(i);
     }
-#else
-    m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
-    m_advectionCompute->dispatchAdvection(m_inTexture, m_outTexture, m_dim);
-    swapTextures();
-#endif
 #endif
 }
 
@@ -262,18 +224,12 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     m_data = updatedData;
 #else
 
-#ifdef MULT_K
     for (int i = 0; i < N_K; ++i)
     {
         m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
         m_diffusionCompute->dispatchDiffusion(m_ampTextures[i], m_outTextures[i], m_dim);
         swapTexVectors(i);
     }
-#else
-    m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
-    m_diffusionCompute->dispatchDiffusion(m_inTexture, m_outTexture, m_dim);
-    swapTextures();
-#endif
 
 #endif
 }
@@ -289,18 +245,11 @@ void AmplitudeGrid::precomputeProfileBuffers()
         m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
 #else
 
-#ifndef MULT_K
-        m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time, m_periodicity);
-    }
-#else
-
         float period = k_upper * m_periodicity;
         m_profileCompute->setInteger("u_ik", ik);
         m_profileCompute->loadUniforms(k_lower, k_upper, m_time, period, 4096);
         m_profileCompute->dispatch(m_profileTexture, 4096);
     }
-
-#endif
 
 #endif // !COMPUTE_SHADER
 }
@@ -427,13 +376,6 @@ glm::vec2 AmplitudeGrid::groupVelocity(glm::vec4 pos4) const
     float omega = groupSpeed(pos4[K]);
     float theta = pos4[Theta];
     return omega * glm::vec2( cos(theta), sin(theta) );
-}
-
-void AmplitudeGrid::swapTextures()
-{
-    GLuint temp = m_outTexture;
-    m_outTexture = m_inTexture;
-    m_inTexture = temp;
 }
 
 void AmplitudeGrid::swapTexVectors(int idx)

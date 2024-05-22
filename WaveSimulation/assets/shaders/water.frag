@@ -50,12 +50,6 @@ vec3 calculateNormal(vec2 position)
 		rand(b);
 		p = p / profilePeriod;
 
-#ifndef MULT_K
-		vec4 val = getAmplitude(theta, vPosition, vPosScaled) * texture(profileBuffer, p);
-
-		dx += k.x * val.zwz;
-		dz += k.y * val.zwz;
-#else
 		for (int ik = 0; ik < N_K; ++ik)
 		{
 			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(profileBuffer, vec2(p, ik));
@@ -63,7 +57,6 @@ vec3 calculateNormal(vec2 position)
 			dx += k.x * val.zwz;
 			dz += k.y * val.zwz;
 		}
-#endif
 	}
 
 	return normalize(-cross(dx, dz));

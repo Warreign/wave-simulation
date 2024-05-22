@@ -32,7 +32,6 @@ public:
     void setDefaultAmp(float value);
     void setWindSpeed(float speed);
 
-    GLuint getAmpTexture() const { return m_inTexture; }
     GLuint getAmpTexture(int ik) const { return m_ampTextures[ik]; }
 
     int defaultDirection = 3;
@@ -70,7 +69,6 @@ private:
     glm::vec4 gridPos(float x, float z, float theta, float k) const;
     glm::vec4 realPos(int ix, int iz, int itheta, int ik) const;
 
-    void swapTextures();
     void swapTexVectors(int idx);
 
     Grid m_data;
@@ -91,8 +89,5 @@ private:
 
     std::vector<GLuint> m_ampTextures;
     std::vector<GLuint> m_outTextures;
-
-    GLuint m_inTexture;
-    GLuint m_outTexture;
 };
 
