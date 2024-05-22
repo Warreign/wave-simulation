@@ -18,9 +18,6 @@ public:
 
     AmplitudeGrid(float size, float waveLengthMin, float waveLengthMax, float windSpeed, uint32_t numSpatial, uint32_t numWaveAngle, uint32_t numWaveLength);
 
-    float value(int ix, int iz, int itheta, int ik) const;
-    float interpolatedValue(float x, float z, float theta, float k) const;
-
     double cflTimeStep(float dt, float timeMultiplier) const;
     void timeStep(float dt, bool updateAmps);
     void advectionStep(float dt);
@@ -51,19 +48,13 @@ public:
     float realPos(int gridIdx, int dim) const;
 
 private:
-    static float spectrum(float k, float windSpeed);
-    static float piersonMoskowitz(float k, float windSpeed);
-
     void precomputeProfileBuffers();
-    float constrainedValue(int ix, int iz, int itheta, int ik) const;
-    float defaultAmplitude(int itheta) const;
 
     float groupSpeed(int ik) const;
     float groupSpeed(float k) const;
     float waveLength(int ik) const;
     float waveNumber(int ik) const;
     float waveNumber(float k) const;
-    glm::vec2 groupVelocity(glm::vec4 pos4) const;
 
     float gridPos(float gridPos, int dim) const;
     glm::vec4 gridPos(float x, float z, float theta, float k) const;
@@ -71,7 +62,6 @@ private:
 
     void swapTexVectors(int idx);
 
-    Grid m_data;
 
     // Dimensions
     glm::ivec4 m_dim;
@@ -79,8 +69,6 @@ private:
     glm::vec4 m_delta;
     // Time from starts
     float m_time;
-
-    std::vector<float> m_groupSpeeds;
 
     std::unique_ptr<TimeStepCompute> m_advectionCompute;
     std::unique_ptr<TimeStepCompute> m_diffusionCompute;
