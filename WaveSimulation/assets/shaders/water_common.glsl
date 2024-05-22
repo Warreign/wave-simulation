@@ -1,6 +1,24 @@
 
 #include "water_macros.glsl"
 
+
+uniform sampler3D u_Amplitude;
+
+uniform uint u_waterSize;
+uniform float u_waterScale;
+uniform float u_multiplier;
+uniform int u_direction;
+uniform float u_defaultAmp;
+
+uniform vec2 u_min;
+uniform vec2 u_max;
+
+uniform sampler1D profileBuffer;
+uniform float profilePeriod;
+
+float scale = u_max.x - u_min.x;
+float defDirection = TAU / N_THETA * u_direction;
+
 // Pseudo random number generator
 float rand(int co) 
 { 
@@ -15,12 +33,12 @@ float defaultAmplitude(float theta, float defDirection, float defAmp)
 	return 0.0;
 }
 
-float getAmplitude(float theta, vec3 pos, float defDirection, float defAmp, vec2 posScaled, float mult, sampler3D amps, vec2 vmin, vec2 vmax)
+float getAmplitude(float theta, vec3 pos, vec2 posScaled)
 {
-	if (pos.x < vmin.x || pos.z < vmin.y || pos.x > vmax.x || pos.z > vmax.y)
+	if (pos.x < u_min.x || pos.z < u_min.y || pos.x > u_max.x || pos.z > u_max.y)
 	{
-		return defaultAmplitude(theta, defDirection, defAmp);
+		return defaultAmplitude(theta, defDirection, u_defaultAmp);
 	}
 	vec3 tPos = vec3(posScaled, theta / TAU);
-	return texture(amps, tPos).r * mult;
+	return texture(u_Amplitude, tPos).r * u_multiplier;
 }

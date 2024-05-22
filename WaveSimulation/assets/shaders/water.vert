@@ -7,27 +7,11 @@
 in vec3 aPosition;
 in vec4 aAmplitudes[N_THETA/4];
 
-uniform sampler3D u_Amplitude;
-uniform vec2 u_min;
-uniform vec2 u_max;
-float scale = u_max.x - u_min.x;
-
-uniform uint u_waterSize;
-uniform float u_waterScale;
-uniform float u_multiplier;
-uniform int u_direction;
-uniform float u_defaultAmp;
-
 uniform mat4 PVM;
 uniform mat4 ViewM;
 uniform mat4 ModelM;
 uniform mat4 NormalM;
 uniform mat4 ProjectM;
-
-uniform sampler1D profileBuffer;
-uniform float profilePeriod;
-
-float defDirection = TAU / N_THETA * u_direction;
 
 out vec3 vPosition;
 out vec2 vPosScaled; 
@@ -55,9 +39,7 @@ vec3 calculateDisplacement(vec2 position)
 		+ 
 		rand(b);
 		p = p / profilePeriod;
-		vec4 val = getAmplitude(theta, vPosition, defDirection, u_defaultAmp, vPosScaled, u_multiplier, u_Amplitude, u_min, u_max)
-		* 
-		texture(profileBuffer, p);
+		vec4 val = getAmplitude(theta, vPosition, vPosScaled) * texture(profileBuffer, p);
 
 		result += vec3(k.x * val.x, val.y, k.y * val.x);
 	}
