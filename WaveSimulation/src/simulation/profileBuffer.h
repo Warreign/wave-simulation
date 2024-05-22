@@ -1,6 +1,5 @@
 #pragma once
 
-#include "math/integration.h"
 #include "simulation/shaders/profileCompute.h"
 
 #include <array>

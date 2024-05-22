@@ -183,7 +183,6 @@
     <ClCompile Include="src\simulation\shaders\timeStepCompute.cpp" />
     <ClCompile Include="src\utils\shaderBase.cpp" />
     <ClCompile Include="src\visualization\camera.cpp" />
-    <ClCompile Include="src\simulation\grid.cpp" />
     <ClCompile Include="src\visualization\meshes\cubeMesh.cpp" />
     <ClCompile Include="src\visualization\meshes\mesh.cpp" />
     <ClCompile Include="src\visualization\meshes\waterMesh.cpp" />
@@ -208,8 +207,6 @@
     <ClInclude Include="src\utils\computeShader.h" />
     <ClInclude Include="src\utils\parameters.h" />
     <ClInclude Include="src\visualization\camera.h" />
-    <ClInclude Include="src\math\integration.h" />
-    <ClInclude Include="src\simulation\grid.h" />
     <ClInclude Include="src\utils\GlDebug.h" />
     <ClInclude Include="src\visualization\meshes\mesh.h" />
     <ClInclude Include="src\visualization\meshes\waterMesh.h" />
