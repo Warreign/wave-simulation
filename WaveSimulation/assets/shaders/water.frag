@@ -8,7 +8,6 @@ out vec4 fColor;
 
 in vec3 vPosition;
 in vec2 vPosScaled; 
-in vec4 vAmplitudes[N_THETA/4];
 
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
@@ -20,20 +19,6 @@ uniform vec3 specular;
 uniform float shininess;
 
 vec3 ddiffuse = diffuse;
-
-// Get amplitude by index
-float getAmplitude(int i)
-{
-	return vAmplitudes[i/4][i%4];
-}
-
-// Get interpolated amplitude
-//float getAmplitude(float theta)
-//{
-//	float ftheta = N_THETA * (mod(theta, TAU) / TAU);
-//	float c = fract(ftheta);
-//	return c * getAmplitude(int(floor(ftheta))) + (1-c) * getAmplitude(int(ceil(ftheta)) % N_THETA);
-//}
 
 // Calculate fragment normal using amplitudes and profile buffer
 vec3 calculateNormal(vec2 position)
