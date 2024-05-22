@@ -24,7 +24,7 @@ public:
     float period;
 
     void precompute(std::function<float(float, float)> spectrumFunc,float windSpeed, float kmin, float kmax, float time, int resolution = 4096);
-    void precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int resolution = 4096);
+    void precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int periodicity, int resolution = 4096);
 
     GLuint getTexture() const;
     uint32_t resolution() const;

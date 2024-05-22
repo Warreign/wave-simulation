@@ -34,7 +34,7 @@ float dispersionRelation(float k)
 
 vec4 compute(float k, float p, float c)
 {
-	float knum = TAU / k;
+	float knum = TAU / k; //angular wave number
 	float phase1 = knum * p - dispersionRelation(knum) * u_time;
 	float phase2 = knum * (p + u_period) - dispersionRelation(knum) * u_time;
 

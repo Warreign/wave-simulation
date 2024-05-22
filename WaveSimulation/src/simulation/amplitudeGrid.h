@@ -44,6 +44,8 @@ public:
     // Max values in all dimensions
     glm::vec4 m_max;
 
+    int m_periodicity = 2;
+
     float realPos(int gridIdx, int dim) const;
 
 private:
@@ -82,6 +84,7 @@ private:
     std::unique_ptr<TimeStepCompute> m_diffusionCompute;
     std::unique_ptr<DisturbanceCompute> m_disturbanceCompute;
     std::unique_ptr<ProfileCompute> m_profileCompute;
+
 
     GLuint m_inTexture;
     GLuint m_outTexture;

@@ -53,9 +53,9 @@ void ProfileBuffer::precompute(std::function<float(float,float)> spectrum, float
     }
 }
 
-void ProfileBuffer::precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int size)
+void ProfileBuffer::precompute(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int periodicity, int size)
 {
-    period = kmax * 2;
+    period = kmax * periodicity;
     profileCompute.loadUniforms(kmin, kmax, time, period, m_resolution);
     profileCompute.dispatch(m_texture, m_resolution);
 }

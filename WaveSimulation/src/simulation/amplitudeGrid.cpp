@@ -223,7 +223,7 @@ void AmplitudeGrid::precomputeProfileBuffers()
 #ifndef COMPUTE_SHADER
         m_profileBuffers[ik].precompute(piersonMoskowitz, windSpeed, k_lower, k_upper, m_time);
 #else
-        m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time);
+        m_profileBuffers[ik].precompute(*m_profileCompute, windSpeed, k_lower, k_upper, m_time, m_periodicity);
 #endif // !COMPUTE_SHADER
     }
 }
