@@ -1,7 +1,9 @@
 #include "amplitudeGrid.h"
 
-#include <iostream>
 #include <glm/ext.hpp>
+
+#include <iostream>
+#include <algorithm>
 
 #define TAU 6.28318530718
 
@@ -58,10 +60,21 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
 
 #ifdef MULT_K
     m_ampTextures.resize(N_K);
+    m_outTextures.resize(N_K);
     glCreateTextures(GL_TEXTURE_3D, N_K, m_ampTextures.data());
+    glCreateTextures(GL_TEXTURE_3D, N_K, m_outTextures.data());
     for (int i = 0; i < N_K; ++i)
     {
         GLuint currTexture = m_ampTextures[i];
+        glTextureParameteri(currTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTextureParameteri(currTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        glTextureParameterfv(currTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
+        glTextureParameteri(currTexture, GL_TEXTURE_WRAP_R, GL_REPEAT);
+        glTextureParameteri(currTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTextureParameteri(currTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureStorage3D(currTexture, 1, GL_R32F, m_dim[X], m_dim[Z], m_dim[Theta]);
+
+        currTexture = m_outTextures[i];
         glTextureParameteri(currTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTextureParameteri(currTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
         glTextureParameterfv(currTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
@@ -139,8 +152,8 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 #ifdef MULT_K
         for (int i = 0; i < N_K; ++i)
         {
-            m_disturbanceCompute->dispatch(m_ampTextures[i], m_outTexture);
-            swapTexVector(i);
+            m_disturbanceCompute->dispatch(m_ampTextures[i], m_outTextures[i]);
+            swapTexVectors(i);
         }
 #else
         m_disturbanceCompute->dispatch(m_inTexture, m_outTexture);
@@ -205,8 +218,8 @@ void AmplitudeGrid::advectionStep(float dt)
     for (int i = 0; i < N_K; ++i)
     {
         m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
-        m_advectionCompute->dispatchAdvection(m_ampTextures[i], m_outTexture, m_dim);
-        swapTexVector(i);
+        m_advectionCompute->dispatchAdvection(m_ampTextures[i], m_outTextures[i], m_dim);
+        swapTexVectors(i);
     }
 #else
     m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
@@ -253,8 +266,8 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     for (int i = 0; i < N_K; ++i)
     {
         m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
-        m_diffusionCompute->dispatchDiffusion(m_ampTextures[i], m_outTexture, m_dim);
-        swapTexVector(i);
+        m_diffusionCompute->dispatchDiffusion(m_ampTextures[i], m_outTextures[i], m_dim);
+        swapTexVectors(i);
     }
 #else
     m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(0), dt);
@@ -423,12 +436,14 @@ void AmplitudeGrid::swapTextures()
     m_inTexture = temp;
 }
 
-void AmplitudeGrid::swapTexVector(int inIdx)
+void AmplitudeGrid::swapTexVectors(int idx)
 {
-    GLuint temp = m_outTexture;
-    m_outTexture = m_ampTextures[inIdx];
-    m_ampTextures[inIdx] = temp;
+    //std::swap(m_ampTextures, m_outTextures);
+    GLuint temp = m_outTextures[idx];
+    m_outTextures[idx] = m_ampTextures[idx];
+    m_ampTextures[idx] = temp;
 }
+
 
 float AmplitudeGrid::defaultAmplitude(int itheta) const
 {

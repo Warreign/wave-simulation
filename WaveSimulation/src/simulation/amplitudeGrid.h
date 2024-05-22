@@ -71,7 +71,7 @@ private:
     glm::vec4 realPos(int ix, int iz, int itheta, int ik) const;
 
     void swapTextures();
-    void swapTexVector(int inIdx);
+    void swapTexVectors(int idx);
 
     Grid m_data;
 
@@ -90,6 +90,7 @@ private:
     std::unique_ptr<ProfileCompute> m_profileCompute;
 
     std::vector<GLuint> m_ampTextures;
+    std::vector<GLuint> m_outTextures;
 
     GLuint m_inTexture;
     GLuint m_outTexture;
