@@ -2,6 +2,7 @@
 
 #include "application/application.h"
 #include "visualization/meshes/cubeMesh.h"
+#include "utils/parameters.h"
 
 #include <imgui.h>
 
@@ -63,6 +64,8 @@ void VisualizationComponent::onUpdate(float dt)
 		m_waterMesh->updateData(m_ampMultiplier, m_simGrid);
 		m_waterMesh->setProfileBuffer(m_simGrid.m_profileBuffers[0]);
 #else
+
+#ifndef MULT_K
 		m_waterShader->setInteger("u_waterSize", m_waterSize);
 		m_waterShader->setFloat("u_waterScale", m_waterScale);
 		m_waterShader->setFloat("u_multiplier", m_ampMultiplier);
@@ -72,6 +75,23 @@ void VisualizationComponent::onUpdate(float dt)
 		m_waterShader->setFloat("profilePeriod", m_simGrid.m_profileBuffers[0].period);
 		m_waterShader->setInteger("profileBuffer", 0);
 		glBindTextureUnit(0, m_simGrid.m_profileBuffers[0].getTexture());
+#else
+		m_waterShader->setInteger("u_waterSize", m_waterSize);
+		m_waterShader->setFloat("u_waterScale", m_waterScale);
+		m_waterShader->setFloat("u_multiplier", m_ampMultiplier);
+
+		int location = m_waterShader->uniformLocation("u_Amps");
+		for (int ik = 0; ik < N_K; ++ik)
+		{
+			m_waterShader->setInteger(location + ik, ik+1);
+			glBindTextureUnit(ik+1, m_simGrid.getAmpTexture(ik));
+		}
+
+		m_waterShader->setFloat("profilePeriod", m_simGrid.m_max.w * m_simGrid.m_periodicity);
+		m_waterShader->setInteger("profileBuffer", 0);
+		glBindTextureUnit(0, m_simGrid.m_profileTexture);
+#endif
+
 #endif // !COMPUTE_SHADER
 
 	glm::vec2 min = m_simGrid.m_min;

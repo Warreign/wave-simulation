@@ -33,11 +33,14 @@ public:
     void setWindSpeed(float speed);
 
     GLuint getAmpTexture() const { return m_inTexture; }
+    GLuint getAmpTexture(int ik) const { return m_ampTextures[ik]; }
 
     int defaultDirection = 3;
     float windSpeed = 8.0f;
     float defaultAmplitudeVal = 0.0f;
     std::vector<ProfileBuffer> m_profileBuffers;
+
+    GLuint m_profileTexture;
 
     // Min values in all dimensions
     glm::vec4 m_min;
@@ -68,6 +71,7 @@ private:
     glm::vec4 realPos(int ix, int iz, int itheta, int ik) const;
 
     void swapTextures();
+    void swapTexVector(int inIdx);
 
     Grid m_data;
 
@@ -85,6 +89,7 @@ private:
     std::unique_ptr<DisturbanceCompute> m_disturbanceCompute;
     std::unique_ptr<ProfileCompute> m_profileCompute;
 
+    std::vector<GLuint> m_ampTextures;
 
     GLuint m_inTexture;
     GLuint m_outTexture;

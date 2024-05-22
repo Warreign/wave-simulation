@@ -39,9 +39,19 @@ vec3 calculateDisplacement(vec2 position)
 		+ 
 		rand(b);
 		p = p / profilePeriod;
-		vec4 val = getAmplitude(theta, vPosition, vPosScaled) * texture(profileBuffer, p);
 
+#ifndef MULT_K
+		vec4 val = getAmplitude(theta, vPosition, vPosScaled) * texture(profileBuffer, p);
 		result += vec3(k.x * val.x, val.y, k.y * val.x);
+#else
+		for (int ik = 0; ik < N_K; ++ik)
+		{
+			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(profileBuffer, vec2(p, ik));
+			result += vec3(k.x * val.x, val.y, k.y * val.x);
+		}
+#endif
+
+
 	}
 	return result;
 }

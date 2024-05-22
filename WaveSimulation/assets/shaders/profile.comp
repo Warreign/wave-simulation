@@ -4,8 +4,11 @@
 #include "compute_macros.glsl"
 
 layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
-layout(rgba32f) writeonly uniform image1D out_ProfileBuffer;
+//layout(rgba32f) writeonly uniform image1D out_ProfileBuffer;
 
+layout(rgba32f) writeonly uniform image1DArray out_ProfileBuffer;
+
+uniform int u_ik;
 uniform float u_windSpeed;
 uniform float u_kmin;
 uniform float u_kmax;
@@ -57,5 +60,6 @@ void main()
 		x += dx;
 		result += dx * compute(x, p, c);
 	}
-	imageStore(out_ProfileBuffer, pos, result);
+//	imageStore(out_ProfileBuffer, pos, result);
+	imageStore(out_ProfileBuffer, ivec2(pos, u_ik), result);
 }

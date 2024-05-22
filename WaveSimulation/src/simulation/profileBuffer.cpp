@@ -60,6 +60,11 @@ void ProfileBuffer::precompute(ProfileCompute& profileCompute, float windSpeed, 
     profileCompute.dispatch(m_texture, m_resolution);
 }
 
+void ProfileBuffer::precomputeVector(ProfileCompute& profileCompute, float windSpeed, float kmin, float kmax, float time, int kc, int periodicity, int resolution)
+{
+}
+
+
 GLuint ProfileBuffer::getTexture() const
 {
     return m_texture;

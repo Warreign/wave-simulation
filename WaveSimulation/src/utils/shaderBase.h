@@ -47,12 +47,12 @@ public:
 	void setVec4(GLint location, glm::vec4& value) const;
 	void setMat4(GLint location, glm::mat4& value) const;
 
+	GLint uniformLocation(const std::string& name);
 protected:
 	static const std::string readShaderFromFile(const std::string& path);
 	template<class... Files>
 	static const GLuint compileShader(GLenum type, const std::string& path, const Files&... files);
 
-	GLint uniformLocation(const std::string& name);
 	GLint attribLocation(const std::string& name);
 
 	GLuint program;
