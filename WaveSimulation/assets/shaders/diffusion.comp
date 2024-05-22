@@ -2,33 +2,19 @@
 
 #extension GL_ARB_shading_language_include : require
 #include "compute_macros.glsl"
+#include "compute_common.glsl"
 
 layout (local_size_x = 16, local_size_y = 16, local_size_z = 4) in;
 
 layout(r32f) uniform readonly image3D in_Grid;
 layout(r32f) uniform writeonly image3D out_Grid;
 
-uniform int u_direction;
-uniform float u_defAmplitude;
-
-// Grid Dimensions
-uniform ivec4 u_dim;
-// Minimum values on the real grid
-uniform vec4 u_min;
-// Difference between discreet values of the grid
-uniform vec4 u_delta;
 
 // Group speed of current wave number
 uniform float u_groupSpeed;
 // Time step
 uniform float u_dt;
 
-float defaultAmplitude(int itheta)
-{
-    if (itheta == u_direction)
-        return u_defAmplitude;
-    return 0.0;
-}
 
 float value(int ix, int iz, int itheta)
 {
@@ -46,6 +32,8 @@ void main()
 	ivec3 pos = ivec3(gl_GlobalInvocationID);
 
     float gamma = 2 * 0.025 * u_groupSpeed * u_dt / u_delta[X];
+
+    float delta = 0.00001 * u_dt * pow(u_delta[K], 2) * u_groupSpeed;
 
     float result = (1.0 - gamma) * value(pos[X], pos[Z], pos[Theta]) + gamma * 0.5 * (value(pos[X], pos[Z], pos[Theta]+1) + value(pos[X], pos[Z], pos[Theta]-1)) ;
 

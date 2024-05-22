@@ -10,51 +10,10 @@ uniform sampler3D samp[4];
 uniform sampler3D in_Grid;
 layout(r32f) uniform writeonly image3D out_Grid;
 
-uniform int u_direction;
-uniform float u_defAmplitude;
-
-// Grid Dimensions
-uniform ivec4 u_dim;
-// Minimum values on the real grid
-uniform vec4 u_min;
-// Difference between discreet values of the grid
-uniform vec4 u_delta;
-
 // Group speed of current wave number
 uniform float u_groupSpeed;
 // Time step
 uniform float u_dt;
-
-float realPos(int idx, int dim)
-{
-	return u_min[dim] + (idx + 0.5) * u_delta[dim];
-}
-
-vec3 realPos(int ix, int iz, int itheta)
-{
-	return vec3(realPos(ix, X), realPos(iz, Z), realPos(itheta, Theta));
-}
-
-float gridPos(float val, int dim)
-{
-	return (val - u_min[dim]) / u_delta[dim] - 0.5;
-}
-
-vec3 gridPos(vec3 realPosition)
-{
-	return vec3(gridPos(realPosition.x,X), gridPos(realPosition.y, Z), gridPos(realPosition.z, Theta));
-}
-
-float defDirection = TAU / N_THETA * u_direction;
-float defaultAmplitude(float theta)
-{
-//    if (itheta == u_direction)
-//        return u_defAmplitude;
-//    return 0.0;
-	if (theta >= defDirection - 0.3 && theta < defDirection + 0.3)
-		return u_defAmplitude;
-	return 0.0;
-}
 
 vec3 reflection(vec3 realPosition)
 {
