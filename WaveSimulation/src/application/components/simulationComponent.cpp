@@ -20,13 +20,9 @@ void SimulationComponent::init()
 	std::cout << "INFO: Initializing " << m_debugName << std::endl;
 
 	m_simGrid = std::make_unique<AmplitudeGrid>(
-		100.0f, //size
-		0.01f, // min wave length
-		10.0f, // max wave length
-		10.0f, // wind speed
-		N_SPATIAL,	// number of spatial disc. nodes
-		N_THETA,	// number of wave angle disc. nodes
-		N_K			// number of wave length disc. nodes
+		100.0f,		//size
+		0.01f,		// min wave length
+		10.0f		// max wave length
 	);
 
 	Application& app = Application::getInstance();
