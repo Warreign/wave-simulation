@@ -117,7 +117,7 @@ void AmplitudeGrid::advectionStep(float dt)
     for (int i = 0; i < N_K; ++i)
     {
         m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
-        m_advectionCompute->dispatchAdvection(m_inTextures[i], m_outTextures[i], m_dim);
+        m_advectionCompute->dispatchAdvection(m_inTextures[i], m_outTextures[i]);
         swapTexVectors(i);
     }
 }
@@ -128,23 +128,8 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
     {
         m_diffusionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(ik), dt);
         m_diffusionCompute->setInteger("u_ik", ik);
-        GLint location = m_diffusionCompute->uniformLocation("in_Amps");
-        
-        m_diffusionCompute->setInteger(location, ik);
-        glBindImageTexture(ik, m_inTextures[ik], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
-        if (ik - 1 >= 0)
-        {
-            m_diffusionCompute->setInteger(location, ik-1);
-            glBindImageTexture(ik, m_inTextures[ik-1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
-        }
-        if (ik + 1 < N_K)
-        {
-            m_diffusionCompute->setInteger(location, ik+1);
-            glBindImageTexture(ik, m_inTextures[ik+1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
-        }
 
-
-        m_diffusionCompute->dispatchDiffusion(m_inTextures[ik], m_outTextures[ik], m_dim);
+        m_diffusionCompute->dispatchDiffusion(m_inTextures, m_outTextures[ik], ik);
         swapTexVectors(ik);
     }
 }
