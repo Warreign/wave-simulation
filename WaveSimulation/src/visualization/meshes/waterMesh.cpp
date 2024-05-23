@@ -34,14 +34,14 @@ WaterMesh::WaterMesh(WaterShader* shader, uint32_t size, float scale)
 
 	float dx = scale / size;
 	float dy = scale / size;
-
 	positions.clear();
 	positions.reserve(numVertices);
 	for (int ix = 0; ix <= size; ++ix)
 	{
 		for (int iy = 0; iy <= size; ++iy)
 		{
-			positions.emplace_back(-scale / 2 + ix * dx, 0.0f, -scale / 2 + iy * dy);
+			glm::vec3 pos(-scale / 2 + ix * dx, 0.0f, -scale / 2 + iy * dy);
+			positions.emplace_back(pos);
 		}
 	}
 

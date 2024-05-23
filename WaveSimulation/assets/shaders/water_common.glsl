@@ -19,9 +19,9 @@ float scale = u_max.x - u_min.x;
 float defDirection = TAU / N_THETA * u_direction;
 
 // Pseudo random number generator
-float rand(int co) 
+float rand(int seed) 
 { 
-	return 23.34 * (fract(sin(co* 123.432) * 5354.53)); 
+	return 23.34 * (fract(sin(seed * 123.432) * 5354.53)); 
 }
 
 

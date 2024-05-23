@@ -85,8 +85,8 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
         for (int i = 0; i < N_K; ++i)
         {
             m_disturbanceCompute->dispatch(m_inTextures[i], m_outTextures[i]);
-            swapTexVectors(i);
         }
+        m_inTextures.swap(m_outTextures);
     }
 }
 
@@ -116,8 +116,9 @@ void AmplitudeGrid::advectionStep(float dt)
     {
         m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
         m_advectionCompute->dispatchAdvection(m_inTextures[i], m_outTextures[i]);
-        swapTexVectors(i);
     }
+
+    m_inTextures.swap(m_outTextures);
 }
 
 void AmplitudeGrid::wavevectorDiffusion(float dt)
@@ -128,8 +129,9 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
         m_diffusionCompute->setInteger("u_ik", ik);
 
         m_diffusionCompute->dispatchDiffusion(m_inTextures, m_outTextures[ik], ik);
-        swapTexVectors(ik);
     }
+
+    m_inTextures.swap(m_outTextures);
 }
 
 void AmplitudeGrid::precomputeProfileBuffers()
@@ -139,7 +141,7 @@ void AmplitudeGrid::precomputeProfileBuffers()
         float kmin = realPos(ik, K) - 0.5 * m_delta[K];
         float kmax = realPos(ik, K) + 0.5 * m_delta[K];
 
-        float period = kmax * m_periodicity;
+        float period = m_max[K] * m_periodicity;
         m_profileCompute->setInteger("u_ik", ik);
         m_profileCompute->loadUniforms(kmin, kmax, m_time, period, P_RES);
         m_profileCompute->dispatch(m_profileTexture, P_RES);
