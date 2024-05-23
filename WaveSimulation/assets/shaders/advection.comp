@@ -46,10 +46,6 @@ void main()
 	vec3 realPosition = realPos(pos[X], pos[Z], pos[Theta]);
 
 	float result;
-
-//	if (insideCube(realPosition.xy))
-//		return;
-
 	vec2 waveVector = vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
 
 	realPosition = realPosition - u_dt * u_groupSpeed * vec3(waveVector, 0.0);

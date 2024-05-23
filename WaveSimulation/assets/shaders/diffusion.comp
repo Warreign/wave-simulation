@@ -49,9 +49,9 @@ void main()
 {
 	ivec3 pos = ivec3(gl_GlobalInvocationID);
 
-    float gamma = 2 * 0.025 * u_groupSpeed * u_dt  * u_delta[Theta] * u_delta[Theta] / u_delta[X];
+    float gamma = 0.05 * u_groupSpeed * u_dt  * u_delta[Theta] * u_delta[Theta] / u_delta[X];
 
-    float delta = 0.00002 * u_dt * pow(u_delta[K], 2) * u_delta[X] * u_delta[X] * u_groupSpeed;
+    float delta = 0.00002 * u_dt * u_delta[K] * u_delta[K] * u_delta[X] * u_delta[X] * u_groupSpeed;
 
     float result = (1.0 - gamma) * value(pos[X], pos[Z], pos[Theta]) + gamma * 0.5 * (value(pos[X], pos[Z], pos[Theta]+1) + value(pos[X], pos[Z], pos[Theta]-1)) ;
 
