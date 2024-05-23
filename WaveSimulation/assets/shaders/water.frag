@@ -9,16 +9,14 @@ out vec4 fColor;
 in vec3 vPosition;
 in vec2 vPosScaled; 
 
-uniform vec3 lightPosition;
-uniform vec3 cameraPosition;
-uniform mat4 NormalM;
+uniform vec3 u_lightPosition;
+uniform vec3 u_cameraPosition;
+uniform mat4 u_NormalM;
 
-uniform vec3 ambient;
-uniform vec3 diffuse;
-uniform vec3 specular;
-uniform float shininess;
-
-vec3 ddiffuse = diffuse;
+uniform vec3 u_ambient;
+uniform vec3 u_diffuse;
+uniform vec3 u_specular;
+uniform float u_shininess;
 
 // Calculate fragment normal using amplitudes and profile buffer
 vec3 calculateNormal(vec2 position)
@@ -30,14 +28,12 @@ vec3 calculateNormal(vec2 position)
 	{
 		float theta = TAU / INTEGRATION_SAMPLES * b;
 		vec2 k = vec2(cos(theta), sin(theta));
-		float p = dot(k, position)
-		+ 
-		rand(b);
-		p = p / profilePeriod;
+		float p = dot(k, position) + rand(b);
+		p = p / u_profilePeriod;
 
 		for (int ik = 0; ik < N_K; ++ik)
 		{
-			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(profileBuffer, vec2(p, ik));
+			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(u_profileBuffer, vec2(p, ik));
 
 			dx += k.x * val.zwz;
 			dz += k.y * val.zwz;
@@ -56,21 +52,22 @@ void main()
 	vec3 outDiffuse = vec3(0.0);
 	vec3 outSpecular = vec3(0.0);
 
+	vec3 diffuse = u_diffuse;
 	if (vPosition.x < u_min.x || vPosition.z < u_min.y || vPosition.x > u_max.x || vPosition.z > u_max.y)
 	{
-		ddiffuse = vec3(0.5);
+		diffuse = vec3(0.5);
 	}
 
-	vec3 L = normalize(lightPosition);
+	vec3 L = normalize(u_lightPosition);
 	vec3 R = reflect(-L, normal);
-	vec3 V = normalize(cameraPosition - vPosition);
+	vec3 V = normalize(u_cameraPosition - vPosition);
 
 	float diff = max(dot(normal, L), 0.0);
-	float spec = pow(max(dot(R, V), 0.0), shininess);
+	float spec = pow(max(dot(R, V), 0.0), u_shininess);
 
-	outAmbient = ambient;
-	outDiffuse = ddiffuse * lightColor * diff;
-	outSpecular = specular * spec;
+	outAmbient = u_ambient;
+	outDiffuse = diffuse * lightColor * diff;
+	outSpecular = u_specular * spec;
 
 	fColor = vec4(outAmbient + outDiffuse + outSpecular, 1.0);
 }

@@ -159,7 +159,7 @@ void Skybox::draw(const Camera& camera, GLenum polygonMode) const
 	glm::mat4 noTranslateView = glm::mat4(glm::mat3(camera.viewMatrix()));
 	geometry->shader->setTransformParameters(camera.projectMatrix(), noTranslateView, model, camera.position);
 
-	geometry->shader->setInteger("skybox", 10);
+	geometry->shader->setInteger("u_skybox", 10);
 	glActiveTexture(GL_TEXTURE10);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
 	geometry->draw(polygonMode);

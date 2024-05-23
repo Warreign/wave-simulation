@@ -8,14 +8,14 @@ in vec2 aTexCoord;
 out vec3 vColor;
 out vec3 vPosition;
 
-uniform mat4 PVM;
-uniform mat4 ViewM;
-uniform mat4 ModelM;
-uniform mat4 ProjectM;
+uniform mat4 u_PVM;
+uniform mat4 u_ViewM;
+uniform mat4 u_ModelM;
+uniform mat4 u_ProjectM;
 
 
 void main() {
 	vColor = aColor;
 	vPosition = aPosition;
-	gl_Position = PVM * vec4(aPosition, 1.0f);
+	gl_Position = u_PVM * vec4(aPosition, 1.0f);
 }

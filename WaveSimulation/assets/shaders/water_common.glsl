@@ -12,8 +12,8 @@ uniform float u_defaultAmp;
 uniform vec2 u_min;
 uniform vec2 u_max;
 
-uniform sampler1DArray profileBuffer;
-uniform float profilePeriod;
+uniform sampler1DArray u_profileBuffer;
+uniform float u_profilePeriod;
 
 float scale = u_max.x - u_min.x;
 float defDirection = TAU / N_THETA * u_direction;
@@ -40,5 +40,5 @@ float getAmp(float theta, vec3 pos, vec2 posScaled, int ik)
 	}
 
 	vec3 tPos = vec3(posScaled, theta /TAU);
-	return texture(u_Amps[ik], tPos).r * u_multiplier;
+	return  texture(u_Amps[ik], tPos).r * u_multiplier;
 }

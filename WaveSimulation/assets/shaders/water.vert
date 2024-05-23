@@ -6,11 +6,11 @@
 
 in vec3 aPosition;
 
-uniform mat4 PVM;
-uniform mat4 ViewM;
-uniform mat4 ModelM;
-uniform mat4 NormalM;
-uniform mat4 ProjectM;
+uniform mat4 u_PVM;
+uniform mat4 u_ViewM;
+uniform mat4 u_ModelM;
+uniform mat4 u_NormalM;
+uniform mat4 u_ProjectM;
 
 out vec3 vPosition;
 out vec2 vPosScaled; 
@@ -28,11 +28,11 @@ vec3 calculateDisplacement(vec2 position)
 		float p = dot(k, position)
 		+ 
 		rand(b);
-		p = p / profilePeriod;
+		p = p / u_profilePeriod;
 
 		for (int ik = 0; ik < N_K; ++ik)
 		{
-			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(profileBuffer, vec2(p, ik));
+			vec4 val = getAmp(theta, vPosition, vPosScaled, ik) * texture(u_profileBuffer, vec2(p, ik));
 			result += vec3(k.x * val.x, val.y, k.y * val.x);
 		}
 
@@ -42,10 +42,10 @@ vec3 calculateDisplacement(vec2 position)
 
 void main()
 {
-	vPosition = (ModelM * vec4(aPosition, 1.0)).xyz;
+	vPosition = (u_ModelM * vec4(aPosition, 1.0)).xyz;
 	vPosScaled = vPosition.xz / scale + 0.5;
 
 	vec3 pos = vPosition + calculateDisplacement(aPosition.xz);
 	
-	gl_Position = ProjectM * ViewM * vec4(pos, 1.0);
+	gl_Position = u_ProjectM * u_ViewM * vec4(pos, 1.0);
 }

@@ -11,21 +11,21 @@ void WaterShader::setLocations()
 	attributes.position = attribLocation("aPosition");
 	attributes.amplitudes = attribLocation("aAmplitudes");
 
-	uniforms.PVM = uniformLocation("PVM");
-	uniforms.ViewM = uniformLocation("ViewM");
-	uniforms.ModelM = uniformLocation("ModelM");
-	uniforms.NormalM = uniformLocation("NormalM");
-	uniforms.ProjectM = uniformLocation("ProjectM");
-	uniforms.lightPosition = uniformLocation("lightPosition");
-	uniforms.cameraPosition = uniformLocation("cameraPosition");
+	uniforms.PVM = uniformLocation("u_PVM");
+	uniforms.ViewM = uniformLocation("u_ViewM");
+	uniforms.ModelM = uniformLocation("u_ModelM");
+	uniforms.NormalM = uniformLocation("u_NormalM");
+	uniforms.ProjectM = uniformLocation("u_ProjectM");
+	uniforms.lightPosition = uniformLocation("u_lightPosition");
+	uniforms.cameraPosition = uniformLocation("u_cameraPosition");
 
-	uniforms.ambient = uniformLocation("ambient");
-	uniforms.diffuse = uniformLocation("diffuse");
-	uniforms.specular = uniformLocation("specular");
-	uniforms.shininess = uniformLocation("shininess");
+	uniforms.ambient = uniformLocation("u_ambient");
+	uniforms.diffuse = uniformLocation("u_diffuse");
+	uniforms.specular = uniformLocation("u_specular");
+	uniforms.shininess = uniformLocation("u_shininess");
 
-	uniforms.profileBuffer = uniformLocation("profileBuffer");
-	uniforms.profilePeriod = uniformLocation("profilePeriod");
+	uniforms.profileBuffer = uniformLocation("u_profileBuffer");
+	uniforms.profilePeriod = uniformLocation("u_profilePeriod");
 }
 
 void WaterShader::setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const

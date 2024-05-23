@@ -21,7 +21,7 @@ void Water::draw(const Camera& camera, GLenum polygonMode) const
 	mesh->shader->setColor(ambient, diffuse, specular, shininess);
 
 	glm::vec3 lightPosition = glm::vec3(2, 2, 3);
-	mesh->shader->setVec3("lightPosition", lightPosition);
+	mesh->shader->setVec3("u_lightPosition", lightPosition);
 
 	mesh->draw(polygonMode);
 	mesh->shader->unbind();

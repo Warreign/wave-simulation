@@ -75,8 +75,8 @@ void VisualizationComponent::onUpdate(float dt)
 			glBindTextureUnit(ik+1, m_simGrid.getAmpTexture(ik));
 		}
 
-		m_waterShader->setFloat("profilePeriod", m_simGrid.m_max.w * m_simGrid.m_periodicity);
-		m_waterShader->setInteger("profileBuffer", 0);
+		m_waterShader->setFloat("u_profilePeriod", m_simGrid.m_max.w * m_simGrid.m_periodicity);
+		m_waterShader->setInteger("u_profileBuffer", 0);
 		glBindTextureUnit(0, m_simGrid.m_profileTexture);
 
 #endif // !COMPUTE_SHADER

@@ -60,10 +60,10 @@ void Shader::setLocations()
 	attributes.normal = attribLocation("aNormal");
 	attributes.texCoord = attribLocation("aTexCoord");
 
-	uniforms.PVM = uniformLocation("PVM");
-	uniforms.ViewM = uniformLocation("ViewM");
-	uniforms.ModelM = uniformLocation("ModelM");
-	uniforms.ProjectM = uniformLocation("ProjectM");
+	uniforms.PVM = uniformLocation("u_PVM");
+	uniforms.ViewM = uniformLocation("u_ViewM");
+	uniforms.ModelM = uniformLocation("u_ModelM");
+	uniforms.ProjectM = uniformLocation("u_ProjectM");
 }
 
 void Shader::setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const
