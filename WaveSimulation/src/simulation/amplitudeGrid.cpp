@@ -5,8 +5,6 @@
 #include <iostream>
 #include <algorithm>
 
-#define TAU 6.28318530718
-
 AmplitudeGrid::AmplitudeGrid(float size, float waveNumberMin, float waveNumberMax)
     :   m_dim(N_SPATIAL, N_SPATIAL, N_THETA, N_K),
         m_min(-size/2, -size/2, 0.0f, waveNumberMin),

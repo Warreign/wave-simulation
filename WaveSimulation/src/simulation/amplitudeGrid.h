@@ -8,6 +8,8 @@
 #include <memory>
 #include <algorithm>
 
+#define TAU 6.28318530718
+
 // Comment to run simulation on cpu
 #define COMPUTE_SHADER
 
