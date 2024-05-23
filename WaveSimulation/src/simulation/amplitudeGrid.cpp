@@ -196,7 +196,6 @@ float AmplitudeGrid::groupSpeed(int ik) const
 
 void AmplitudeGrid::swapTexVectors(int idx)
 {
-    //std::swap(m_ampTextures, m_outTextures);
     GLuint temp = m_outTextures[idx];
     m_outTextures[idx] = m_inTextures[idx];
     m_inTextures[idx] = temp;
