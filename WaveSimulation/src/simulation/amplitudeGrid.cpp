@@ -60,7 +60,7 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveNumberMin, float waveNumberMa
     glTextureParameteri(m_profileTexture, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTextureParameteri(m_profileTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTextureParameteri(m_profileTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTextureStorage2D(m_profileTexture, 1, GL_RGBA32F, 4096, N_K);
+    glTextureStorage2D(m_profileTexture, 1, GL_RGBA32F, P_RES, N_K);
 
 }
 
