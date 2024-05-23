@@ -14,11 +14,16 @@ uniform float u_time;
 uniform float u_period;
 uniform uint u_resolution;
 
-float spectrum(float k)
+float pierson(float k)
 {
-    float A = pow(1.2, 1.5 * log2(k)); // original pow(2, 1.5*zeta)
+	float A = pow(1.2, 1.5 * log2(k)); // original pow(2, 1.5*zeta)
     float B = exp(-1.8038897788076411 * pow(2, k) / pow(u_windSpeed, 4));
     return 0.139098 * sqrt(A * B);
+}
+
+float spectrum(float k)
+{
+    return pierson(k);
 }
 
 vec4 calculateDisplacement(float phase, float k)
