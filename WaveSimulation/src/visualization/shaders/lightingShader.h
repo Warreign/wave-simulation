@@ -4,12 +4,12 @@
 
 #include <glad/glad.h>
 
-class WaterShader : public Shader
+class LIghtingShader : public Shader
 {
 public:
 
 	template<class... Paths>
-	WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths&... includes);
+	LIghtingShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths&... includes);
 	/// Set transform matrices and camera position
 	void setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const override;
 	/// Set water color material parameters
@@ -46,7 +46,7 @@ private:
 };
 
 template<class ...Paths>
-inline WaterShader::WaterShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths & ...includes)
+inline LIghtingShader::LIghtingShader(const std::string& vertexShaderPath, const std::string& fragmentShaderPath, const Paths & ...includes)
 	: Shader(vertexShaderPath, fragmentShaderPath, includes...)
 {
 	setLocations();

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "visualization/meshes/mesh.h"
-#include "visualization/shaders/waterShader.h"
+#include "visualization/shaders/lightingShader.h"
 #include "simulation/amplitudeGrid.h"
 #include "utils/parameters.h"
 
@@ -9,10 +9,10 @@ class WaterMesh : public Mesh
 {
 public:
 
-	WaterMesh(WaterShader* shader, uint32_t size, float scale);
+	WaterMesh(LIghtingShader* shader, uint32_t size, float scale);
 	~WaterMesh();
 
-	WaterShader* shader;
+	LIghtingShader* shader;
 protected:
 
 	uint32_t size;

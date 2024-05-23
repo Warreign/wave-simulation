@@ -20,8 +20,8 @@ void VisualizationComponent::init()
 	std::cout << "\t Initializing shaders:" << std::endl;
 	ShaderBase::addIncludeFile("shaders/water_macros.glsl");
 	ShaderBase::addIncludeFile("shaders/water_common.glsl");
-	m_commonShader = std::make_unique<WaterShader>("shaders/lighting.vert", "shaders/lighting.frag");
-	m_waterShader = std::make_unique<WaterShader>("shaders/water.vert", "shaders/water.frag");
+	m_commonShader = std::make_unique<LIghtingShader>("shaders/lighting.vert", "shaders/lighting.frag");
+	m_waterShader = std::make_unique<LIghtingShader>("shaders/water.vert", "shaders/water.frag");
 
 	std::cout << "\t Initializing main camera" << std::endl;
 	m_camera = std::make_unique<Camera>(glm::vec3(0, 50, 0), glm::vec3(0, -1, 0), 0.1f, 200.0f, glm::radians(80.0f), 30.0f);

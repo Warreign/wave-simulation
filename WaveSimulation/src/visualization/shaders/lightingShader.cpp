@@ -1,4 +1,4 @@
-#include "waterShader.h"
+#include "lightingShader.h"
 
 #include <glm/ext.hpp>
 
@@ -6,7 +6,7 @@
 *	Water Shader
 */
 
-void WaterShader::setLocations()
+void LIghtingShader::setLocations()
 {
 	attributes.position = attribLocation("aPosition");
 	attributes.amplitudes = attribLocation("aAmplitudes");
@@ -25,7 +25,7 @@ void WaterShader::setLocations()
 	uniforms.shininess = uniformLocation("u_shininess");
 }
 
-void WaterShader::setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const
+void LIghtingShader::setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const
 {
 	glProgramUniformMatrix4fv(program, uniforms.PVM, 1, GL_FALSE, glm::value_ptr(project * view * model));
 	glProgramUniformMatrix4fv(program, uniforms.ViewM, 1, GL_FALSE, glm::value_ptr(view));
@@ -35,7 +35,7 @@ void WaterShader::setTransformParameters(const glm::mat4& project, const glm::ma
 	glProgramUniform3fv(program, uniforms.cameraPosition, 1, glm::value_ptr(cameraPosition));
 }
 
-void WaterShader::setColor(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const float shininess)
+void LIghtingShader::setColor(const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, const float shininess)
 {
 	glProgramUniform3fv(program, uniforms.ambient, 1, glm::value_ptr(ambient));
 	glProgramUniform3fv(program, uniforms.diffuse, 1, glm::value_ptr(diffuse));

@@ -194,7 +194,7 @@
     <ClCompile Include="src\simulation\profileBuffer.cpp" />
     <ClCompile Include="src\simulation\amplitudeGrid.cpp" />
     <ClCompile Include="src\application\window.cpp" />
-    <ClCompile Include="src\visualization\shaders\waterShader.cpp" />
+    <ClCompile Include="src\visualization\shaders\lightingShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\application.h" />
@@ -221,7 +221,7 @@
     <ClInclude Include="src\simulation\amplitudeGrid.h" />
     <ClInclude Include="src\application\window.h" />
     <ClInclude Include="src\utils\shaderBase.h" />
-    <ClInclude Include="src\visualization\shaders\waterShader.h" />
+    <ClInclude Include="src\visualization\shaders\lightingShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\compute_common.glsl" />

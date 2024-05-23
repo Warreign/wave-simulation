@@ -24,7 +24,7 @@ void WaterMesh::initBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-WaterMesh::WaterMesh(WaterShader* shader, uint32_t size, float scale)
+WaterMesh::WaterMesh(LIghtingShader* shader, uint32_t size, float scale)
 	: Mesh(shader, 0, size* size * 2, (size + 1)* (size + 1), (size + 1)* (size + 1) * sizeof(float)),
 	shader(shader), size(size)
 {
