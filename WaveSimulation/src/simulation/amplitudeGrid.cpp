@@ -143,8 +143,8 @@ void AmplitudeGrid::precomputeProfileBuffers()
 
         float period = k_upper * m_periodicity;
         m_profileCompute->setInteger("u_ik", ik);
-        m_profileCompute->loadUniforms(k_lower, k_upper, m_time, period, 4096);
-        m_profileCompute->dispatch(m_profileTexture, 4096);
+        m_profileCompute->loadUniforms(k_lower, k_upper, m_time, period, P_RES);
+        m_profileCompute->dispatch(m_profileTexture, P_RES);
     }
 }
 
