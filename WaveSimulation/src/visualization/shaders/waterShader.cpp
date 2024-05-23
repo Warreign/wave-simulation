@@ -23,9 +23,6 @@ void WaterShader::setLocations()
 	uniforms.diffuse = uniformLocation("u_diffuse");
 	uniforms.specular = uniformLocation("u_specular");
 	uniforms.shininess = uniformLocation("u_shininess");
-
-	uniforms.profileBuffer = uniformLocation("u_profileBuffer");
-	uniforms.profilePeriod = uniformLocation("u_profilePeriod");
 }
 
 void WaterShader::setTransformParameters(const glm::mat4& project, const glm::mat4& view, const glm::mat4& model, const glm::vec3& cameraPosition) const
