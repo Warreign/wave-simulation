@@ -8,6 +8,10 @@ uniform ivec4 u_dim;
 uniform vec4 u_min;
 // Difference between discreet values of the grid
 uniform vec4 u_delta;
+// Group speed of current wave number
+uniform float u_groupSpeed;
+// Time step
+uniform float u_dt;
 
 uniform int u_direction;
 

@@ -9,10 +9,6 @@ layout (local_size_x = 16, local_size_y = 16, local_size_z = 4) in;
 uniform sampler3D in_Grid;
 layout(r32f) uniform writeonly image3D out_Grid;
 
-// Group speed of current wave number
-uniform float u_groupSpeed;
-// Time step
-uniform float u_dt;
 
 vec3 reflection(vec3 realPosition)
 {
