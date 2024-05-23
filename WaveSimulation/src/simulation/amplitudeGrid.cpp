@@ -138,12 +138,12 @@ void AmplitudeGrid::precomputeProfileBuffers()
 {
     for (int ik = 0; ik < m_dim[K]; ik++)
     {
-        float k_lower = realPos(ik, K) - 0.5 * m_delta[K];
-        float k_upper = realPos(ik, K) + 0.5 * m_delta[K];
+        float kmin = realPos(ik, K) - 0.5 * m_delta[K];
+        float kmax = realPos(ik, K) + 0.5 * m_delta[K];
 
-        float period = k_upper * m_periodicity;
+        float period = kmax * m_periodicity;
         m_profileCompute->setInteger("u_ik", ik);
-        m_profileCompute->loadUniforms(k_lower, k_upper, m_time, period, P_RES);
+        m_profileCompute->loadUniforms(kmin, kmax, m_time, period, P_RES);
         m_profileCompute->dispatch(m_profileTexture, P_RES);
     }
 }
