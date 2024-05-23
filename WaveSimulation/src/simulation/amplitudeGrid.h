@@ -15,7 +15,7 @@ class AmplitudeGrid {
 public:
     enum Dim { X = 0, Z = 1, Theta = 2, K = 3 };
 
-    AmplitudeGrid(float size, float waveLengthMin, float waveLengthMax, float windSpeed, uint32_t numSpatial, uint32_t numWaveAngle, uint32_t numWaveLength);
+    AmplitudeGrid(float size, float waveNumberMin, float waveNumberMax);
 
     double cflTimeStep(float dt, float timeMultiplier) const;
     void timeStep(float dt, bool updateAmps);
@@ -28,7 +28,7 @@ public:
     void setDefaultAmp(float value);
     void setWindSpeed(float speed);
 
-    GLuint getAmpTexture(int ik) const { return m_ampTextures[ik]; }
+    GLuint getAmpTexture(int ik) const { return m_inTextures[ik]; }
 
     int defaultDirection = 3;
     float windSpeed = 8.0f;
@@ -41,6 +41,11 @@ public:
     glm::vec4 m_min;
     // Max values in all dimensions
     glm::vec4 m_max;
+    // Dimensions
+    glm::ivec4 m_dim;
+    // Discretization step size in all dimensions
+    glm::vec4 m_delta;
+
 
     int m_periodicity = 2;
 
@@ -61,11 +66,6 @@ private:
 
     void swapTexVectors(int idx);
 
-
-    // Dimensions
-    glm::ivec4 m_dim;
-    // Discretization step size in all dimensions
-    glm::vec4 m_delta;
     // Time from starts
     float m_time;
 
@@ -74,7 +74,7 @@ private:
     std::unique_ptr<DisturbanceCompute> m_disturbanceCompute;
     std::unique_ptr<ProfileCompute> m_profileCompute;
 
-    std::vector<GLuint> m_ampTextures;
+    std::vector<GLuint> m_inTextures;
     std::vector<GLuint> m_outTextures;
 };
 

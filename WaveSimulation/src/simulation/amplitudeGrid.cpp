@@ -7,11 +7,10 @@
 
 #define TAU 6.28318530718
 
-AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMax, float windSpeed, uint32_t numSpatial, uint32_t numWaveAngle, uint32_t numWaveLength)
-    : windSpeed(windSpeed),
-    m_dim(numSpatial, numSpatial, numWaveAngle, numWaveLength),
-    m_min(-size/2, -size/2, 0.0f, waveLengthMin),
-    m_max(size/2, size/2, TAU, waveLengthMax)
+AmplitudeGrid::AmplitudeGrid(float size, float waveNumberMin, float waveNumberMax)
+    :   m_dim(N_SPATIAL, N_SPATIAL, N_THETA, N_K),
+        m_min(-size/2, -size/2, 0.0f, waveNumberMin),
+        m_max(size/2, size/2, TAU, waveNumberMax)
 {
 
     for (int d = 0; d < 4; d++) 
@@ -30,15 +29,15 @@ AmplitudeGrid::AmplitudeGrid(float size, float waveLengthMin, float waveLengthMa
     m_profileCompute = std::make_unique<ProfileCompute>("shaders/profile.comp");
 
 
-    float borderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
-    m_ampTextures.resize(N_K);
+    float borderColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    m_inTextures.resize(N_K);
     m_outTextures.resize(N_K);
-    glCreateTextures(GL_TEXTURE_3D, N_K, m_ampTextures.data());
+    glCreateTextures(GL_TEXTURE_3D, N_K, m_inTextures.data());
     glCreateTextures(GL_TEXTURE_3D, N_K, m_outTextures.data());
     for (int i = 0; i < N_K; ++i)
     {
-        GLuint currTexture = m_ampTextures[i];
+        GLuint currTexture = m_inTextures[i];
         glTextureParameteri(currTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
         glTextureParameteri(currTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
         glTextureParameterfv(currTexture, GL_TEXTURE_BORDER_COLOR, borderColor);
@@ -87,7 +86,7 @@ void AmplitudeGrid::addPointDisturbance(glm::vec2 pos, float val)
 
         for (int i = 0; i < N_K; ++i)
         {
-            m_disturbanceCompute->dispatch(m_ampTextures[i], m_outTextures[i]);
+            m_disturbanceCompute->dispatch(m_inTextures[i], m_outTextures[i]);
             swapTexVectors(i);
         }
     }
@@ -118,7 +117,7 @@ void AmplitudeGrid::advectionStep(float dt)
     for (int i = 0; i < N_K; ++i)
     {
         m_advectionCompute->loadUniforms(m_dim, m_min, m_delta, groupSpeed(i), dt);
-        m_advectionCompute->dispatchAdvection(m_ampTextures[i], m_outTextures[i], m_dim);
+        m_advectionCompute->dispatchAdvection(m_inTextures[i], m_outTextures[i], m_dim);
         swapTexVectors(i);
     }
 }
@@ -132,20 +131,20 @@ void AmplitudeGrid::wavevectorDiffusion(float dt)
         GLint location = m_diffusionCompute->uniformLocation("in_Amps");
         
         m_diffusionCompute->setInteger(location, ik);
-        glBindImageTexture(ik, m_ampTextures[ik], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
+        glBindImageTexture(ik, m_inTextures[ik], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
         if (ik - 1 >= 0)
         {
             m_diffusionCompute->setInteger(location, ik-1);
-            glBindImageTexture(ik, m_ampTextures[ik-1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
+            glBindImageTexture(ik, m_inTextures[ik-1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
         }
         if (ik + 1 < N_K)
         {
             m_diffusionCompute->setInteger(location, ik+1);
-            glBindImageTexture(ik, m_ampTextures[ik+1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
+            glBindImageTexture(ik, m_inTextures[ik+1], 0, GL_FALSE, 0, GL_READ_ONLY, GL_R32F);
         }
 
 
-        m_diffusionCompute->dispatchDiffusion(m_ampTextures[ik], m_outTextures[ik], m_dim);
+        m_diffusionCompute->dispatchDiffusion(m_inTextures[ik], m_outTextures[ik], m_dim);
         swapTexVectors(ik);
     }
 }
@@ -232,6 +231,6 @@ void AmplitudeGrid::swapTexVectors(int idx)
 {
     //std::swap(m_ampTextures, m_outTextures);
     GLuint temp = m_outTextures[idx];
-    m_outTextures[idx] = m_ampTextures[idx];
-    m_ampTextures[idx] = temp;
+    m_outTextures[idx] = m_inTextures[idx];
+    m_inTextures[idx] = temp;
 }
