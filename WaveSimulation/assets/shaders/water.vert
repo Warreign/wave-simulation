@@ -19,7 +19,6 @@ out vec2 vPosScaled;
 vec3 calculateDisplacement(vec2 position)
 {
 	vec3 result = vec3(0);
-	float y = 0;
 
 	for (int b = 0; b < INTEGRATION_SAMPLES; ++b)
 	{
