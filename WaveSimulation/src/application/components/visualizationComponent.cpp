@@ -2,6 +2,7 @@
 
 #include "application/application.h"
 #include "visualization/meshes/cubeMesh.h"
+#include <visualization/objects/cube.h>
 
 #include <imgui.h>
 
@@ -19,7 +20,7 @@ void VisualizationComponent::init()
 	std::cout << "\t Initializing shaders:" << std::endl;
 	ShaderBase::addIncludeFile("shaders/water_macros.glsl");
 	ShaderBase::addIncludeFile("shaders/water_common.glsl");
-	m_commonShader = std::make_unique<Shader>("shaders/standard.vert", "shaders/standard.frag");
+	m_commonShader = std::make_unique<WaterShader>("shaders/lighting.vert", "shaders/lighting.frag");
 	m_waterShader = std::make_unique<WaterShader>("shaders/water.vert", "shaders/water.frag");
 
 	std::cout << "\t Initializing main camera" << std::endl;
@@ -36,10 +37,10 @@ void VisualizationComponent::init()
 	m_water = std::make_unique<Water>(m_waterMesh.get());
 
 	std::cout << "\t Initializing cube" << std::endl;
-	CubeMesh* cube_mesh = new CubeMesh(m_commonShader.get());
+	//CubeMesh* cube_mesh = new CubeMesh(m_commonShader.get());
 	glm::vec3 cube_position(11, 0, 15);
 	float cube_scale = 8;
-	m_cube = std::make_unique<ObjectInstance>(cube_mesh, glm::translate(glm::mat4(1), cube_position) * glm::scale(glm::mat4(1), glm::vec3(cube_scale)));
+	m_cube = std::make_unique<Cube>(m_commonShader.get(), glm::translate(glm::mat4(1), cube_position) * glm::scale(glm::mat4(1), glm::vec3(cube_scale)));
 
 	m_simGrid.setDirection(m_defaultDirection);
 	m_waterShader->setInteger("u_direction", m_defaultDirection);
