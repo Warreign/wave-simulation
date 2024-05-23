@@ -58,9 +58,6 @@ private:
 
     float groupSpeed(int ik) const;
     float groupSpeed(float k) const;
-    float waveLength(int ik) const;
-    float waveNumber(int ik) const;
-    float waveNumber(float k) const;
 
     float gridPos(float gridPos, int dim) const;
     glm::vec4 gridPos(float x, float z, float theta, float k) const;

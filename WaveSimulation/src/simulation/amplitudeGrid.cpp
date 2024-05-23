@@ -194,22 +194,6 @@ float AmplitudeGrid::groupSpeed(int ik) const
     return groupSpeed(k);
 }
 
-float AmplitudeGrid::waveLength(int ik) const
-{
-    return realPos(ik, K);
-}
-
-float AmplitudeGrid::waveNumber(float k) const
-{
-    return TAU / k;
-}
-
-float AmplitudeGrid::waveNumber(int ik) const
-{
-    float k = realPos(ik, K);
-    return waveNumber(k); 
-}
-
 void AmplitudeGrid::swapTexVectors(int idx)
 {
     //std::swap(m_ampTextures, m_outTextures);
