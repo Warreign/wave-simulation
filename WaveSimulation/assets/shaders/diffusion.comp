@@ -51,12 +51,12 @@ void main()
 
     float gamma = 2 * 0.025 * u_groupSpeed * u_dt / u_delta[X];
 
-    float delta = 0.00001 * u_dt * pow(u_delta[K], 2) * u_groupSpeed;
+    float delta = 0.00002 * u_dt * pow(u_delta[K], 2) * u_groupSpeed;
 
     float result = (1.0 - gamma) * value(pos[X], pos[Z], pos[Theta]) + gamma * 0.5 * (value(pos[X], pos[Z], pos[Theta]+1) + value(pos[X], pos[Z], pos[Theta]-1)) ;
 
-    float result2 =  (1.0 - delta) * value(pos[X], pos[Z], pos[Theta], u_ik) + 0.5 * delta * (value(pos[X], pos[Z], pos[Theta], u_ik + 1) + value(pos[X], pos[Z], pos[Theta], u_ik -1));
+    result -= delta * (value(pos[X], pos[Z], pos[Theta], u_ik) + 0.5 * (value(pos[X], pos[Z], pos[Theta], u_ik + 1) + value(pos[X], pos[Z], pos[Theta], u_ik -1)));
 
 //    result = value(pos[X], pos[Z], pos[Theta]);
-	imageStore(out_Grid, pos, vec4(0.5 * result + 0.5 * result2, 0, 0, 0));
+	imageStore(out_Grid, pos, vec4(result, 0, 0, 0));
 }
