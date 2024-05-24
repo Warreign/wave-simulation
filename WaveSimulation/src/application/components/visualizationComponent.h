@@ -24,6 +24,7 @@ private:
 
 	bool m_isSkyboxVisible = true;
 	bool m_isWaterWireframe = false;
+	bool m_useCubeBoundary = false;
 	float m_ampMultiplier = 2.0f;
 
 	float m_defaultAmplitude = 0.15f;

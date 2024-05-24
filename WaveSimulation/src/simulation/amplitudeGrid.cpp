@@ -110,6 +110,11 @@ void AmplitudeGrid::setWindSpeed(float speed)
     m_profileCompute->setFloat("u_windSpeed", speed);
 }
 
+void AmplitudeGrid::setDoReflections(bool val)
+{
+    m_advectionCompute->setInteger("u_doReflections", val);
+}
+
 void AmplitudeGrid::advectionStep(float dt)
 {
     for (int i = 0; i < N_K; ++i)

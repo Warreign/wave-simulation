@@ -98,10 +98,12 @@ void VisualizationComponent::onRender()
 	{
 		m_water->draw(Camera::get(), GL_LINE);
 	}
-
+	if (m_useCubeBoundary)
+	{
+		m_cube->draw(Camera::get());		
+	}
 	if (m_isSkyboxVisible)
 	{
-		m_cube->draw(Camera::get());
 		m_skybox->draw(Camera::get());
 	}
 }
@@ -142,6 +144,10 @@ void VisualizationComponent::onRenderGui()
 	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.5, 10))
 	{
 		m_simGrid.setWindSpeed(m_windSpeed);
+	}
+	if (ImGui::Checkbox("Use Cube Boundary", &m_useCubeBoundary))
+	{
+		m_simGrid.setDoReflections(m_useCubeBoundary);
 	}
 	ImGui::Separator();
 	ImGui::End();

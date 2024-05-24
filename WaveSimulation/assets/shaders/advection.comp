@@ -9,6 +9,8 @@ layout (local_size_x = 16, local_size_y = 16, local_size_z = 4) in;
 uniform sampler3D in_Grid;
 layout(r32f) uniform writeonly image3D out_Grid;
 
+uniform bool u_doReflections;
+
 
 vec3 reflection(vec3 realPosition)
 {
@@ -44,7 +46,10 @@ void main()
 	vec2 waveVector = vec2(cos(realPosition[Theta]), sin(realPosition[Theta]));
 
 	realPosition = realPosition - u_dt * u_groupSpeed * vec3(waveVector, 0.0);
-	realPosition = reflection(realPosition);
+
+	if (u_doReflections)
+		realPosition = reflection(realPosition);
+
 	vec3 gridPosition = gridPos(realPosition);
 
 	if (gridPosition[X] <= 0.0 || gridPosition[X]+1 >= u_dim[X] || gridPosition[Z] <= 0.0 || gridPosition[Z]+1 >= u_dim[Z])
