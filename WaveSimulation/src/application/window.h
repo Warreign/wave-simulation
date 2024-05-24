@@ -1,3 +1,11 @@
+/**
+ * @file window.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include <glad/glad.h>
@@ -8,6 +16,9 @@
 class Window
 {
 public:
+	/*
+	* Window initialization function
+	*/
 	Window(uint32_t width = 1280, uint32_t height = 960, const std::string& title = "Window");
 	~Window();
 
@@ -21,14 +32,19 @@ private:
 
 
 private:
+
+	// Initialize opengl context and values associated with it
 	void initContext();
 
 public:
+
+	// swap buffers and poll events
 	void onUpdate();
 
 	bool isVsync() const { return m_isVsync; }
 	void setVsync(bool value);
 
+	// Resize viewport
 	void resize(int width, int height);
 
 	GLFWwindow* getHandle() const { return m_window; }

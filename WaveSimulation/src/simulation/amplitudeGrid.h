@@ -1,3 +1,11 @@
+/**
+* @file amplitudeGrid.h
+*
+* @author Viktor Shubert
+* Contact: shubevik@fel.cvut.cz
+*
+*/
+
 #pragma once
 
 #include "simulation/profileBuffer.h"
@@ -15,15 +23,50 @@
 
 class AmplitudeGrid {
 public:
+
+    // Easier way to access each dimension on the grid
     enum Dim { X = 0, Z = 1, Theta = 2, K = 3 };
 
-    AmplitudeGrid(float size, float waveNumberMin, float waveNumberMax);
+    /*
+    * Contructor for the grid
+    * 
+    * @param size spatial size of the grid
+    * @param waveLengthMin minimum wave length value to simulate
+    * @param waveLengthMax maximum wave length value to simulate
+    */
+    AmplitudeGrid(float size, float waveLengthMin, float waveLengthMax);
 
+    /*
+    * Time step that checks for the cfl condition
+    * 
+    * @param dt to check for
+    * @param timeMultiplier multiplier to speed up, slow down the simulation
+    */
     double cflTimeStep(float dt, float timeMultiplier) const;
+
+    /*
+    * Simulation step
+    * 
+    * @param dt time step
+    * @param updateAmps whether advect amplitudes over the grid
+    */
     void timeStep(float dt, bool updateAmps);
+
+    /*
+    * wave vector advection
+    */
     void advectionStep(float dt);
+    /*
+    * wave vector diffusion
+    */
     void wavevectorDiffusion(float dt);
 
+    /*
+    * add amplitudes in all direction in the point on the grid
+    * 
+    * @param pos position on the grid
+    * @param val value to add
+    */
     void addPointDisturbance(glm::vec2 pos, float val);
 
     void setDirection(int value);
@@ -54,18 +97,19 @@ public:
     int m_periodicity = 2;
 
     float realPos(int gridIdx, int dim) const;
+    float realK(int ik) const;
 
 private:
+
+    /*
+    * Compute all the layers of profile buffer texture
+    */
     void precomputeProfileBuffers();
 
     float groupSpeed(int ik) const;
     float groupSpeed(float k) const;
 
     float gridPos(float gridPos, int dim) const;
-    glm::vec4 gridPos(float x, float z, float theta, float k) const;
-    glm::vec4 realPos(int ix, int iz, int itheta, int ik) const;
-
-    void swapTexVectors(int idx);
 
     // Time from starts
     float m_time;

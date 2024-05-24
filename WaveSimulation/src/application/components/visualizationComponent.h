@@ -1,3 +1,11 @@
+/**
+ * @file visualizationComponent.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include "application/components/component.h"
@@ -11,6 +19,12 @@
 class VisualizationComponent : public Component
 {
 public:
+
+	/*
+	* Component doing all the rendering
+	* 
+	* @param simGrid refernece to the simulation grid to render water surface
+	*/
 	VisualizationComponent(const std::string& debugName, AmplitudeGrid& simGrid);
 
 	void init() override;
@@ -22,18 +36,19 @@ public:
 
 private:
 
+	// internal state variables to  update from the gui
 	bool m_isSkyboxVisible = true;
 	bool m_isWaterWireframe = false;
 	bool m_useCubeBoundary = false;
 	float m_ampMultiplier = 2.0f;
-
 	float m_defaultAmplitude = 0.15f;
 	int m_defaultDirection = 2;
 	float m_windSpeed = 8.0f;
-
 	float m_cameraYaw = glm::radians(0.0f); // Radians
 	float m_cameraPitch = glm::radians(-90.0f); // Radians
 
+
+	// water mesh parameter constants
 	const size_t m_waterSize = 200;
 	const float m_waterScale = 200.0f;
 

@@ -179,20 +179,16 @@ float AmplitudeGrid::gridPos(float value, int dim) const
     return (value - m_min[dim]) / m_delta[dim] - 0.5f;
 }
 
-glm::vec4 AmplitudeGrid::gridPos(float x, float z, float theta, float k) const
-{
-    return glm::vec4(gridPos(x, X), gridPos(z, Z), gridPos(theta, Theta), gridPos(k, K));
-}
-
 float AmplitudeGrid::realPos(int gridIdx, int dim) const
 {
     return m_min[dim] + (gridIdx + 0.5) * m_delta[dim];
 }
 
-glm::vec4 AmplitudeGrid::realPos(int ix, int iz, int itheta, int ik) const
+float AmplitudeGrid::realK(int ik) const
 {
-    return glm::vec4(realPos(ix, X), realPos(iz, Z), realPos(itheta, Theta), realPos(ik,K));
+    return m_min[K] + (ik + 0.5) * m_delta[K];
 }
+
 
 float AmplitudeGrid::groupSpeed(float k) const
 {
@@ -203,12 +199,6 @@ float AmplitudeGrid::groupSpeed(float k) const
 float AmplitudeGrid::groupSpeed(int ik) const
 {
     float k = realPos(ik, K);
-    return groupSpeed(k);
-}
-
-void AmplitudeGrid::swapTexVectors(int idx)
-{
-    GLuint temp = m_outTextures[idx];
-    m_outTextures[idx] = m_inTextures[idx];
-    m_inTextures[idx] = temp;
+    float knum = TAU / k;
+    return sqrt(9.81 / knum) * 0.5;
 }

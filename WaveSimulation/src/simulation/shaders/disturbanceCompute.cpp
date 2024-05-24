@@ -14,9 +14,9 @@ void DisturbanceCompute::dispatch(GLuint inTexture, GLuint outTexture)
 	unbind();
 }
 
-void DisturbanceCompute::loadUniforms(glm::ivec2 realPos, glm::ivec2 dim, float ampVal)
+void DisturbanceCompute::loadUniforms(glm::ivec2 gridPos, glm::ivec2 dim, float ampVal)
 {
-	setIVec2("u_position", realPos);
+	setIVec2("u_position", gridPos);
 	setIVec2("u_dim", dim);
 	setFloat("u_value", ampVal);
 }
