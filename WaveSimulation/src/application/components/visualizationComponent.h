@@ -41,7 +41,7 @@ private:
 	bool m_isWaterWireframe = false;
 	bool m_useCubeBoundary = false;
 	float m_ampMultiplier = 2.0f;
-	float m_defaultAmplitude = 0.15f;
+	float m_defaultAmplitude = 0.1f;
 	int m_defaultDirection = 2;
 	float m_windSpeed = 8.0f;
 	float m_cameraYaw = glm::radians(0.0f); // Radians
