@@ -1,3 +1,12 @@
+/**
+ * @file skybox.frag
+ *
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 400 core
 
 out vec4 fColor;

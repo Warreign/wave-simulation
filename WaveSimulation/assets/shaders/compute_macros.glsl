@@ -1,3 +1,13 @@
+/**
+ * @file compute_macros.glsl
+ *
+ * @brief Common compute shader parameters
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #define X 0
 #define Z 1
 #define Theta 2

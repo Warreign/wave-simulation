@@ -1,3 +1,13 @@
+/**
+ * @file advection.comp
+ *
+ * @brief Advection compute shader
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -14,7 +24,6 @@ uniform bool u_doReflections;
 
 vec3 reflection(vec3 realPosition)
 {
-//	realPosition = vec3(((realPosition.xy - cubepos) * 1.01) + cubepos, realPosition[Theta]);
 	if (!insideCube(realPosition.xy))
 		return realPosition;
 
@@ -30,7 +39,6 @@ vec3 reflection(vec3 realPosition)
 	float rtheta = realPosition[Theta];
 	vec2 kdir = vec2(cos(rtheta), sin(rtheta));
 
-	pos = pos - 2.0 * (-1) * n;
 	kdir = kdir - 2.0 * (kdir * n) * n;
 
 	float reftheta = atan(kdir.y, kdir.x);

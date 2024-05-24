@@ -1,3 +1,13 @@
+/**
+ * @file profile.comp
+ *
+ * @brief Profile buffer compute shader
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -6,13 +16,20 @@
 layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 layout(rgba32f) writeonly uniform image1DArray out_ProfileBuffer;
 
+// Current discrete k
 uniform int u_ik;
 uniform float u_windSpeed;
+// Lower Bound
 uniform float u_kmin;
+// Upper bound
 uniform float u_kmax;
+// Time since start
 uniform float u_time;
+// Profile buff. period
 uniform float u_period;
+// Profile buff. resolution
 uniform uint u_resolution;
+// Spectrum index
 uniform int u_specIdx;
 
 
@@ -73,6 +90,7 @@ float spectrum(float k)
 	}
 }
 
+// Gerstner waves
 vec4 calculateDisplacement(float phase, float k)
 {
     float s = sin(phase);
@@ -80,6 +98,8 @@ vec4 calculateDisplacement(float phase, float k)
     return vec4(-s, c, - k * c, - k * s );
 };
 
+
+// Function to integrate
 vec4 compute(float k, float p, float c)
 {
 	float knum = TAU / k; //angular wave number

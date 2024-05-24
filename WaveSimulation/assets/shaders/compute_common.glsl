@@ -1,4 +1,13 @@
 
+/**
+ * @file compute_common.glsl
+ *
+ * @brief Common compute shader functions
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
 
 #include "compute_macros.glsl"
 

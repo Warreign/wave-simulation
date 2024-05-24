@@ -1,3 +1,12 @@
+/**
+ * @file standard.vert
+ *
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 400 core
 
 in vec3 aPosition;

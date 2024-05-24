@@ -1,3 +1,12 @@
+
+/**
+ * @file lighting.frag
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 out vec4 fColor;
@@ -23,8 +32,11 @@ void main()
 	vec3 outDiffuse = vec3(0.0);
 	vec3 outSpecular = vec3(0.0);
 
+	// direction towards the light
 	vec3 L = normalize(u_lightPosition);
+	// Reflected light direction
 	vec3 R = reflect(-L, normal);
+	// view direction
 	vec3 V = normalize(u_cameraPosition - vPosition);
 
 	float diff = max(dot(normal, L), 0.0);

@@ -1,3 +1,12 @@
+/**
+ * @file water.vert
+ *
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -13,6 +22,7 @@ uniform mat4 u_NormalM;
 uniform mat4 u_ProjectM;
 
 out vec3 vPosition;
+// Position scaled to range (0, 1)
 out vec2 vPosScaled; 
 
 // Calculate vertex displacement (not final position) using amplitudes and profile buffer

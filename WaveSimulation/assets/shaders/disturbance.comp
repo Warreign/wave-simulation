@@ -1,3 +1,13 @@
+/**
+ * @file disturbance.comp
+ *
+ * @brief Disturbance comptue shader
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -8,8 +18,11 @@ layout (local_size_x = 4) in;
 layout(r32f) readonly uniform image3D in_Grid;
 layout(r32f) writeonly uniform image3D out_Grid;
 
+// spatial dimensions of the grid
 uniform ivec2 u_dim;
+// position where to create disturbance
 uniform ivec2 u_position;
+// the value to add to the grid
 uniform float u_value;
 
 void main()

@@ -1,3 +1,12 @@
+/**
+ * @file water.frag
+ *
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -11,8 +20,10 @@ in vec2 vPosScaled;
 
 uniform vec3 u_lightPosition;
 uniform vec3 u_cameraPosition;
+//Normal matrix
 uniform mat4 u_NormalM;
 
+// Water color values
 uniform vec3 u_ambient;
 uniform vec3 u_diffuse;
 uniform vec3 u_specular;

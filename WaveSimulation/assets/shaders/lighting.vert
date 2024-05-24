@@ -1,3 +1,12 @@
+/**
+ * @file lighting.vert
+ *
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 in vec3 aPosition;

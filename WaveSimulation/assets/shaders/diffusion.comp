@@ -1,3 +1,13 @@
+/**
+ * @file diffusion.comp
+ *
+ * @brief Diffusion compute shader
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #version 460 core
 
 #extension GL_ARB_shading_language_include : require
@@ -24,6 +34,7 @@ float value(int ix, int iz, int itheta, int ik)
     vec4 val = imageLoad(in_Amps[ik], ivec3(ix, iz, itheta));
     return val.r;
 }
+
 
 float value(int ix, int iz, int itheta)
 {
