@@ -23,7 +23,6 @@ float dispersionRelation(float k)
 
 float tessendorf(float k)
 {
-	k = TAU / k;
 	float g = 9.81;
 	return (exp(-pow(g,2) / pow(k, 2) /pow(u_windSpeed/3, 4) ) / pow(k, 4));
 }
@@ -35,7 +34,7 @@ float john(float k)
 	float beta = -0.74;
 	float omega0 = g / (1.026 * u_windSpeed);
 	float omegap = 0.855 * g / u_windSpeed;
-	float omega = dispersionRelation(k);
+	float omega = 0.345 * dispersionRelation(TAU / k);
 	float sigma;
 	if (omega <= omegap)
 		sigma = 0.7;
