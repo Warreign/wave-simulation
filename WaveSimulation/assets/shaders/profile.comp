@@ -13,17 +13,66 @@ uniform float u_kmax;
 uniform float u_time;
 uniform float u_period;
 uniform uint u_resolution;
+uniform int u_specIdx;
+
+
+float dispersionRelation(float k)
+{
+    return sqrt(9.81 * k);
+};
+
+float tessendorf(float k)
+{
+
+	k = TAU / k;
+	float g = 9.81;
+	return (exp(-pow(g,2) / pow(k, 2) /pow(u_windSpeed, 4) ) / pow(k, 4));
+}
+
+float john(float k)
+{
+	float g = 9.81;
+	float alpha = 0.0081;
+	float beta = -0.74;
+	float omega0 = g / (1.026 * u_windSpeed);
+	float omegap = 0.855 * g / u_windSpeed;
+	float omega = dispersionRelation(k);
+	float sigma;
+	if (omega <= omegap)
+		sigma = 0.7;
+	else
+		sigma = 0.9;
+	float r = exp(-pow(omega - omegap, 2) / 2 * pow(sigma * omegap, 2));
+	return 0.04 * (alpha * g * g / pow(omega, 5) ) * exp(-beta * pow(omega0 / omega, 4)) * pow(0.33, r);
+}
+
+float pierson2(float k) {
+  float A = pow(1.1, 1.5 * log2(k)); 
+  float B = exp(-1.8038897788076411 * pow(k, 2) / pow(u_windSpeed, 4));
+  return 0.139098 * sqrt(A * B);
+}
 
 float pierson(float k)
 {
-	float A = pow(1.2, 1.5 * log2(k)); // original pow(2, 1.5*zeta)
-    float B = exp(-1.8038897788076411 * pow(2, k) / pow(u_windSpeed, 4));
-    return 0.139098 * sqrt(A * B);
+	float g = 9.81;
+	float alpha = 0.0081;
+	float beta = -0.74;
+	float omega0 = g / (1.026 * u_windSpeed);
+	float omegap = 0.855 * g / u_windSpeed;
+	float omega = min(dispersionRelation(TAU * k), omegap);
+	return 0.04 * (alpha * g * g / pow(omega, 5) ) * exp(-beta * pow(omega0 / omega, 4));
 }
-
 float spectrum(float k)
 {
-    return pierson(k);
+	switch (u_specIdx)
+	{
+		case 1:
+		return john(k);
+		case 2:
+		return tessendorf(k);
+		default:
+		return pierson2(k);
+	}
 }
 
 vec4 calculateDisplacement(float phase, float k)
@@ -31,11 +80,6 @@ vec4 calculateDisplacement(float phase, float k)
     float s = sin(phase);
     float c = cos(phase);
     return vec4(-s, c, - k * c, - k * s );
-};
-
-float dispersionRelation(float k)
-{
-    return sqrt(9.81 * k);
 };
 
 vec4 compute(float k, float p, float c)
