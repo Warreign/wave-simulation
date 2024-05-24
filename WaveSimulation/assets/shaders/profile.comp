@@ -61,12 +61,6 @@ float john(float k)
 	return 0.04 * (alpha * g * g / pow(omega, 5) ) * exp(-beta * pow(omega0 / omega, 4)) * pow(0.33, r);
 }
 
-float pierson2(float k) {
-  float A = pow(1.1, 1.5 * log2(k)); 
-  float B = exp(-1.8038897788076411 * pow(k, 2) / pow(u_windSpeed, 4));
-  return 0.139098 * sqrt(A * B);
-}
-
 float pierson(float k)
 {
 	float g = 9.81;
@@ -86,7 +80,7 @@ float spectrum(float k)
 		case 2:
 		return tessendorf(k);
 		default:
-		return pierson2(k);
+		return pierson(k);
 	}
 }
 
