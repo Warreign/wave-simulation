@@ -30,6 +30,7 @@ public:
     void setDefaultAmp(float value);
     void setWindSpeed(float speed);
     void setDoReflections(bool val);
+    void setSpectrum(int s);
 
     GLuint getAmpTexture(int ik) const { return m_inTextures[ik]; }
 

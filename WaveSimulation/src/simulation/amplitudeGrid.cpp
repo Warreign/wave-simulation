@@ -115,6 +115,11 @@ void AmplitudeGrid::setDoReflections(bool val)
     m_advectionCompute->setInteger("u_doReflections", val);
 }
 
+void AmplitudeGrid::setSpectrum(int s)
+{
+    m_profileCompute->setInteger("u_specIdx", s);
+}
+
 void AmplitudeGrid::advectionStep(float dt)
 {
     for (int i = 0; i < N_K; ++i)

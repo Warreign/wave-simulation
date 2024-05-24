@@ -68,6 +68,8 @@ void SimulationComponent::onUpdate(float dt)
 	m_simGrid->timeStep(cfl_dt, m_isUpdateGrid);
 }
 
+static bool selected = false;
+static bool selected2 = true;
 void SimulationComponent::onRenderGui()
 {
 	ImGui::Begin("Simulation");
@@ -76,6 +78,22 @@ void SimulationComponent::onRenderGui()
 	ImGui::SliderFloat("Time Multiplier", &m_timeMultiplier, -2.0f, 2.0f);
 	ImGui::SliderInt("Periodicity of profile", &m_simGrid->m_periodicity, 1, 10);
 	ImGui::InputFloat("Used dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+
+	const char* spectra[] = { "Pierson-Moskowitz", "JONSWAP", "Tessendorf"};
+	int selected = 0;
+	if (ImGui::BeginCombo("Spectrum", spectra[selected]))
+	{
+		for (int i = 0; i < _countof(spectra); ++i)
+		{
+			bool is_selected = selected == i;
+			if (ImGui::Selectable(spectra[i], is_selected))
+			{
+				selected = i;
+				m_simGrid->setSpectrum(i);
+			}
+		}
+	}
+	ImGui::EndCombo();
 	ImGui::Separator();
 
 	ImGui::End();
