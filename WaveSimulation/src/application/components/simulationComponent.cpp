@@ -77,7 +77,8 @@ void SimulationComponent::onRenderGui()
 	ImGui::Checkbox("Update Grid", &m_isUpdateGrid);
 	ImGui::SliderFloat("Time Multiplier", &m_timeMultiplier, -2.0f, 2.0f);
 	ImGui::SliderInt("Periodicity of profile", &m_simGrid->m_periodicity, 1, 10);
-	ImGui::InputFloat("Used dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	//ImGui::InputFloat("Used dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::Text("Current dt: %.3f", m_dtLast);
 
 	const char* spectra[] = { "Pierson-Moskowitz", "JONSWAP", "Tessendorf"};
 	static int selected = 0;
