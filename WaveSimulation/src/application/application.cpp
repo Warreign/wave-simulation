@@ -135,9 +135,9 @@ void Application::onUpdate()
 
 void Application::onRenderGui()
 {
+	auto io = ImGui::GetIO();
 	ImGui::Begin("Statistics");
 	ImGui::SliderInt("Refresh Rate", &m_targetFrameRate, 10, 240);
-	ImGui::InputFloat("FPS", &m_frameRate, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
-	ImGui::InputFloat("Average Frame Time", &m_averageFrameTime, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 	ImGui::End();
 }
