@@ -1,3 +1,11 @@
+/**
+ * @file computeShader.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include "utils/shaderBase.h"
@@ -5,6 +13,12 @@
 class ComputeShader : public ShaderBase
 {
 public:
+
+	/*
+	* Construct fompute shader from path
+	* 
+	* @param includes variable parameter to inlcude more paths as include files
+	*/
 	template<class... Paths>
 	ComputeShader(const std::string& path, const Paths&... includes);
 

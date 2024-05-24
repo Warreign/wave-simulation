@@ -1,3 +1,11 @@
+/**
+ * @file parameters.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include "utils/parameters.h"
@@ -16,13 +24,15 @@ class ShaderBase
 public:
 	virtual ~ShaderBase();
 
+	/*
+	* Add a file as named string according to the extension GL_ARB_shading_language_include
+	*/
 	static void addIncludeFile(const std::string& path);
 
 	void bind() const;
 	void unbind() const;
 
 	/// Set uniforms by name
-
 	void setIntegerv(const std::string& uniformName, int num, int* val);
 	void setUInteger(const std::string uniformName, uint32_t value) const;
 	void setInteger(const std::string uniformName, int value) const;

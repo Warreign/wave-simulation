@@ -1,9 +1,22 @@
+/**
+ * @file lightingShader.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include "visualization/shaders/shader.h"
 
 #include <glad/glad.h>
 
+
+
+/*
+* Generic shader that implements phong illumination model
+*/
 class LIghtingShader : public Shader
 {
 public:

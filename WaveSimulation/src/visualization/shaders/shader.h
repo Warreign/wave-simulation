@@ -1,3 +1,11 @@
+/**
+ * @file shader.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include <utils/shaderBase.h>

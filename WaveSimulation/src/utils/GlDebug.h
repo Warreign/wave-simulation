@@ -1,3 +1,13 @@
+/**
+ * @file GlDebug.h
+ * 
+ * @brief OpenGL debuf functions
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include <iostream>

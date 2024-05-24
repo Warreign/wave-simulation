@@ -148,8 +148,8 @@ void AmplitudeGrid::precomputeProfileBuffers()
 {
     for (int ik = 0; ik < m_dim[K]; ik++)
     {
-        float kmin = realPos(ik, K) - 0.5 * m_delta[K];
-        float kmax = realPos(ik, K) + 0.5 * m_delta[K];
+        float kmin = realK(ik) - 0.5 * m_delta[K];
+        float kmax = realK(ik) + 0.5 * m_delta[K];
 
         float period = m_max[K] * m_periodicity;
         m_profileCompute->setInteger("u_ik", ik);
@@ -179,26 +179,15 @@ float AmplitudeGrid::gridPos(float value, int dim) const
     return (value - m_min[dim]) / m_delta[dim] - 0.5f;
 }
 
-float AmplitudeGrid::realPos(int gridIdx, int dim) const
-{
-    return m_min[dim] + (gridIdx + 0.5) * m_delta[dim];
-}
-
 float AmplitudeGrid::realK(int ik) const
 {
     return m_min[K] + (ik + 0.5) * m_delta[K];
 }
 
 
-float AmplitudeGrid::groupSpeed(float k) const
-{
-    float knum = TAU / k;
-    return sqrt(9.81 / knum) * 0.5;
-}
-
 float AmplitudeGrid::groupSpeed(int ik) const
 {
-    float k = realPos(ik, K);
+    float k = realK(ik);
     float knum = TAU / k;
     return sqrt(9.81 / knum) * 0.5;
 }

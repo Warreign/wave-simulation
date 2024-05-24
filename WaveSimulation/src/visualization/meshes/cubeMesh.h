@@ -1,3 +1,11 @@
+/**
+ * @file cubeMesh.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
 #include "visualization/meshes/mesh.h"

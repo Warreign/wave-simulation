@@ -1,5 +1,14 @@
+/**
+ * @file parameters.h
+ *
+ * @author Viktor Shubert
+ * Contact: shubevik@fel.cvut.cz
+ *
+ */
+
 #pragma once
 
+// Profile buffer resolution
 #define P_RES 4096
 
 #define N_SPATIAL 128 // number of spatial disc. nodes

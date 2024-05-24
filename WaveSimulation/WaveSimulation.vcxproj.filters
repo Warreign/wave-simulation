@@ -27,12 +27,6 @@
     <ClCompile Include="src\simulation\amplitudeGrid.cpp">
       <Filter>Source Files\Wave</Filter>
     </ClCompile>
-    <ClCompile Include="src\simulation\grid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\simulation\profileBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\vendor\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,9 +84,6 @@
     <ClCompile Include="src\visualization\shaders\shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\visualization\shaders\waterShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\application\components\simulationComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -111,6 +102,15 @@
     <ClCompile Include="src\simulation\shaders\profileCompute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\visualization\meshes\cubeMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\visualization\objects\cube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\visualization\shaders\lightingShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\visualization\camera.h">
@@ -118,15 +118,6 @@
     </ClInclude>
     <ClInclude Include="src\simulation\amplitudeGrid.h">
       <Filter>Header Files\Wave</Filter>
-    </ClInclude>
-    <ClInclude Include="src\simulation\grid.h">
-      <Filter>Header Files\Wave</Filter>
-    </ClInclude>
-    <ClInclude Include="src\math\integration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\simulation\profileBuffer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\application\window.h">
       <Filter>Header Files</Filter>
@@ -164,9 +155,6 @@
     <ClInclude Include="src\visualization\shaders\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\visualization\shaders\waterShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\application\components\simulationComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -188,6 +176,15 @@
     <ClInclude Include="src\utils\computeShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\visualization\meshes\cubeMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visualization\objects\cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\visualization\shaders\lightingShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\skybox.frag" />
@@ -203,6 +200,9 @@
     <None Include="assets\shaders\water_common.glsl" />
     <None Include="assets\shaders\water_macros.glsl" />
     <None Include="assets\shaders\compute_macros.glsl" />
+    <None Include="assets\shaders\compute_common.glsl" />
+    <None Include="assets\shaders\lighting.frag" />
+    <None Include="assets\shaders\lighting.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\skybox\back.jpg">

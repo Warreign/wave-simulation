@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "simulation/profileBuffer.h"
 #include "simulation/shaders/timeStepCompute.h"
 #include "simulation/shaders/disturbanceCompute.h"
 #include "simulation/shaders/profileCompute.h"
@@ -80,7 +79,6 @@ public:
     int defaultDirection = 3;
     float windSpeed = 8.0f;
     float defaultAmplitudeVal = 0.0f;
-    std::vector<ProfileBuffer> m_profileBuffers;
 
     GLuint m_profileTexture;
 
@@ -96,7 +94,9 @@ public:
 
     int m_periodicity = 2;
 
-    float realPos(int gridIdx, int dim) const;
+    /*
+    * Get wave number k in the real domain as opposed to grid domain
+    */
     float realK(int ik) const;
 
 private:
@@ -106,8 +106,10 @@ private:
     */
     void precomputeProfileBuffers();
 
+    /*
+    * calculate group speed for the ik discrete k on the grid
+    */
     float groupSpeed(int ik) const;
-    float groupSpeed(float k) const;
 
     float gridPos(float gridPos, int dim) const;
 

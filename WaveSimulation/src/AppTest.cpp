@@ -4,7 +4,7 @@ Window* window = nullptr;
 
 int main()
 {
-	Application app("Test Application");
+	Application app("Water Simulation");
 	app.run();
 
 	return 0;

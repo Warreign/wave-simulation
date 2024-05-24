@@ -16,51 +16,11 @@ Camera::Camera(glm::vec3 position, glm::vec3 direction, float nearPlane, float f
 	fovAngle(captureAngle), nearPlane(nearPlane), farPlane(farPlane),
 	lastActive(nullptr)
 {
-	//updateMatrices();
 }
 
 
 void Camera::makeActive() {
-	//if (!s_active)
-	//{
-	//	s_active = this;
-	//	return;
-	//}
-	//if (s_active->freeMode)
-	//	s_active->toggleFreeMode();
 	s_active = this;
-}
-
-/*
-*	Free motion functions
-*/
-
-void Camera::freeModeMotionCallback(int x, int y)
-{
-	//float deltaYaw = float(GLUT_WIDTH / 2 - x) * 0.025 * active->sensitivity;
-	//float deltaPitch = float(GLUT_HEIGHT / 2 - y) * 0.025 * active->sensitivity;
-	//active->rotateView(deltaYaw, deltaPitch);
-	//glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
-}
-
-void Camera::toggleFreeMode()
-{
-	//if (freeMode == true)
-	//{
-	//	freeMode = false;
-	//	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-	//	active = lastActive;
-	//	glutPassiveMotionFunc(nullptr);
-	//}
-	//else
-	//{ // freeMode == false
-	//	makeActive();
-	//	freeMode = true;
-	//	glutSetCursor(GLUT_CURSOR_NONE);
-	//	glutWarpPointer(GLUT_WIDTH / 2, GLUT_HEIGHT / 2);
-	//	lastActive = active;
-	//	glutPassiveMotionFunc(freeModeMotionCallback);
-	//}
 }
 
 void Camera::rotateView(float dyaw, float dpitch)
@@ -98,42 +58,6 @@ void Camera::rotateViewAbs(float yaw, float pitch)
 	);
 }
 
-void Camera::moveLeft()
-{
-	if (freeMode)
-	{
-		glm::vec3 newPos = position - (glm::normalize(glm::cross(direction, up)) * (speed / refreshRate));
-		position = newPos;
-	}
-}
-
-void Camera::moveRight()
-{
-	if (freeMode)
-	{
-		glm::vec3 newPos = position + (glm::normalize(glm::cross(direction, up)) * (speed / refreshRate));
-		position = newPos;
-	}
-}
-
-void Camera::moveForward()
-{
-	if (freeMode)
-	{
-		glm::vec3 newPos = position + (glm::normalize(direction) * (speed / refreshRate));
-		position = newPos;
-	}
-}
-
-void Camera::moveBackward()
-{
-	if (freeMode)
-	{
-		glm::vec3 newPos = position - (glm::normalize(direction) * (speed / refreshRate));
-		position = newPos;
-	}
-}
-
 /*
 *	View functions
 */
@@ -144,7 +68,6 @@ void Camera::updateMatrices()
 
 	Application& app = Application::getInstance();
 	Window& window = app.getWindow();
-	//this->projection = glm::perspective(fovAngle, float(window.getWidth()) / float(window.getHeight()), nearPlane, farPlane);
 	this->projection = glm::perspectiveFov(fovAngle, float(window.getWidth()), float(window.getHeight()), nearPlane, farPlane);
 }
 

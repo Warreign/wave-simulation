@@ -1,18 +1,12 @@
 #pragma once
 
-#ifndef _CAMERA_H
-#define _CAMERA_H
-
 #include <iostream>
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
 #include <tuple>
-
-
-//#define GLUT_WIDTH glutGet(GLUT_WINDOW_WIDTH)
-//#define GLUT_HEIGHT glutGet(GLUT_WINDOW_HEIGHT)
-
-
+/*
+* Object to abstract projection and view matrices
+*/
 class Camera
 {
 public:
@@ -21,7 +15,6 @@ public:
 
 public:
 	static Camera& get() { return *s_active; }
-	static void freeModeMotionCallback(int x, int y);
 
 	Camera* lastActive;
 
@@ -53,11 +46,6 @@ public:
 
 	void setProjectionParameters(float angle, float nearPlane, float farPlane);
 
-	void toggleFreeMode();
-	void moveLeft();
-	void moveRight();
-	void moveForward();
-	void moveBackward();
 	void rotateView(float dyaw, float dpitch);
 	void rotateViewAbs(float yaw, float pitch);
 
@@ -71,5 +59,3 @@ public:
 private:
 	static Camera* s_active;
 };
-
-#endif
