@@ -18,7 +18,7 @@ class Skybox : ObjectInstance
 {
 protected:
 	// skybox texture object
-	GLuint texture;
+	GLuint m_texture;
 public:
 
 	/*
@@ -36,6 +36,7 @@ public:
 
 	~Skybox();
 
+	GLuint getTexture() { return m_texture; }
 
 	/*
 	* draw skybox 

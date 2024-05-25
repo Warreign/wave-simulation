@@ -51,7 +51,7 @@ Skybox::Skybox()
 	geometry = new Mesh(skyboxVertices, nullptr, 12, 8, shader, 0);
 
 	this->geometry = geometry;
-	this->texture = loadTexture("textures/skybox");
+	this->m_texture = loadTexture("textures/skybox");
 }
 
 Skybox::Skybox(const std::string& folderPath)
@@ -105,14 +105,14 @@ Skybox::Skybox(const std::string& folderPath)
 	geometry = new Mesh(skyboxVertices, nullptr, 12, 8, shader, TEXTURE_BIT);
 
 	this->geometry = geometry;
-	this->texture = loadTexture(folderPath);
+	this->m_texture = loadTexture(folderPath);
 }
 
 Skybox::~Skybox()
 {
 	delete(geometry->shader);
 	delete(geometry);
-	glDeleteTextures(1, &texture);
+	glDeleteTextures(1, &m_texture);
 }
 
 GLuint Skybox::loadTexture(const std::string& path) {
@@ -161,7 +161,7 @@ void Skybox::draw(const Camera& camera, GLenum polygonMode) const
 
 	geometry->shader->setInteger("u_skybox", 10);
 	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 	geometry->draw(polygonMode);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 	glActiveTexture(GL_TEXTURE0);
