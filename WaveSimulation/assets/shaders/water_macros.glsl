@@ -13,6 +13,6 @@
 // default direction range coeficient
 #define EPSILON 0.9
 // samples of theta to integrate over
-#define INTEGRATION_SAMPLES 100
+#define INTEGRATION_SAMPLES 128
 #define N_THETA 16
 #define N_K 1
