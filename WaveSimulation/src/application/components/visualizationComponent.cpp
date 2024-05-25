@@ -47,6 +47,8 @@ void VisualizationComponent::init()
 	m_simGrid.setDefaultAmp(m_defaultAmplitude);
 	m_waterShader->setFloat("u_defaultAmp", m_defaultAmplitude);
 	m_simGrid.setWindSpeed(m_windSpeed);
+
+	m_waterShader->setInteger("u_skybox", 10);
 }
 
 void VisualizationComponent::destroy()
@@ -90,6 +92,8 @@ void VisualizationComponent::onUpdate(float dt)
 
 void VisualizationComponent::onRender()
 {
+
+	glBindTextureUnit(10, m_skybox->getTexture());
 	if (!m_isWaterWireframe)
 	{
 		m_water->draw(Camera::get());

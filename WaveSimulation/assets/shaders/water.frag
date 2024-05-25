@@ -16,12 +16,13 @@
 out vec4 fColor;
 
 in vec3 vPosition;
-in vec2 vPosScaled; 
+in vec2 vPosScaled;
 
 uniform vec3 u_lightPosition;
 uniform vec3 u_cameraPosition;
 //Normal matrix
 uniform mat4 u_NormalM;
+uniform samplerCube u_skybox;
 
 // Water color values
 uniform vec3 u_ambient;
@@ -80,5 +81,7 @@ void main()
 	outDiffuse = diffuse * lightColor * diff;
 	outSpecular = u_specular * spec;
 
-	fColor = vec4(outAmbient + outDiffuse + outSpecular, 1.0);
+	outDiffuse = texture(u_skybox, reflect(-V, normal)).rgb;
+
+	fColor = vec4(outDiffuse, 1.0);
 }
