@@ -141,7 +141,7 @@ void VisualizationComponent::onRenderGui()
 		m_simGrid.setDefaultAmp(m_defaultAmplitude);
 		m_waterShader->setFloat("u_defaultAmp", m_defaultAmplitude);
 	}
-	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 4.5, 10))
+	if (ImGui::SliderFloat("Wind Speed", &m_windSpeed, 0.01, 15))
 	{
 		m_simGrid.setWindSpeed(m_windSpeed);
 	}
