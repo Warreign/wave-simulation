@@ -38,10 +38,25 @@ float dispersionRelation(float k)
     return sqrt(9.81 * k);
 };
 
+
+float phillips(float k)
+{
+	float c1 = -1.4969804057656668;
+	float c2 = 0.000641623890917771;
+	float C = 10;
+	float A = C * c2 * pow(1.1, 1.5 * log2(k));
+	float B = exp(c1 * pow(k, 2) / pow(u_windSpeed, 4));
+	return sqrt(A * B);
+}
+
 float tessendorf(float k)
 {
+	float c = -2.437688890280596;
+	float c2 = 0.000641623890917771;
 	float g = 9.81;
-	return (exp(-pow(g,2) / pow(k, 2) /pow(u_windSpeed/3, 4) ) / pow(k, 4));
+	float A = c2 * pow(1.1, 1.5 * log2(k));
+	float B = exp(c * pow(k, 2) / pow(u_windSpeed, 4));
+	return sqrt(A * B);
 }
 
 float john(float k)
@@ -71,6 +86,16 @@ float pierson(float k)
 	float omega = min(dispersionRelation(TAU * k), omegap);
 	return 0.04 * (alpha * g * g / pow(omega, 5) ) * exp(-beta * pow(omega0 / omega, 4));
 }
+
+float pierson2(float k)
+{
+	float g = 9.81;
+	float A = 0.00025637 * pow(1.2, 2.5 * log2(k));
+	float B = exp(-1.62787 * pow(k, 2) / pow(u_windSpeed, 4));
+	return sqrt(A * B);
+}
+
+
 float spectrum(float k)
 {
 	switch (u_specIdx)
@@ -79,6 +104,10 @@ float spectrum(float k)
 		return john(k);
 		case 2:
 		return tessendorf(k);
+		case 3:
+		return phillips(k);
+		case 4:
+		return pierson2(k);
 		default:
 		return pierson(k);
 	}

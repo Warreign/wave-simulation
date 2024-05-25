@@ -85,7 +85,7 @@ void SimulationComponent::onRenderGui()
 	//ImGui::InputFloat("Used dt", &m_dtLast, 0, 0, "%.3f", ImGuiInputTextFlags_ReadOnly);
 	ImGui::Text("Current dt: %.3f", m_dtLast);
 
-	const char* spectra[] = { "Pierson-Moskowitz", "JONSWAP", "Tessendorf"};
+	const char* spectra[] = { "Pierson-Moskowitz", "JONSWAP", "Tessendorf", "Phillips", "Pierson #2"};
 	static int selected = 0;
 	if (ImGui::BeginCombo("Spectrum", spectra[selected]))
 	{
