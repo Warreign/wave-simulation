@@ -76,6 +76,25 @@ float john(float k)
 	return 0.04 * (alpha * g * g / pow(omega, 5) ) * exp(-beta * pow(omega0 / omega, 4)) * pow(0.33, r);
 }
 
+float john2(float k)
+{
+	float scmp = 1.0683429396525794;
+	float sigma = u_windSpeed * pow(k, -0.5) <= scmp ? 0.7 : 0.9;
+	float rc1 = 0.059558;
+	float rc2 = 0.1490847301860154;
+	float r = exp(rc1 * pow(u_windSpeed, -3) * (rc2 * u_windSpeed * pow(k, -0.5) -1) * sigma * sigma );
+	float gamma = 3.3;
+
+	float c1 = 0.000026133696567246258;
+	float c2 = -1.6283687151896558;
+
+//	float A = c1 * 10000 * pow(k, 1.5);
+	float A = c1 * pow(1.1, 2.5 * k);
+	float B = exp(c2 * pow(k,2) / pow(u_windSpeed, 4));
+
+	return 0.02 * sqrt(A * B) * pow(gamma, r*5);
+}
+
 float pierson(float k)
 {
 	float g = 9.81;
@@ -90,7 +109,7 @@ float pierson(float k)
 float pierson2(float k)
 {
 	float g = 9.81;
-	float A = 0.00025637 * pow(1.2, 2.5 * log2(k));
+	float A = 0.005225637 * pow(1.1, 2.5 * log(k));
 	float B = exp(-1.62787 * pow(k, 2) / pow(u_windSpeed, 4));
 	return sqrt(A * B);
 }
@@ -101,15 +120,15 @@ float spectrum(float k)
 	switch (u_specIdx)
 	{
 		case 1:
-		return john(k);
+		return john2(k);
 		case 2:
 		return tessendorf(k);
 		case 3:
 		return phillips(k);
 		case 4:
-		return pierson2(k);
-		default:
 		return pierson(k);
+		default:
+		return pierson2(k);
 	}
 }
 
