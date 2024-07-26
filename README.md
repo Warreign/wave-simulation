@@ -2,8 +2,8 @@
 Implementation of the wave simulation algorithm described in https://dl.acm.org/doi/10.1145/3197517.3201336
 
 Used technologies:
-- C++ for calculations
-- OpenGL API for visualization
+- C++ for the application
+- OpenGL for rendering and calculations
 
 
 ![Circular waves](screenshots/screenshot2.png?raw=true)
