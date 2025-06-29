@@ -13,6 +13,7 @@
 #include "visualization/meshes/mesh.h"
 #include "simulation/amplitudeGrid.h"
 
+#include <glad/glad.h>
 #include <iostream>
 #include <filesystem>
 
@@ -22,7 +23,7 @@
 * @param path file where image is stored
 * @param target target to load the image into
 */
-uint8_t* loadTexImage2D(const std::string& path, GLenum target);
+bool loadTexImage2D(const std::string& path, GLuint textureId, uint32_t offset = 0);
 
 
 /*

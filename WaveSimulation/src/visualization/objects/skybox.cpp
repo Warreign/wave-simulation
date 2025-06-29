@@ -1,4 +1,5 @@
 #include "skybox.h"
+#include <glad/glad.h>
 
 Skybox::Skybox()
 {
@@ -117,9 +118,7 @@ Skybox::~Skybox()
 
 GLuint Skybox::loadTexture(const std::string& path) {
 	GLuint skyboxTexture;
-	glGenTextures(1, &skyboxTexture);
-	glActiveTexture(GL_TEXTURE10);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
+	glCreateTextures(GL_TEXTURE_CUBE_MAP, 1, &skyboxTexture);
 
 	std::filesystem::directory_entry file = *std::filesystem::directory_iterator(path);
 	std::string filename = file.path().string();
@@ -133,20 +132,17 @@ GLuint Skybox::loadTexture(const std::string& path) {
 		"nz"
 	};
 
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+	glTextureParameteri(skyboxTexture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTextureParameteri(skyboxTexture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTextureParameteri(skyboxTexture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTextureParameteri(skyboxTexture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTextureParameteri(skyboxTexture, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 	for (unsigned int i = 0; i < faces.size(); ++i) {
-		if (!loadTexImage2D(path + "/" + faces[i] + "." + ext, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i)) {
+		if (!loadTexImage2D(path + "/" + faces[i] + "." + ext, skyboxTexture, i)) {
 			throw std::runtime_error("could not load skybox file: " + faces[i] + "." + ext);
 		}
 	}
-
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	glActiveTexture(GL_TEXTURE0);
 
 	return skyboxTexture;
 }

@@ -2,8 +2,9 @@
 
 #include <cstdint>
 #include <IL/il.h>
+#include <glad/glad.h>
 
-uint8_t* loadTexImage2D(const std::string& path, GLenum target)
+bool loadTexImage2D(const std::string& path, GLuint textureId, uint32_t offset)
 {
 	ILuint imgID = 0;
 	ilGenImages(1, &imgID);
@@ -15,7 +16,7 @@ uint8_t* loadTexImage2D(const std::string& path, GLenum target)
 	{
 		ilDeleteImages(1, &imgID);
 		std::cout << ("Texture " + path + " failed to load," + std::to_string(ilGetError()) + "!\n") << std::endl;
-		return nullptr;
+		return false;
 	}
 
 	int width, height;
@@ -29,14 +30,11 @@ uint8_t* loadTexImage2D(const std::string& path, GLenum target)
 	ilBindImage(0);
 	ilDeleteImages(1, &imgID);
 
-	//glTextureStorage2D(m_textureID, 1, GL_RGBA8, m_width, m_height);
-	//glTextureSubImage2D(m_textureID, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+	glTextureStorage2D(textureId, 1, GL_RGBA8, width, height);
+	glTextureSubImage3D(textureId, 0, 0, 0, offset, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	delete[] data;
 
-	//glTexStorage2D(target, 1, GL_RGBA8, m_width, m_height);
-	//glTexSubImage2D(target, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
-	glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-	return data;
+	return true;
 }
 
 ObjectInstance::ObjectInstance()
