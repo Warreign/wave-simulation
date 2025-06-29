@@ -100,8 +100,8 @@ void SimulationComponent::onRenderGui()
 			if (is_selected)
 				ImGui::SetItemDefaultFocus();
 		}
+		ImGui::EndCombo();
 	}
-	ImGui::EndCombo();
 	ImGui::Separator();
 
 	ImGui::End();

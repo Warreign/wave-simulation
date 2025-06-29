@@ -43,7 +43,7 @@ source_group("SIMD Files" FILES ${SIMD_INLINE})
 source_group("SIMD Files" FILES ${SIMD_HEADER})
 
 add_library(glm-header-only INTERFACE)
-add_library(glm::glm-header-only ALIAS glm-header-only)
+add_library(glm::glm-header-only-header-only ALIAS glm-header-only)
 
 target_include_directories(glm-header-only INTERFACE
 	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>"
@@ -60,10 +60,10 @@ if (GLM_BUILD_LIBRARY)
 		${GTX_SOURCE}     ${GTX_INLINE}     ${GTX_HEADER}
 		${SIMD_SOURCE}    ${SIMD_INLINE}    ${SIMD_HEADER}
 	)
-	add_library(glm::glm ALIAS glm)
+	add_library(glm::glm-header-only ALIAS glm)
 	target_link_libraries(glm PUBLIC glm-header-only)
 else()
 	add_library(glm INTERFACE)
-	add_library(glm::glm ALIAS glm)
+	add_library(glm::glm-header-only ALIAS glm)
 	target_link_libraries(glm INTERFACE glm-header-only)
 endif()

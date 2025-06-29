@@ -22,7 +22,7 @@
 * @param path file where image is stored
 * @param target target to load the image into
 */
-bool loadTexImage2D(const std::string& path, GLenum target);
+uint8_t* loadTexImage2D(const std::string& path, GLenum target);
 
 
 /*

@@ -16,6 +16,7 @@
 #include <string>
 #include <format>
 #include <iostream>
+#include <sstream>
 #include <initializer_list>
 #include <regex>
 

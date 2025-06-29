@@ -3,28 +3,28 @@
 #include <cstdint>
 #include <IL/il.h>
 
-bool loadTexImage2D(const std::string& path, GLenum target)
+uint8_t* loadTexImage2D(const std::string& path, GLenum target)
 {
 	ILuint imgID = 0;
 	ilGenImages(1, &imgID);
 	ilBindImage(imgID);
 
-	std::wstring wpath(path.begin(), path.end());
-	const wchar_t* path_ptr = wpath.c_str();
-	if (ilLoadImage(path_ptr) == IL_FALSE)
+	// std::wstring wpath(path.begin(), path.end());
+	// const wchar_t* path_ptr = wpath.c_str();
+	if (ilLoadImage(path.c_str()) == IL_FALSE)
 	{
 		ilDeleteImages(1, &imgID);
 		std::cout << ("Texture " + path + " failed to load," + std::to_string(ilGetError()) + "!\n") << std::endl;
-		return false;
+		return nullptr;
 	}
 
-	int m_width, m_height;
-	uint8_t* m_data;
+	int width, height;
+	uint8_t* data;
 
-	m_width = ilGetInteger(IL_IMAGE_WIDTH);
-	m_height = ilGetInteger(IL_IMAGE_HEIGHT);
-	m_data = new uint8_t[m_width * m_height * 4];
-	ilCopyPixels(0, 0, 0, m_width, m_height, 1, IL_RGBA, IL_UNSIGNED_BYTE, m_data);
+	width = ilGetInteger(IL_IMAGE_WIDTH);
+	height = ilGetInteger(IL_IMAGE_HEIGHT);
+	data = new uint8_t[width * height * 4];
+	ilCopyPixels(0, 0, 0, width, height, 1, IL_RGBA, IL_UNSIGNED_BYTE, data);
 
 	ilBindImage(0);
 	ilDeleteImages(1, &imgID);
@@ -34,10 +34,9 @@ bool loadTexImage2D(const std::string& path, GLenum target)
 
 	//glTexStorage2D(target, 1, GL_RGBA8, m_width, m_height);
 	//glTexSubImage2D(target, 0, 0, 0, m_width, m_height, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
-	glTexImage2D(target, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
+	glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-	delete[] m_data;
-	return true;
+	return data;
 }
 
 ObjectInstance::ObjectInstance()

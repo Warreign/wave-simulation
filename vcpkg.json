@@ -1,0 +1,28 @@
+{
+  "dependencies": [
+    {
+      "name": "devil",
+      "features": [
+        "libjpeg",
+        "libpng"
+      ]
+    },
+    {
+      "name": "glad",
+      "features": [
+        "extensions",
+        "gl-api-latest"
+      ]
+    },
+    "glfw3",
+    "glm",
+    {
+      "name": "imgui",
+      "features": [
+        "glfw-binding",
+        "opengl3-binding",
+        "docking-experimental"
+      ]
+    }
+  ]
+}
