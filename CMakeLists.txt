@@ -6,7 +6,7 @@ include(${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 
 # Add subdirectories
-add_subdirectory(WaveSimulation)
+add_subdirectory(src)
 
 
 # Configure Visual Studio specific settings if on Windows
