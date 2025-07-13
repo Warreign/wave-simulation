@@ -1,7 +1,7 @@
 #include "shader.h"
 
-#include <stdexcept>
 #include <glm/ext.hpp>
+
 #include <iostream>
 
 /*

@@ -1,5 +1,7 @@
 #include "object.h"
 
+#include "visualization/shaders/shader.h"
+
 #include <IL/il.h>
 #include <glad/glad.h>
 
@@ -12,8 +14,6 @@ bool loadTexImage2D(const std::string& path, GLuint textureId, uint32_t offset)
 	ilGenImages(1, &imgID);
 	ilBindImage(imgID);
 
-	// std::wstring wpath(path.begin(), path.end());
-	// const wchar_t* path_ptr = wpath.c_str();
 	if (ilLoadImage(path.c_str()) == IL_FALSE)
 	{
 		ilDeleteImages(1, &imgID);
@@ -32,6 +32,7 @@ bool loadTexImage2D(const std::string& path, GLuint textureId, uint32_t offset)
 	ilBindImage(0);
 	ilDeleteImages(1, &imgID);
 
+	// TODO: call storage only once for cube map textures
 	glTextureStorage2D(textureId, 1, GL_RGBA8, width, height);
 	glTextureSubImage3D(textureId, 0, 0, 0, offset, width, height, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	delete[] data;

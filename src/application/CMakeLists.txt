@@ -20,7 +20,8 @@ target_include_directories(Application PRIVATE
 # Add subdirectory for components
 add_subdirectory(components)
 
-# Link the components library to the application library
-target_link_directories(Application PUBLIC ${CMAKE_SOURCE_DIR}/build/vcpkg_installed/x64-windows/debug/lib)
-target_link_libraries(Application PUBLIC Components glad::glad DevIL)
-
+target_link_libraries(Application 
+    PUBLIC
+        Components
+        glad::glad
+)

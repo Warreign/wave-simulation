@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "visualization/meshes/mesh.h"
 #include "visualization/shaders/shader.h"
+#include "mesh.h"
 
 class CubeMesh : public Mesh
 {

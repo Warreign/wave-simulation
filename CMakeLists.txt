@@ -4,7 +4,6 @@ project(WaveSimulation CXX)
 # set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake CACHE FILEPATH "")
 include(${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
-
 # Add subdirectories
 add_subdirectory(src)
 

@@ -1,6 +1,5 @@
 #include "camera.h"
 
-#include "visualization/objects/object.h"
 #include "application/window.h"
 #include "application/application.h"
 
@@ -92,7 +91,7 @@ glm::vec3 Camera::intersectPlane(glm::vec3 planeNormal, glm::vec3 planeOrigin, g
 	glm::vec3 dir = rayCast(screenPosition);
 
 	float distance;
-	glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance);
+	assert(glm::intersectRayPlane(position, dir, planeOrigin, planeNormal, distance));
 	return position + dir * distance;
 }
 

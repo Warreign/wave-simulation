@@ -8,11 +8,12 @@
 
 #pragma once
 
-#include <utils/shaderBase.h>
+#include "utils/shaderBase.h"
 
 #include <glad/glad.h>
-#include <string>
 #include <glm/glm.hpp>
+
+#include <string>
 
 /// Generic shader object
 class Shader : public ShaderBase

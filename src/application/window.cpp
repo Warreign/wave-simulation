@@ -4,7 +4,7 @@
 #include "utils/GlDebug.h"
 
 #include <stdexcept>
-#include <glad/glad.h>
+#include <iostream>
 
 
 static void glfw_error_callback(int error, const char* description)

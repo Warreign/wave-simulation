@@ -8,8 +8,7 @@
 
 #pragma once
 
-#include "visualization/objects/object.h"
-
+#include "object.h"
 
 /*
 * Object representing skybox

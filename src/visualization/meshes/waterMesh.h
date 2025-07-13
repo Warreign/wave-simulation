@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "visualization/meshes/mesh.h"
+#include "mesh.h"
 #include "visualization/shaders/lightingShader.h"
 #include "simulation/amplitudeGrid.h"
 #include "utils/parameters.h"

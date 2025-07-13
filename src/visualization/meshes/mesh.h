@@ -9,12 +9,12 @@
 #pragma once
 
 #include "visualization/shaders/shader.h"
+// #include "shader.h"
 
-#include <algorithm>
-#include <iostream>
 #include <glm/ext.hpp>
 #include <glm/glm.hpp>
-#include <array>
+
+#include <glad/glad.h>
 
 // flags what the buffers for this mesh will store
 #define COLOR_BIT			0b0001
@@ -33,10 +33,10 @@ protected:
 
 	uint8_t flags;
 
-	long normalOffset;
-	long colorOffset;
-	long texOffset;
-	long vertexSetSize;
+	uint64_t normalOffset;
+	uint64_t colorOffset;
+	uint64_t texOffset;
+	uint64_t vertexSetSize;
 
 	// initialize offsets inside the buffer for all the attributes
 	virtual void initOffsets();

@@ -8,7 +8,6 @@
 
 #pragma once
 
-#include "visualization/meshes/cubeMesh.h"
 #include "visualization/objects/object.h"
 
 

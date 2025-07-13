@@ -8,10 +8,8 @@
 
 #pragma once
 
-#include "visualization/shaders/shader.h"
 #include "visualization/camera.h"
 #include "visualization/meshes/mesh.h"
-#include "simulation/amplitudeGrid.h"
 
 #include <glad/glad.h>
 

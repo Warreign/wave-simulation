@@ -10,6 +10,8 @@ list(APPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/)
 
 # Find external dependencies
 find_package(DevIL REQUIRED) # Assuming DevIL is installed and findable
+find_library(DEVIL_LIBRARY NAMES devil)
+
 find_package(glm CONFIG REQUIRED) # Assuming GLM is installed and findable
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED) # Or find_package(GLAD REQUIRED) if using GLAD
@@ -19,6 +21,12 @@ add_executable(WaveSimulation ${APP_SOURCES})
 
 # Set C++ standard for this target
 target_compile_features(WaveSimulation PRIVATE cxx_std_20)
+
+# Add subdirectories for components, simulation, utils, and visualization
+add_subdirectory(application)
+add_subdirectory(simulation)
+add_subdirectory(utils)
+add_subdirectory(visualization)
 
 # Link necessary libraries
 target_link_libraries(WaveSimulation PUBLIC
@@ -36,12 +44,6 @@ target_link_libraries(WaveSimulation PUBLIC
     glm::glm-header-only
     imgui::imgui # Link ImGui to the main executable
 )
-
-# Add subdirectories for components, simulation, utils, and visualization
-add_subdirectory(application)
-add_subdirectory(simulation)
-add_subdirectory(utils)
-add_subdirectory(visualization)
 
 # Include directories for headers
 target_include_directories(WaveSimulation PUBLIC

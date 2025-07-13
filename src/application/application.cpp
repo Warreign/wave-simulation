@@ -3,7 +3,6 @@
 #include <imgui.h>
 
 #include <IL/il.h>
-#include <algorithm>
 
 Application* Application::s_instance = nullptr;
 
@@ -125,7 +124,7 @@ void Application::removeComponent(Component* comp)
 	std::cout << "INFO: Removing " << comp->toString() << " from component stack" << std::endl;
 
 	comp->destroy();
-	std::remove(comps.begin(), comps.end(), comp);
+	std::erase(comps, comp);
 	delete comp;
 }
 

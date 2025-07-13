@@ -52,19 +52,19 @@ void Mesh::initBuffers()
 	if (normal)
 	{
 		glEnableVertexAttribArray(shader->attributes.normal);
-		glVertexAttribPointer(shader->attributes.normal, 3, GL_FLOAT, GL_FALSE, 0, (void*)normalOffset);
+		glVertexAttribPointer(shader->attributes.normal, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(normalOffset));
 	}
 
 	if (color)
 	{
 		glEnableVertexAttribArray(shader->attributes.color);
-		glVertexAttribPointer(shader->attributes.color, 3, GL_FLOAT, GL_FALSE, 0, (void*)colorOffset);
+		glVertexAttribPointer(shader->attributes.color, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(colorOffset));
 	}
 
 	if (tex)
 	{
 		glEnableVertexAttribArray(shader->attributes.texCoord);
-		glVertexAttribPointer(shader->attributes.texCoord, 2, GL_FLOAT, GL_FALSE, 0, (void*)texOffset);
+		glVertexAttribPointer(shader->attributes.texCoord, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(texOffset));
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, vertexSetSize * (3 + 3 * normal + 3 * color + 2 * tex), nullptr, GL_STATIC_DRAW);

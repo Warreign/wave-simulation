@@ -11,7 +11,7 @@ add_library(Utils STATIC ${UTILS_SOURCES})
 # Set C++ standard for this target
 target_compile_features(Utils PUBLIC cxx_std_20)
 
-target_link_libraries(Utils PUBLIC
+target_link_libraries(Utils PRIVATE
     glm::glm-header-only
 )
 

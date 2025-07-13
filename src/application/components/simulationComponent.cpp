@@ -2,13 +2,11 @@
 
 #include "application/application.h"
 #include "visualization/camera.h"
-#include "utils/parameters.h"
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 
 #include <iostream>
-#include <format>
 
 SimulationComponent::SimulationComponent(const std::string& debugName)
 	: Component(debugName)

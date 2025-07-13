@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "visualization/objects/object.h"
+#include "object.h"
 #include "visualization/meshes/waterMesh.h"
 
 

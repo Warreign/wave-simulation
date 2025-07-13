@@ -18,9 +18,15 @@ target_include_directories(Visualization PRIVATE
 )
 
 # Add subdirectories
+add_subdirectory(shaders)
 add_subdirectory(meshes)
 add_subdirectory(objects)
-add_subdirectory(shaders)
 
 # Link the sub-libraries to the visualization library
-target_link_libraries(Visualization PRIVATE Meshes Objects VisualizationShaders glm::glm-header-only)
+target_link_libraries(Visualization 
+    PUBLIC
+        Meshes 
+        Objects 
+        VisualizationShaders 
+        glm::glm-header-only
+)

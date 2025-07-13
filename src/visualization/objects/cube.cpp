@@ -1,5 +1,7 @@
 #include "cube.h"
 
+#include "visualization/meshes/cubeMesh.h"
+
 Cube::Cube(Shader* shader, glm::mat4 model)
 	: ObjectInstance(new CubeMesh(shader), model)
 {

@@ -10,8 +10,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include <functional>
+#include <string>
 
 class Window
 {
